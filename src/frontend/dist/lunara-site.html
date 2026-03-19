@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lunara — See Beyond</title>
+  <link rel="stylesheet" href="lunara-style.css" />
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand"><span class="brand-text">🌙 Lunara</span></div>
+    <ul class="nav-links">
+      <li class="nav-item has-dropdown"><a href="#soundscape">Music</a><ul class="dropdown"><li><a href="#soundscape">Soundscape</a></li></ul></li>
+      <li class="nav-item has-dropdown"><a href="#art">Art</a><ul class="dropdown"><li><a href="#art">PixelLand</a></li></ul></li>
+      <li class="nav-item has-dropdown"><a href="#chatrooms">Chat Rooms</a><ul class="dropdown"><li><a href="#chatrooms">General Chat Rooms</a></li></ul></li>
+      <li class="nav-item has-dropdown"><a href="#games">Games</a><ul class="dropdown"><li><a href="#games">Tlunara JDM Arcade</a></li></ul></li>
+      <li class="nav-item has-dropdown"><a href="#marketplace">Players</a><ul class="dropdown"><li><a href="#marketplace">Moon Cart</a></li></ul></li>
+      <li class="nav-item has-dropdown"><a href="#strategy">Strategy VC</a><ul class="dropdown"><li><a href="#strategy">Mainline Tech</a></li></ul></li>
+      <li class="nav-item has-dropdown"><a href="#tech">Tech</a><ul class="dropdown"><li><a href="#tech">Oxide</a></li></ul></li>
+      <li class="nav-item has-dropdown"><a href="#competition">Competition</a><ul class="dropdown"><li><a href="#competition">Oxide Competition</a></li></ul></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="btn-search" id="searchToggle" aria-label="Search">🔍</button>
+      <a href="lunara-login.html" class="btn-login">Login</a>
+    </div>
+    <button class="hamburger" id="hamburger">☰</button>
+  </nav>
+
+  <div class="search-overlay" id="searchOverlay">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search Lunara... (Enter to jump)" />
+      <button id="searchClose">✕</button>
+    </div>
+  </div>
+
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="hero-logo">🌙</div>
+      <h1 class="hero-title">Lunara</h1>
+      <p class="hero-tagline">See Beyond. Build Forward.</p>
+      <p class="hero-sub">Music · Art · Games · Community · Tech · All in One</p>
+      <div class="hero-buttons">
+        <a href="#soundscape" class="btn-primary">Explore</a>
+        <a href="lunara-login.html" class="btn-secondary">Login</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><span class="stat-num" id="countdown">--:--:--</span><span class="stat-label">Until Next Drop</span></div>
+        <div class="stat"><span class="stat-num">9</span><span class="stat-label">Zones</span></div>
+        <div class="stat"><span class="stat-num">∞</span><span class="stat-label">Possibilities</span></div>
+      </div>
+    </div>
+    <div class="hero-glow"></div>
+  </section>
+
+  <section class="zone" id="soundscape">
+    <div class="zone-header"><span class="zone-icon">🎵</span><h2>Soundscape</h2><p>Listen, upload, and discover music within the app.</p></div>
+    <div class="zone-body">
+      <div class="artist-grid">
+        <div class="artist-card"><div class="artist-thumb">🎸</div><span>Tame Impala</span></div>
+        <div class="artist-card"><div class="artist-thumb">🎤</div><span>Drake</span></div>
+        <div class="artist-card"><div class="artist-thumb">🌀</div><span>Pink Floyd</span></div>
+        <div class="artist-card"><div class="artist-thumb">🕺</div><span>Michael Jackson</span></div>
+        <div class="artist-card"><div class="artist-thumb">🎧</div><span>Au5</span></div>
+        <div class="artist-card"><div class="artist-thumb">🌸</div><span>Sabrina Carpenter</span></div>
+        <div class="artist-card"><div class="artist-thumb">💜</div><span>Dua Lipa</span></div>
+        <div class="artist-card"><div class="artist-thumb">🎶</div><span>Sheryl Crow</span></div>
+        <div class="artist-card"><div class="artist-thumb">✨</div><span>Tate McRae</span></div>
+      </div>
+      <div class="upload-box">🎙️ <strong>Upload Your Music</strong> — <a href="lunara-login.html">Login</a> to share your tracks</div>
+    </div>
+  </section>
+
+  <section class="zone" id="art">
+    <div class="zone-header"><span class="zone-icon">🎨</span><h2>PixelLand</h2><p>Art and poetry by real community members.</p></div>
+    <div class="zone-body">
+      <div class="empty-state">🖼️ Be the first to upload your art or poetry!</div>
+      <a href="lunara-login.html" class="btn-primary mt">Add Your Art</a>
+    </div>
+  </section>
+
+  <section class="zone" id="chatrooms">
+    <div class="zone-header"><span class="zone-icon">💬</span><h2>General Chat Rooms</h2><p>Text and voice rooms for every conversation.</p></div>
+    <div class="zone-body">
+      <div class="room-grid">
+        <div class="room-card" onclick="requireLogin()"><span>🌍</span> Global Chat</div>
+        <div class="room-card" onclick="requireLogin()"><span>🔒</span> Private Rooms</div>
+        <div class="room-card" onclick="requireLogin()"><span>🎓</span> Grade-Specific</div>
+        <div class="room-card" onclick="requireLogin()"><span>🤝</span> Study Groups</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="zone" id="games">
+    <div class="zone-header"><span class="zone-icon">🕹️</span><h2>Tlunara JDM Arcade</h2><p>Mini-games, leaderboards, and more.</p></div>
+    <div class="zone-body">
+      <div class="games-grid">
+        <div class="game-card" onclick="requireLogin()"><span>⭕</span> Tic-Tac-Toe</div>
+        <div class="game-card" onclick="requireLogin()"><span>♟️</span> Chess</div>
+        <div class="game-card" onclick="requireLogin()"><span>🔢</span> Sudoku</div>
+        <div class="game-card" onclick="requireLogin()"><span>🏏</span> Hand Cricket</div>
+        <div class="game-card" onclick="requireLogin()"><span>🎲</span> Ludo</div>
+        <div class="game-card" onclick="requireLogin()"><span>🚗</span> 2D Car Racing</div>
+        <div class="game-card" onclick="requireLogin()"><span>🎯</span> Truth or Dare</div>
+        <div class="game-card" onclick="requireLogin()"><span>🔥</span> Roast Battle</div>
+      </div>
+      <div class="community-games">
+        <h3>🎮 Community Games</h3>
+        <p class="cg-note">Games our community plays together — join us on Discord to find a squad!</p>
+        <div class="cg-grid">
+          <div class="cg-card"><span>🔫</span> Valorant</div>
+          <div class="cg-card"><span>🚗</span> Forza Horizon</div>
+          <div class="cg-card"><span>🏝️</span> Fortnite</div>
+          <div class="cg-card"><span>⛏️</span> Minecraft</div>
+          <div class="cg-card"><span>🟥</span> Roblox</div>
+        </div>
+        <a href="https://discord.gg/X7xuEdE3D6" target="_blank" rel="noopener" class="btn-discord">Join our Discord to play together →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="zone" id="marketplace">
+    <div class="zone-header"><span class="zone-icon">🛒</span><h2>Moon Cart</h2><p>Second-hand marketplace — real user listings only.</p></div>
+    <div class="zone-body">
+      <div class="warning-banner">⚠️ Any issues caused will not be handled by Lunara under any circumstances or even taken care of. It's your risk.</div>
+      <div class="empty-state">🛍️ No listings yet — be the first to sell something!</div>
+      <a href="lunara-login.html" class="btn-primary mt">List an Item</a>
+    </div>
+  </section>
+
+  <section class="zone" id="strategy">
+    <div class="zone-header"><span class="zone-icon">🧠</span><h2>Mainline Tech</h2><p>Strategy voice channels and study sessions.</p></div>
+    <div class="zone-body">
+      <div class="room-grid">
+        <div class="room-card" onclick="requireLogin()"><span>📡</span> Strategy VC</div>
+        <div class="room-card" onclick="requireLogin()"><span>📚</span> Study Group</div>
+        <div class="room-card" onclick="requireLogin()"><span>💡</span> Brainstorm Room</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="zone" id="tech">
+    <div class="zone-header"><span class="zone-icon">💻</span><h2>Oxide (Aloxide)</h2><p>Three dedicated chatrooms for tech discussions.</p></div>
+    <div class="zone-body">
+      <div class="room-grid">
+        <div class="room-card" onclick="requireLogin()"><span>❓</span> Doubts</div>
+        <div class="room-card" onclick="requireLogin()"><span>🛠️</span> Help</div>
+        <div class="room-card" onclick="requireLogin()"><span>💬</span> Regular Chat</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="zone" id="competition">
+    <div class="zone-header"><span class="zone-icon">🏆</span><h2>Oxide Competition</h2><p>Admin-run events and hackathons.</p></div>
+    <div class="zone-body">
+      <div class="empty-state">📅 No events yet — check back soon!</div>
+      <a href="https://discord.gg/X7xuEdE3D6" target="_blank" rel="noopener" class="btn-discord">Join Discord for Updates →</a>
+    </div>
+  </section>
+
+  <section class="zone" id="about">
+    <div class="zone-header"><span class="zone-icon">🌙</span><h2>About Lunara</h2></div>
+    <div class="zone-body">
+      <div class="about-story">
+        <p>Lunara didn't begin with a business plan. It started with a spark and a lot of chaos.</p>
+        <p>Arthur had an idea: build something creative, something alive. He reached out to Abhi, and together they started small. Then came the name — the moon's quiet rhythm, its mystery, its power.</p>
+        <p><em>🌌 Lunara: See Beyond. Build Forward.</em></p>
+        <p>At first, it was about games. But Arthur had one of those corridor thoughts — why stop at games? What if Lunara was a space where anyone could create, code, design, edit, build, share, and grow?</p>
+        <p>Lunara's goal: to be the all-in-one app for creative community, music, games, tech, and more.</p>
+      </div>
+      <div class="founders-grid">
+        <div class="founder-card"><div class="founder-avatar">A</div><strong>Arthur</strong><span>The spark behind it all</span><a href="https://www.instagram.com/syntaxnova90hz/" target="_blank" rel="noopener">Instagram →</a></div>
+        <div class="founder-card"><div class="founder-avatar">A</div><strong>Abhi</strong><span>The engine that keeps it moving</span></div>
+        <div class="founder-card"><div class="founder-avatar">L</div><strong>Luther</strong><span>The backbone of the build <span class="badge">Supporter</span></span></div>
+      </div>
+      <div class="contact-box"><p>Need help? <a href="mailto:katariavianyt45@gmail.com">katariavianyt45@gmail.com</a></p></div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="https://discord.gg/X7xuEdE3D6" target="_blank" rel="noopener">Discord</a>
+      <a href="https://www.instagram.com/lunaratoday" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:katariavianyt45@gmail.com">Contact</a>
+      <a href="lunara-login.html">Login</a>
+    </div>
+    <p class="footer-copy">© 2026 Lunara. See Beyond.</p>
+  </footer>
+
+  <div class="toast" id="loginToast">🔒 Please <a href="lunara-login.html">login</a> to use this feature.</div>
+  <script src="lunara-script.js"></script>
+</body>
+</html>

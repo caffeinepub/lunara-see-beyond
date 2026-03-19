@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lunara — Download Codebase</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --purple-deep: #0D001F;
+      --purple-mid: #24003D;
+      --purple-rich: #4B0082;
+      --purple-brand: #6A0DAD;
+      --purple-glow: #9B30FF;
+      --purple-light: #C084FC;
+      --neon-pink: #FF2DF7;
+      --neon-cyan: #00F5FF;
+      --text-primary: #F0E6FF;
+      --text-muted: #A78BCA;
+      --glass-bg: rgba(106,13,173,0.18);
+      --glass-border: rgba(155,48,255,0.35);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: linear-gradient(135deg, var(--purple-deep), var(--purple-mid), var(--purple-rich)); min-height: 100vh; color: var(--text-primary); padding: 2rem 1.5rem; }
+    h1 { font-size: 2.2rem; font-weight: 900; background: linear-gradient(135deg, var(--purple-light), var(--neon-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.4rem; }
+    .subtitle { color: var(--text-muted); margin-bottom: 2.5rem; font-size: 0.95rem; }
+    .section { margin-bottom: 2.5rem; }
+    .section-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.6rem; margin-bottom: 0.6rem; }
+    .section-title { font-size: 1.1rem; font-weight: 700; color: var(--purple-light); }
+    .section-desc { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.6rem; }
+    .copy-btn { padding: 0.45rem 1.1rem; background: linear-gradient(135deg, var(--purple-brand), var(--purple-glow)); color: #fff; border: none; border-radius: 50px; font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: box-shadow 0.2s; box-shadow: 0 0 10px rgba(155,48,255,0.4); }
+    .copy-btn:hover { box-shadow: 0 0 18px var(--neon-pink); }
+    .copy-btn.copied { background: linear-gradient(135deg, #1a6e1a, #2ecc40); box-shadow: 0 0 10px rgba(46,204,64,0.4); }
+    pre { background: rgba(13,0,31,0.7); border: 1px solid var(--glass-border); border-radius: 10px; padding: 1.2rem; overflow-x: auto; font-size: 0.78rem; line-height: 1.6; color: #ddd; max-height: 400px; overflow-y: auto; white-space: pre-wrap; word-break: break-all; }
+    .download-links { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 2.5rem; padding: 1.5rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 14px; backdrop-filter: blur(18px); }
+    .dl-btn { padding: 0.65rem 1.4rem; background: linear-gradient(135deg, var(--purple-brand), var(--purple-glow)); color: #fff; border-radius: 50px; font-size: 0.88rem; font-weight: 700; text-decoration: none; transition: box-shadow 0.2s, transform 0.2s; box-shadow: 0 0 12px rgba(155,48,255,0.4); }
+    .dl-btn:hover { box-shadow: 0 0 22px var(--neon-pink); transform: translateY(-2px); color: #fff; }
+    .dl-label { color: var(--text-muted); font-size: 0.82rem; align-self: center; }
+    .instructions { padding: 1.2rem 1.5rem; background: rgba(0,245,255,0.06); border: 1px solid rgba(0,245,255,0.2); border-radius: 10px; color: var(--text-muted); font-size: 0.88rem; line-height: 1.8; margin-bottom: 2.5rem; }
+    .instructions strong { color: var(--neon-cyan); }
+    .instructions ol { padding-left: 1.3rem; }
+    .instructions li { margin-bottom: 0.3rem; }
+  </style>
+</head>
+<body>
+  <h1>🌙 Lunara Codebase</h1>
+  <p class="subtitle">All 4 raw files — copy, download, or save as PDF. No dependencies. Host anywhere.</p>
+
+  <div class="instructions">
+    <strong>How to use:</strong>
+    <ol>
+      <li>Click the download buttons below to save each file directly (right-click → Save As if it opens in browser).</li>
+      <li>Or copy the code blocks below and paste into your own files.</li>
+      <li>For PDF: press <strong>Ctrl+P</strong> (or Cmd+P) on this page → Save as PDF.</li>
+      <li>Put all 4 files in the same folder, open <code>lunara-site.html</code> in your browser.</li>
+    </ol>
+  </div>
+
+  <div class="download-links">
+    <span class="dl-label">Direct downloads →</span>
+    <a class="dl-btn" href="lunara-site.html" download="index.html">⬇ index.html</a>
+    <a class="dl-btn" href="lunara-login.html" download="login.html">⬇ login.html</a>
+    <a class="dl-btn" href="lunara-style.css" download="style.css">⬇ style.css</a>
+    <a class="dl-btn" href="lunara-script.js" download="script.js">⬇ script.js</a>
+  </div>
+
+  <div class="section" id="s-html">
+    <div class="section-header">
+      <span class="section-title">📄 index.html (lunara-site.html)</span>
+      <button class="copy-btn" onclick="copyCode('code-html', this)">Copy Code</button>
+    </div>
+    <p class="section-desc">Main site — all 8 zones, navigation, hero, footer.</p>
+    <pre id="code-html"></pre>
+  </div>
+
+  <div class="section" id="s-login">
+    <div class="section-header">
+      <span class="section-title">🔐 login.html (lunara-login.html)</span>
+      <button class="copy-btn" onclick="copyCode('code-login', this)">Copy Code</button>
+    </div>
+    <p class="section-desc">Chrome-style login page with 3-step flow: avatar picker → sign in → register.</p>
+    <pre id="code-login"></pre>
+  </div>
+
+  <div class="section" id="s-css">
+    <div class="section-header">
+      <span class="section-title">🎨 style.css (lunara-style.css)</span>
+      <button class="copy-btn" onclick="copyCode('code-css', this)">Copy Code</button>
+    </div>
+    <p class="section-desc">Full purple liquid-glass theme — all styles, animations, mobile responsive.</p>
+    <pre id="code-css"></pre>
+  </div>
+
+  <div class="section" id="s-js">
+    <div class="section-header">
+      <span class="section-title">⚙️ script.js (lunara-script.js)</span>
+      <button class="copy-btn" onclick="copyCode('code-js', this)">Copy Code</button>
+    </div>
+    <p class="section-desc">All JavaScript — auth, nav, search, countdown, profile menu, login flow.</p>
+    <pre id="code-js"></pre>
+  </div>
+
+  <script>
+    async function loadFile(url, elementId) {
+      try {
+        const r = await fetch(url);
+        const text = await r.text();
+        document.getElementById(elementId).textContent = text;
+      } catch(e) {
+        document.getElementById(elementId).textContent = '// Could not load file: ' + url;
+      }
+    }
+
+    loadFile('lunara-site.html', 'code-html');
+    loadFile('lunara-login.html', 'code-login');
+    loadFile('lunara-style.css', 'code-css');
+    loadFile('lunara-script.js', 'code-js');
+
+    function copyCode(id, btn) {
+      const text = document.getElementById(id).textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = '✓ Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = 'Copy Code'; btn.classList.remove('copied'); }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>Lunara Hub - Full Codebase Export</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Georgia,serif;background:#fff;color:#1a1a2e;font-size:12px;line-height:1.7}
+.cover{background:linear-gradient(135deg,#0D001F,#24003D,#4B0082);color:#fff;padding:4rem 3rem;text-align:center;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.cover h1{font-size:3rem;font-weight:900;margin:1rem 0 0.5rem;letter-spacing:2px}
+.cover-meta{background:rgba(106,13,173,0.4);border:1px solid rgba(155,48,255,0.4);border-radius:10px;padding:1.5rem 2rem;display:inline-block;text-align:left;line-height:2.2;font-size:0.9rem;margin-top:1rem}
+h2{font-size:1.4rem;color:#6A0DAD;border-bottom:3px solid #6A0DAD;padding-bottom:0.4rem;margin:2rem 0 1rem}
+table{width:100%;border-collapse:collapse;margin-bottom:1.5rem;font-size:11px}
+th{background:#6A0DAD;color:#fff;padding:0.5rem 0.8rem;text-align:left;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+td{padding:0.45rem 0.8rem;border-bottom:1px solid #ddd;vertical-align:top}
+tr:nth-child(even) td{background:#f9f4ff}
+.wrap{max-width:860px;margin:0 auto;padding:2rem 2.5rem}
+pre{background:#0f0f1a;color:#e2c7ff;font-family:"Courier New",monospace;font-size:9px;line-height:1.6;padding:1.2rem;border-radius:0 0 6px 6px;white-space:pre-wrap;word-break:break-word;border:1px solid #2a1a3e;border-top:none;margin-bottom:2rem;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.ui-box{background:#f9f4ff;border-left:4px solid #9B30FF;border-radius:0 8px 8px 0;padding:0.9rem 1.2rem;margin-bottom:1rem;font-size:11px;color:#555}
+.ui-box strong{color:#6A0DAD;display:block;margin-bottom:0.2rem}
+@media print{body{font-size:11px}pre{font-size:8px}@page{margin:1.2cm}}
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div style="font-size:5rem">&#127769;</div>
+  <h1>Lunara Hub</h1>
+  <p style="color:#C084FC;font-size:1.1rem;margin-bottom:1rem">See Beyond. Build Forward.</p>
+  <div class="cover-meta">
+    <strong>Full Codebase Export</strong><br>
+    Files: <strong>lunara-site.html | lunara-login.html | lunara-style.css | lunara-script.js</strong><br>
+    Stack: <strong>Vanilla HTML5 + CSS3 + JavaScript (zero dependencies)</strong><br>
+    Host: <strong>Netlify, GitHub Pages, Vercel, cPanel - just upload 4 files</strong><br>
+    Admin email: <strong>katariavianyt45@gmail.com</strong>
+  </div>
+</div>
+
+<div class="wrap">
+<h2>1. Site Specification</h2>
+<table>
+<tr><th>Zone</th><th>Nav Label</th><th>Sub-label</th><th>Features</th></tr>
+<tr><td>Soundscape</td><td>Music</td><td>Soundscape</td><td>9 artists, upload (login), dual leaderboard</td></tr>
+<tr><td>PixelLand</td><td>Art</td><td>PixelLand</td><td>User art &amp; poetry, empty until first upload</td></tr>
+<tr><td>Wild Gang</td><td>Chat Rooms</td><td>General Chat Rooms</td><td>Global, private, grade-specific, study rooms</td></tr>
+<tr><td>Tlunara JDM Arcade</td><td>Games</td><td>Tlunara JDM Arcade</td><td>8 games + Community Games (Valorant, Forza, Fortnite, Minecraft, Roblox)</td></tr>
+<tr><td>Moon Cart</td><td>Players</td><td>Moon Cart</td><td>OLX marketplace, user listings only, risk warning</td></tr>
+<tr><td>Mainline Tech</td><td>Strategy VC</td><td>Mainline Tech</td><td>Strategy VC, Study Group, Brainstorm rooms</td></tr>
+<tr><td>Oxide</td><td>Tech</td><td>Oxide</td><td>3 chatrooms: Doubts, Help, Regular Chat</td></tr>
+<tr><td>Oxide Competition</td><td>Competition</td><td>Oxide Competition</td><td>Admin events only</td></tr>
+<tr><td>About</td><td>-</td><td>-</td><td>Founders, story, contact email</td></tr>
+</table>
+<table>
+<tr><th>Global Feature</th><th>Details</th></tr>
+<tr><td>Navbar</td><td>Fixed frosted-glass, 8 items with hover dropdowns, search (Ctrl+K), Login/Avatar</td></tr>
+<tr><td>Search</td><td>Overlay - type section name + Enter to jump</td></tr>
+<tr><td>Countdown</td><td>Live HH:MM:SS to midnight in hero</td></tr>
+<tr><td>Profile menu</td><td>Edit Picture, Edit Name, Contact Developer (tel:+917676387443), Logout</td></tr>
+<tr><td>Auth</td><td>localStorage; admin = katariavianyt45@gmail.com</td></tr>
+<tr><td>Theme</td><td>Purple neon/glass #0D001F to #4B0082</td></tr>
+<tr><td>Responsive</td><td>Hamburger menu at 768px</td></tr>
+</table>
+
+<h2>2. File Structure</h2>
+<pre>lunara-hub/
+&#9500;&#9472;&#9472; lunara-site.html    (main site - all 8 zones)
+&#9500;&#9472;&#9472; lunara-login.html   (login/register page)
+&#9500;&#9472;&#9472; lunara-style.css    (all styles)
+&#9492;&#9472;&#9472; lunara-script.js    (all JavaScript)
+
+No build step. No npm. Upload 4 files to any static host.</pre>
+
+<h2>3. UI Overview</h2>
+<div class="ui-box"><strong>Navbar (fixed)</strong>Frosted glass bar. Left: moon + Lunara brand. Centre: 8 nav items with hover dropdowns. Right: search icon + Login/circular avatar button.</div>
+<div class="ui-box"><strong>Hero Section</strong>Full-viewport purple gradient. Floating moon emoji, giant gradient Lunara title, tagline, Explore + Login buttons, live countdown, 9 Zones, infinity stat. Pulsing glow.</div>
+<div class="ui-box"><strong>Soundscape</strong>9 circular artist cards (Tame Impala, Drake, Pink Floyd, Michael Jackson, Au5, Sabrina Carpenter, Dua Lipa, Sheryl Crow, Tate McRae). Neon-pink hover. Dashed upload box.</div>
+<div class="ui-box"><strong>PixelLand</strong>Dashed empty-state: "Be the first to upload". Purple CTA button.</div>
+<div class="ui-box"><strong>Chat Rooms</strong>4 room cards: Global Chat, Private Rooms, Grade-Specific, Study Groups. Cyan hover. Click = login toast.</div>
+<div class="ui-box"><strong>Tlunara JDM Arcade</strong>8 game cards + Community Games section with Valorant, Forza Horizon, Fortnite, Minecraft, Roblox pills + Discord button.</div>
+<div class="ui-box"><strong>Moon Cart</strong>Orange risk warning banner. Empty-state box. List an Item button.</div>
+<div class="ui-box"><strong>Mainline Tech</strong>3 room cards: Strategy VC, Study Group, Brainstorm.</div>
+<div class="ui-box"><strong>Oxide</strong>3 chatroom cards: Doubts, Help, Regular Chat.</div>
+<div class="ui-box"><strong>Oxide Competition</strong>Empty-state + Discord CTA.</div>
+<div class="ui-box"><strong>About</strong>Origin story. Founder cards: Arthur (Instagram link), Abhi, Luther (Supporter badge). Contact box.</div>
+<div class="ui-box"><strong>Login Page</strong>Two-column card. Left: purple gradient + moon. Right: 3-step (avatar circle -> sign in form -> register form).</div>
+</div>
+
+<div style="page-break-before:always"><div style="background:#6A0DAD;color:#fff;padding:0.6rem 1.2rem;font-family:monospace;font-size:0.9rem;font-weight:700;border-radius:6px 6px 0 0">lunara-site.html</div><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot; /&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+  &lt;title&gt;Lunara — See Beyond&lt;/title&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;lunara-style.css&quot; /&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;nav class=&quot;navbar&quot; id=&quot;navbar&quot;&gt;
+    &lt;div class=&quot;nav-brand&quot;&gt;&lt;span class=&quot;brand-text&quot;&gt;🌙 Lunara&lt;/span&gt;&lt;/div&gt;
+    &lt;ul class=&quot;nav-links&quot;&gt;
+      &lt;li class=&quot;nav-item has-dropdown&quot;&gt;&lt;a href=&quot;#soundscape&quot;&gt;Music&lt;/a&gt;&lt;ul class=&quot;dropdown&quot;&gt;&lt;li&gt;&lt;a href=&quot;#soundscape&quot;&gt;Soundscape&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;
+      &lt;li class=&quot;nav-item has-dropdown&quot;&gt;&lt;a href=&quot;#art&quot;&gt;Art&lt;/a&gt;&lt;ul class=&quot;dropdown&quot;&gt;&lt;li&gt;&lt;a href=&quot;#art&quot;&gt;PixelLand&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;
+      &lt;li class=&quot;nav-item has-dropdown&quot;&gt;&lt;a href=&quot;#chatrooms&quot;&gt;Chat Rooms&lt;/a&gt;&lt;ul class=&quot;dropdown&quot;&gt;&lt;li&gt;&lt;a href=&quot;#chatrooms&quot;&gt;General Chat Rooms&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;
+      &lt;li class=&quot;nav-item has-dropdown&quot;&gt;&lt;a href=&quot;#games&quot;&gt;Games&lt;/a&gt;&lt;ul class=&quot;dropdown&quot;&gt;&lt;li&gt;&lt;a href=&quot;#games&quot;&gt;Tlunara JDM Arcade&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;
+      &lt;li class=&quot;nav-item has-dropdown&quot;&gt;&lt;a href=&quot;#marketplace&quot;&gt;Players&lt;/a&gt;&lt;ul class=&quot;dropdown&quot;&gt;&lt;li&gt;&lt;a href=&quot;#marketplace&quot;&gt;Moon Cart&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;
+      &lt;li class=&quot;nav-item has-dropdown&quot;&gt;&lt;a href=&quot;#strategy&quot;&gt;Strategy VC&lt;/a&gt;&lt;ul class=&quot;dropdown&quot;&gt;&lt;li&gt;&lt;a href=&quot;#strategy&quot;&gt;Mainline Tech&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;
+      &lt;li class=&quot;nav-item has-dropdown&quot;&gt;&lt;a href=&quot;#tech&quot;&gt;Tech&lt;/a&gt;&lt;ul class=&quot;dropdown&quot;&gt;&lt;li&gt;&lt;a href=&quot;#tech&quot;&gt;Oxide&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;
+      &lt;li class=&quot;nav-item has-dropdown&quot;&gt;&lt;a href=&quot;#competition&quot;&gt;Competition&lt;/a&gt;&lt;ul class=&quot;dropdown&quot;&gt;&lt;li&gt;&lt;a href=&quot;#competition&quot;&gt;Oxide Competition&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div class=&quot;nav-actions&quot;&gt;
+      &lt;button class=&quot;btn-search&quot; id=&quot;searchToggle&quot; aria-label=&quot;Search&quot;&gt;🔍&lt;/button&gt;
+      &lt;a href=&quot;lunara-login.html&quot; class=&quot;btn-login&quot;&gt;Login&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;button class=&quot;hamburger&quot; id=&quot;hamburger&quot;&gt;☰&lt;/button&gt;
+  &lt;/nav&gt;
+
+  &lt;div class=&quot;search-overlay&quot; id=&quot;searchOverlay&quot;&gt;
+    &lt;div class=&quot;search-box&quot;&gt;
+      &lt;input type=&quot;text&quot; id=&quot;searchInput&quot; placeholder=&quot;Search Lunara... (Enter to jump)&quot; /&gt;
+      &lt;button id=&quot;searchClose&quot;&gt;✕&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;section class=&quot;hero&quot; id=&quot;home&quot;&gt;
+    &lt;div class=&quot;hero-content&quot;&gt;
+      &lt;div class=&quot;hero-logo&quot;&gt;🌙&lt;/div&gt;
+      &lt;h1 class=&quot;hero-title&quot;&gt;Lunara&lt;/h1&gt;
+      &lt;p class=&quot;hero-tagline&quot;&gt;See Beyond. Build Forward.&lt;/p&gt;
+      &lt;p class=&quot;hero-sub&quot;&gt;Music · Art · Games · Community · Tech · All in One&lt;/p&gt;
+      &lt;div class=&quot;hero-buttons&quot;&gt;
+        &lt;a href=&quot;#soundscape&quot; class=&quot;btn-primary&quot;&gt;Explore&lt;/a&gt;
+        &lt;a href=&quot;lunara-login.html&quot; class=&quot;btn-secondary&quot;&gt;Login&lt;/a&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;hero-stats&quot;&gt;
+        &lt;div class=&quot;stat&quot;&gt;&lt;span class=&quot;stat-num&quot; id=&quot;countdown&quot;&gt;--:--:--&lt;/span&gt;&lt;span class=&quot;stat-label&quot;&gt;Until Next Drop&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;stat&quot;&gt;&lt;span class=&quot;stat-num&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;stat-label&quot;&gt;Zones&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;stat&quot;&gt;&lt;span class=&quot;stat-num&quot;&gt;∞&lt;/span&gt;&lt;span class=&quot;stat-label&quot;&gt;Possibilities&lt;/span&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;hero-glow&quot;&gt;&lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&quot;zone&quot; id=&quot;soundscape&quot;&gt;
+    &lt;div class=&quot;zone-header&quot;&gt;&lt;span class=&quot;zone-icon&quot;&gt;🎵&lt;/span&gt;&lt;h2&gt;Soundscape&lt;/h2&gt;&lt;p&gt;Listen, upload, and discover music within the app.&lt;/p&gt;&lt;/div&gt;
+    &lt;div class=&quot;zone-body&quot;&gt;
+      &lt;div class=&quot;artist-grid&quot;&gt;
+        &lt;div class=&quot;artist-card&quot;&gt;&lt;div class=&quot;artist-thumb&quot;&gt;🎸&lt;/div&gt;&lt;span&gt;Tame Impala&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;artist-card&quot;&gt;&lt;div class=&quot;artist-thumb&quot;&gt;🎤&lt;/div&gt;&lt;span&gt;Drake&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;artist-card&quot;&gt;&lt;div class=&quot;artist-thumb&quot;&gt;🌀&lt;/div&gt;&lt;span&gt;Pink Floyd&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;artist-card&quot;&gt;&lt;div class=&quot;artist-thumb&quot;&gt;🕺&lt;/div&gt;&lt;span&gt;Michael Jackson&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;artist-card&quot;&gt;&lt;div class=&quot;artist-thumb&quot;&gt;🎧&lt;/div&gt;&lt;span&gt;Au5&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;artist-card&quot;&gt;&lt;div class=&quot;artist-thumb&quot;&gt;🌸&lt;/div&gt;&lt;span&gt;Sabrina Carpenter&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;artist-card&quot;&gt;&lt;div class=&quot;artist-thumb&quot;&gt;💜&lt;/div&gt;&lt;span&gt;Dua Lipa&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;artist-card&quot;&gt;&lt;div class=&quot;artist-thumb&quot;&gt;🎶&lt;/div&gt;&lt;span&gt;Sheryl Crow&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;artist-card&quot;&gt;&lt;div class=&quot;artist-thumb&quot;&gt;✨&lt;/div&gt;&lt;span&gt;Tate McRae&lt;/span&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;upload-box&quot;&gt;🎙️ &lt;strong&gt;Upload Your Music&lt;/strong&gt; — &lt;a href=&quot;lunara-login.html&quot;&gt;Login&lt;/a&gt; to share your tracks&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&quot;zone&quot; id=&quot;art&quot;&gt;
+    &lt;div class=&quot;zone-header&quot;&gt;&lt;span class=&quot;zone-icon&quot;&gt;🎨&lt;/span&gt;&lt;h2&gt;PixelLand&lt;/h2&gt;&lt;p&gt;Art and poetry by real community members.&lt;/p&gt;&lt;/div&gt;
+    &lt;div class=&quot;zone-body&quot;&gt;
+      &lt;div class=&quot;empty-state&quot;&gt;🖼️ Be the first to upload your art or poetry!&lt;/div&gt;
+      &lt;a href=&quot;lunara-login.html&quot; class=&quot;btn-primary mt&quot;&gt;Add Your Art&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&quot;zone&quot; id=&quot;chatrooms&quot;&gt;
+    &lt;div class=&quot;zone-header&quot;&gt;&lt;span class=&quot;zone-icon&quot;&gt;💬&lt;/span&gt;&lt;h2&gt;General Chat Rooms&lt;/h2&gt;&lt;p&gt;Text and voice rooms for every conversation.&lt;/p&gt;&lt;/div&gt;
+    &lt;div class=&quot;zone-body&quot;&gt;
+      &lt;div class=&quot;room-grid&quot;&gt;
+        &lt;div class=&quot;room-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;🌍&lt;/span&gt; Global Chat&lt;/div&gt;
+        &lt;div class=&quot;room-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;🔒&lt;/span&gt; Private Rooms&lt;/div&gt;
+        &lt;div class=&quot;room-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;🎓&lt;/span&gt; Grade-Specific&lt;/div&gt;
+        &lt;div class=&quot;room-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;🤝&lt;/span&gt; Study Groups&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&quot;zone&quot; id=&quot;games&quot;&gt;
+    &lt;div class=&quot;zone-header&quot;&gt;&lt;span class=&quot;zone-icon&quot;&gt;🕹️&lt;/span&gt;&lt;h2&gt;Tlunara JDM Arcade&lt;/h2&gt;&lt;p&gt;Mini-games, leaderboards, and more.&lt;/p&gt;&lt;/div&gt;
+    &lt;div class=&quot;zone-body&quot;&gt;
+      &lt;div class=&quot;games-grid&quot;&gt;
+        &lt;div class=&quot;game-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;⭕&lt;/span&gt; Tic-Tac-Toe&lt;/div&gt;
+        &lt;div class=&quot;game-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;♟️&lt;/span&gt; Chess&lt;/div&gt;
+        &lt;div class=&quot;game-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;🔢&lt;/span&gt; Sudoku&lt;/div&gt;
+        &lt;div class=&quot;game-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;🏏&lt;/span&gt; Hand Cricket&lt;/div&gt;
+        &lt;div class=&quot;game-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;🎲&lt;/span&gt; Ludo&lt;/div&gt;
+        &lt;div class=&quot;game-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;🚗&lt;/span&gt; 2D Car Racing&lt;/div&gt;
+        &lt;div class=&quot;game-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;🎯&lt;/span&gt; Truth or Dare&lt;/div&gt;
+        &lt;div class=&quot;game-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;🔥&lt;/span&gt; Roast Battle&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;community-games&quot;&gt;
+        &lt;h3&gt;🎮 Community Games&lt;/h3&gt;
+        &lt;p class=&quot;cg-note&quot;&gt;Games our community plays together — join us on Discord to find a squad!&lt;/p&gt;
+        &lt;div class=&quot;cg-grid&quot;&gt;
+          &lt;div class=&quot;cg-card&quot;&gt;&lt;span&gt;🔫&lt;/span&gt; Valorant&lt;/div&gt;
+          &lt;div class=&quot;cg-card&quot;&gt;&lt;span&gt;🚗&lt;/span&gt; Forza Horizon&lt;/div&gt;
+          &lt;div class=&quot;cg-card&quot;&gt;&lt;span&gt;🏝️&lt;/span&gt; Fortnite&lt;/div&gt;
+          &lt;div class=&quot;cg-card&quot;&gt;&lt;span&gt;⛏️&lt;/span&gt; Minecraft&lt;/div&gt;
+          &lt;div class=&quot;cg-card&quot;&gt;&lt;span&gt;🟥&lt;/span&gt; Roblox&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;a href=&quot;https://discord.gg/X7xuEdE3D6&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; class=&quot;btn-discord&quot;&gt;Join our Discord to play together →&lt;/a&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&quot;zone&quot; id=&quot;marketplace&quot;&gt;
+    &lt;div class=&quot;zone-header&quot;&gt;&lt;span class=&quot;zone-icon&quot;&gt;🛒&lt;/span&gt;&lt;h2&gt;Moon Cart&lt;/h2&gt;&lt;p&gt;Second-hand marketplace — real user listings only.&lt;/p&gt;&lt;/div&gt;
+    &lt;div class=&quot;zone-body&quot;&gt;
+      &lt;div class=&quot;warning-banner&quot;&gt;⚠️ Any issues caused will not be handled by Lunara under any circumstances or even taken care of. It&#x27;s your risk.&lt;/div&gt;
+      &lt;div class=&quot;empty-state&quot;&gt;🛍️ No listings yet — be the first to sell something!&lt;/div&gt;
+      &lt;a href=&quot;lunara-login.html&quot; class=&quot;btn-primary mt&quot;&gt;List an Item&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&quot;zone&quot; id=&quot;strategy&quot;&gt;
+    &lt;div class=&quot;zone-header&quot;&gt;&lt;span class=&quot;zone-icon&quot;&gt;🧠&lt;/span&gt;&lt;h2&gt;Mainline Tech&lt;/h2&gt;&lt;p&gt;Strategy voice channels and study sessions.&lt;/p&gt;&lt;/div&gt;
+    &lt;div class=&quot;zone-body&quot;&gt;
+      &lt;div class=&quot;room-grid&quot;&gt;
+        &lt;div class=&quot;room-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;📡&lt;/span&gt; Strategy VC&lt;/div&gt;
+        &lt;div class=&quot;room-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;📚&lt;/span&gt; Study Group&lt;/div&gt;
+        &lt;div class=&quot;room-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;💡&lt;/span&gt; Brainstorm Room&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&quot;zone&quot; id=&quot;tech&quot;&gt;
+    &lt;div class=&quot;zone-header&quot;&gt;&lt;span class=&quot;zone-icon&quot;&gt;💻&lt;/span&gt;&lt;h2&gt;Oxide (Aloxide)&lt;/h2&gt;&lt;p&gt;Three dedicated chatrooms for tech discussions.&lt;/p&gt;&lt;/div&gt;
+    &lt;div class=&quot;zone-body&quot;&gt;
+      &lt;div class=&quot;room-grid&quot;&gt;
+        &lt;div class=&quot;room-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;❓&lt;/span&gt; Doubts&lt;/div&gt;
+        &lt;div class=&quot;room-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;🛠️&lt;/span&gt; Help&lt;/div&gt;
+        &lt;div class=&quot;room-card&quot; onclick=&quot;requireLogin()&quot;&gt;&lt;span&gt;💬&lt;/span&gt; Regular Chat&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&quot;zone&quot; id=&quot;competition&quot;&gt;
+    &lt;div class=&quot;zone-header&quot;&gt;&lt;span class=&quot;zone-icon&quot;&gt;🏆&lt;/span&gt;&lt;h2&gt;Oxide Competition&lt;/h2&gt;&lt;p&gt;Admin-run events and hackathons.&lt;/p&gt;&lt;/div&gt;
+    &lt;div class=&quot;zone-body&quot;&gt;
+      &lt;div class=&quot;empty-state&quot;&gt;📅 No events yet — check back soon!&lt;/div&gt;
+      &lt;a href=&quot;https://discord.gg/X7xuEdE3D6&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot; class=&quot;btn-discord&quot;&gt;Join Discord for Updates →&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&quot;zone&quot; id=&quot;about&quot;&gt;
+    &lt;div class=&quot;zone-header&quot;&gt;&lt;span class=&quot;zone-icon&quot;&gt;🌙&lt;/span&gt;&lt;h2&gt;About Lunara&lt;/h2&gt;&lt;/div&gt;
+    &lt;div class=&quot;zone-body&quot;&gt;
+      &lt;div class=&quot;about-story&quot;&gt;
+        &lt;p&gt;Lunara didn&#x27;t begin with a business plan. It started with a spark and a lot of chaos.&lt;/p&gt;
+        &lt;p&gt;Arthur had an idea: build something creative, something alive. He reached out to Abhi, and together they started small. Then came the name — the moon&#x27;s quiet rhythm, its mystery, its power.&lt;/p&gt;
+        &lt;p&gt;&lt;em&gt;🌌 Lunara: See Beyond. Build Forward.&lt;/em&gt;&lt;/p&gt;
+        &lt;p&gt;At first, it was about games. But Arthur had one of those corridor thoughts — why stop at games? What if Lunara was a space where anyone could create, code, design, edit, build, share, and grow?&lt;/p&gt;
+        &lt;p&gt;Lunara&#x27;s goal: to be the all-in-one app for creative community, music, games, tech, and more.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;founders-grid&quot;&gt;
+        &lt;div class=&quot;founder-card&quot;&gt;&lt;div class=&quot;founder-avatar&quot;&gt;A&lt;/div&gt;&lt;strong&gt;Arthur&lt;/strong&gt;&lt;span&gt;The spark behind it all&lt;/span&gt;&lt;a href=&quot;https://www.instagram.com/syntaxnova90hz/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Instagram →&lt;/a&gt;&lt;/div&gt;
+        &lt;div class=&quot;founder-card&quot;&gt;&lt;div class=&quot;founder-avatar&quot;&gt;A&lt;/div&gt;&lt;strong&gt;Abhi&lt;/strong&gt;&lt;span&gt;The engine that keeps it moving&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;founder-card&quot;&gt;&lt;div class=&quot;founder-avatar&quot;&gt;L&lt;/div&gt;&lt;strong&gt;Luther&lt;/strong&gt;&lt;span&gt;The backbone of the build &lt;span class=&quot;badge&quot;&gt;Supporter&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;contact-box&quot;&gt;&lt;p&gt;Need help? &lt;a href=&quot;mailto:katariavianyt45@gmail.com&quot;&gt;katariavianyt45@gmail.com&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;footer class=&quot;footer&quot;&gt;
+    &lt;div class=&quot;footer-links&quot;&gt;
+      &lt;a href=&quot;https://discord.gg/X7xuEdE3D6&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Discord&lt;/a&gt;
+      &lt;a href=&quot;https://www.instagram.com/lunaratoday&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Instagram&lt;/a&gt;
+      &lt;a href=&quot;mailto:katariavianyt45@gmail.com&quot;&gt;Contact&lt;/a&gt;
+      &lt;a href=&quot;lunara-login.html&quot;&gt;Login&lt;/a&gt;
+    &lt;/div&gt;
+    &lt;p class=&quot;footer-copy&quot;&gt;© 2026 Lunara. See Beyond.&lt;/p&gt;
+  &lt;/footer&gt;
+
+  &lt;div class=&quot;toast&quot; id=&quot;loginToast&quot;&gt;🔒 Please &lt;a href=&quot;lunara-login.html&quot;&gt;login&lt;/a&gt; to use this feature.&lt;/div&gt;
+  &lt;script src=&quot;lunara-script.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+<div style="page-break-before:always"><div style="background:#6A0DAD;color:#fff;padding:0.6rem 1.2rem;font-family:monospace;font-size:0.9rem;font-weight:700;border-radius:6px 6px 0 0">lunara-login.html</div><pre>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot; /&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+  &lt;title&gt;Lunara — Login&lt;/title&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;lunara-style.css&quot; /&gt;
+&lt;/head&gt;
+&lt;body class=&quot;login-page&quot;&gt;
+  &lt;div class=&quot;login-wrap&quot;&gt;
+    &lt;div class=&quot;login-left&quot;&gt;
+      &lt;div class=&quot;login-brand&quot;&gt;
+        &lt;div class=&quot;login-logo&quot;&gt;🌙&lt;/div&gt;
+        &lt;h1&gt;Lunara&lt;/h1&gt;
+        &lt;p&gt;See Beyond. Build Forward.&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;login-right&quot;&gt;
+      &lt;div class=&quot;login-step active&quot; id=&quot;step-picker&quot;&gt;
+        &lt;div class=&quot;avatar-circle&quot; id=&quot;avatarPickerBtn&quot;&gt;👤&lt;/div&gt;
+        &lt;p class=&quot;step-hint&quot;&gt;Click to sign in&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;login-step&quot; id=&quot;step-signin&quot;&gt;
+        &lt;h2&gt;Welcome back&lt;/h2&gt;
+        &lt;form id=&quot;signinForm&quot;&gt;
+          &lt;input type=&quot;email&quot; id=&quot;signinEmail&quot; placeholder=&quot;Email&quot; required /&gt;
+          &lt;input type=&quot;password&quot; id=&quot;signinPassword&quot; placeholder=&quot;Password&quot; required /&gt;
+          &lt;button type=&quot;submit&quot; class=&quot;btn-primary full&quot;&gt;Sign In&lt;/button&gt;
+        &lt;/form&gt;
+        &lt;p class=&quot;switch-link&quot;&gt;No account? &lt;a href=&quot;#&quot; onclick=&quot;goStep(&#x27;step-register&#x27;)&quot;&gt;Register&lt;/a&gt;&lt;/p&gt;
+        &lt;p class=&quot;switch-link&quot;&gt;&lt;a href=&quot;lunara-site.html&quot;&gt;← Back to site&lt;/a&gt;&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;login-step&quot; id=&quot;step-register&quot;&gt;
+        &lt;h2&gt;Create account&lt;/h2&gt;
+        &lt;form id=&quot;registerForm&quot;&gt;
+          &lt;input type=&quot;text&quot; id=&quot;regName&quot; placeholder=&quot;Display Name&quot; required /&gt;
+          &lt;input type=&quot;email&quot; id=&quot;regEmail&quot; placeholder=&quot;Email&quot; required /&gt;
+          &lt;input type=&quot;password&quot; id=&quot;regPassword&quot; placeholder=&quot;Password&quot; required /&gt;
+          &lt;button type=&quot;submit&quot; class=&quot;btn-primary full&quot;&gt;Register&lt;/button&gt;
+        &lt;/form&gt;
+        &lt;p class=&quot;switch-link&quot;&gt;Have an account? &lt;a href=&quot;#&quot; onclick=&quot;goStep(&#x27;step-signin&#x27;)&quot;&gt;Sign In&lt;/a&gt;&lt;/p&gt;
+        &lt;p class=&quot;switch-link&quot;&gt;&lt;a href=&quot;lunara-site.html&quot;&gt;← Back to site&lt;/a&gt;&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;script src=&quot;lunara-script.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></div>
+<div style="page-break-before:always"><div style="background:#6A0DAD;color:#fff;padding:0.6rem 1.2rem;font-family:monospace;font-size:0.9rem;font-weight:700;border-radius:6px 6px 0 0">lunara-style.css</div><pre>/* LUNARA HUB — style.css */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --purple-deep: #0D001F;
+  --purple-mid: #24003D;
+  --purple-rich: #4B0082;
+  --purple-brand: #6A0DAD;
+  --purple-glow: #9B30FF;
+  --purple-light: #C084FC;
+  --neon-pink: #FF2DF7;
+  --neon-cyan: #00F5FF;
+  --text-primary: #F0E6FF;
+  --text-muted: #A78BCA;
+  --glass-bg: rgba(106,13,173,0.18);
+  --glass-border: rgba(155,48,255,0.35);
+  --glass-blur: blur(18px);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --transition: 0.25s ease;
+}
+html { scroll-behavior: smooth; }
+body { font-family: &#x27;Segoe UI&#x27;, system-ui, sans-serif; background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple-mid) 50%, var(--purple-rich) 100%); min-height: 100vh; color: var(--text-primary); line-height: 1.6; overflow-x: hidden; }
+a { color: var(--purple-light); text-decoration: none; transition: color var(--transition); }
+a:hover { color: var(--neon-pink); }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--purple-deep); }
+::-webkit-scrollbar-thumb { background: var(--purple-brand); border-radius: 3px; }
+
+/* NAVBAR */
+.navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; display: flex; align-items: center; gap: 1rem; padding: 0.75rem 2rem; background: rgba(13,0,31,0.7); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--glass-border); transition: background var(--transition); }
+.nav-brand .brand-text { font-size: 1.4rem; font-weight: 800; letter-spacing: 1px; color: var(--purple-light); text-shadow: 0 0 12px var(--purple-glow); }
+.nav-links { list-style: none; display: flex; gap: 0.25rem; margin: 0 auto; }
+.nav-item { position: relative; }
+.nav-item &gt; a { display: block; padding: 0.45rem 0.85rem; border-radius: var(--radius-sm); font-size: 0.88rem; font-weight: 600; color: var(--text-muted); transition: color var(--transition), background var(--transition); white-space: nowrap; }
+.nav-item &gt; a:hover, .nav-item:hover &gt; a { color: var(--purple-light); background: var(--glass-bg); text-shadow: 0 0 8px var(--purple-glow); }
+.dropdown { display: none; position: absolute; top: calc(100% + 6px); left: 0; list-style: none; background: rgba(13,0,31,0.92); backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); min-width: 170px; padding: 0.4rem 0; box-shadow: 0 8px 32px rgba(106,13,173,0.4); z-index: 999; }
+.nav-item:hover .dropdown { display: block; animation: fadeDown 0.18s ease; }
+@keyframes fadeDown { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+.dropdown li a { display: block; padding: 0.45rem 1rem; font-size: 0.84rem; color: var(--text-muted); transition: color var(--transition), background var(--transition); }
+.dropdown li a:hover { color: var(--neon-pink); background: rgba(255,45,247,0.08); }
+.nav-actions { display: flex; align-items: center; gap: 0.6rem; }
+.btn-search { background: none; border: none; cursor: pointer; font-size: 1.1rem; color: var(--text-muted); padding: 0.35rem; border-radius: 50%; transition: color var(--transition), background var(--transition); }
+.btn-search:hover { color: var(--neon-cyan); background: rgba(0,245,255,0.1); }
+.btn-login { padding: 0.45rem 1.1rem; background: linear-gradient(135deg, var(--purple-brand), var(--purple-glow)); color: #fff; border-radius: 50px; font-size: 0.85rem; font-weight: 700; border: none; cursor: pointer; transition: box-shadow var(--transition), transform var(--transition); box-shadow: 0 0 14px rgba(155,48,255,0.5); }
+.btn-login:hover { box-shadow: 0 0 22px var(--neon-pink); transform: translateY(-1px); color: #fff; }
+.hamburger { display: none; background: none; border: none; font-size: 1.5rem; color: var(--purple-light); cursor: pointer; }
+
+/* SEARCH */
+.search-overlay { display: none; position: fixed; inset: 0; background: rgba(13,0,31,0.85); backdrop-filter: blur(10px); z-index: 2000; align-items: center; justify-content: center; }
+.search-overlay.active { display: flex; }
+.search-box { display: flex; gap: 0.5rem; width: min(560px, 90vw); }
+.search-box input { flex: 1; padding: 0.9rem 1.2rem; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: var(--radius); color: var(--text-primary); font-size: 1.05rem; outline: none; backdrop-filter: var(--glass-blur); }
+.search-box input::placeholder { color: var(--text-muted); }
+.search-box input:focus { border-color: var(--purple-glow); box-shadow: 0 0 12px rgba(155,48,255,0.4); }
+#searchClose { padding: 0.9rem 1.1rem; background: rgba(255,45,247,0.15); border: 1px solid rgba(255,45,247,0.3); border-radius: var(--radius); color: var(--neon-pink); font-size: 1.1rem; cursor: pointer; }
+
+/* HERO */
+.hero { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 6rem 1.5rem 4rem; overflow: hidden; }
+.hero-glow { position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(106,13,173,0.35) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; animation: pulse 4s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { transform: translate(-50%,-50%) scale(1); opacity: 0.6; } 50% { transform: translate(-50%,-50%) scale(1.12); opacity: 1; } }
+.hero-content { position: relative; z-index: 1; }
+.hero-logo { font-size: 5rem; margin-bottom: 0.5rem; filter: drop-shadow(0 0 20px var(--purple-glow)); animation: floatY 3s ease-in-out infinite; }
+@keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.hero-title { font-size: clamp(2.8rem,7vw,5.5rem); font-weight: 900; letter-spacing: 2px; background: linear-gradient(135deg, var(--purple-light), var(--neon-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; }
+.hero-tagline { font-size: clamp(1rem,2.5vw,1.45rem); color: var(--purple-light); letter-spacing: 1px; margin-bottom: 0.35rem; text-shadow: 0 0 10px rgba(155,48,255,0.7); }
+.hero-sub { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 2rem; }
+.hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.5rem; }
+.hero-stats { display: flex; gap: 2.5rem; justify-content: center; flex-wrap: wrap; }
+.stat { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
+.stat-num { font-size: 1.6rem; font-weight: 800; color: var(--purple-light); text-shadow: 0 0 12px var(--purple-glow); }
+.stat-label { font-size: 0.78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+/* BUTTONS */
+.btn-primary { display: inline-block; padding: 0.7rem 2rem; background: linear-gradient(135deg, var(--purple-brand), var(--purple-glow)); color: #fff; border-radius: 50px; font-weight: 700; font-size: 0.95rem; border: none; cursor: pointer; transition: box-shadow var(--transition), transform var(--transition); box-shadow: 0 0 18px rgba(155,48,255,0.5); text-decoration: none; }
+.btn-primary:hover { box-shadow: 0 0 28px var(--neon-pink); transform: translateY(-2px); color: #fff; }
+.btn-primary.full { width: 100%; text-align: center; }
+.btn-secondary { display: inline-block; padding: 0.7rem 2rem; background: transparent; color: var(--purple-light); border-radius: 50px; font-weight: 700; font-size: 0.95rem; border: 2px solid var(--purple-glow); cursor: pointer; transition: all var(--transition); text-decoration: none; }
+.btn-secondary:hover { background: rgba(155,48,255,0.15); box-shadow: 0 0 16px var(--purple-glow); color: var(--purple-light); }
+.btn-discord { display: inline-block; margin-top: 1rem; padding: 0.6rem 1.4rem; background: linear-gradient(135deg, #5865F2, #7289DA); color: #fff; border-radius: 50px; font-weight: 700; font-size: 0.88rem; transition: box-shadow var(--transition), transform var(--transition); box-shadow: 0 0 12px rgba(88,101,242,0.5); }
+.btn-discord:hover { box-shadow: 0 0 22px rgba(88,101,242,0.8); transform: translateY(-2px); color: #fff; }
+.mt { margin-top: 1rem; }
+
+/* ZONES */
+.zone { padding: 5rem 2rem 4rem; max-width: 1200px; margin: 0 auto; }
+.zone-header { text-align: center; margin-bottom: 2.5rem; }
+.zone-icon { font-size: 2.5rem; display: block; margin-bottom: 0.5rem; filter: drop-shadow(0 0 10px var(--purple-glow)); }
+.zone-header h2 { font-size: 2rem; font-weight: 800; color: var(--purple-light); text-shadow: 0 0 14px var(--purple-glow); margin-bottom: 0.4rem; }
+.zone-header p { color: var(--text-muted); font-size: 0.95rem; }
+.zone-body { background: var(--glass-bg); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 2rem; }
+
+/* ARTIST GRID */
+.artist-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px,1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.artist-card { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; padding: 1rem 0.5rem; background: rgba(106,13,173,0.22); border: 1px solid var(--glass-border); border-radius: var(--radius); cursor: pointer; transition: all var(--transition); text-align: center; font-size: 0.82rem; color: var(--text-muted); }
+.artist-card:hover { border-color: var(--neon-pink); box-shadow: 0 0 16px rgba(255,45,247,0.3); color: var(--text-primary); transform: translateY(-3px); }
+.artist-thumb { font-size: 2rem; width: 54px; height: 54px; display: flex; align-items: center; justify-content: center; background: rgba(106,13,173,0.4); border-radius: 50%; border: 2px solid var(--glass-border); }
+.upload-box { padding: 1rem 1.4rem; background: rgba(155,48,255,0.1); border: 1px dashed var(--purple-glow); border-radius: var(--radius-sm); text-align: center; font-size: 0.9rem; color: var(--text-muted); }
+
+/* GRIDS */
+.room-grid, .games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px,1fr)); gap: 1rem; }
+.room-card, .game-card { padding: 1.2rem; background: rgba(106,13,173,0.22); border: 1px solid var(--glass-border); border-radius: var(--radius); cursor: pointer; font-weight: 600; font-size: 0.9rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.6rem; transition: all var(--transition); }
+.room-card:hover, .game-card:hover { border-color: var(--neon-cyan); box-shadow: 0 0 14px rgba(0,245,255,0.25); color: var(--text-primary); transform: translateY(-2px); }
+.room-card span, .game-card span { font-size: 1.3rem; }
+
+/* COMMUNITY GAMES */
+.community-games { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--glass-border); }
+.community-games h3 { font-size: 1.3rem; color: var(--purple-light); margin-bottom: 0.4rem; }
+.cg-note { font-size: 0.88rem; color: var(--text-muted); margin-bottom: 1.2rem; }
+.cg-grid { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+.cg-card { padding: 0.7rem 1.2rem; background: rgba(88,101,242,0.15); border: 1px solid rgba(88,101,242,0.35); border-radius: 50px; font-weight: 700; font-size: 0.88rem; color: #A5B4FC; display: flex; align-items: center; gap: 0.5rem; transition: all var(--transition); }
+.cg-card:hover { background: rgba(88,101,242,0.3); color: #fff; }
+
+/* WARNING */
+.warning-banner { padding: 0.85rem 1.2rem; background: rgba(255,100,0,0.12); border: 1px solid rgba(255,100,0,0.4); border-radius: var(--radius-sm); color: #FFB347; font-size: 0.88rem; font-weight: 600; margin-bottom: 1.5rem; }
+
+/* EMPTY STATE */
+.empty-state { padding: 2.5rem; text-align: center; color: var(--text-muted); font-size: 1rem; border: 1px dashed var(--glass-border); border-radius: var(--radius); margin-bottom: 1rem; }
+
+/* ABOUT */
+.about-story { max-width: 700px; margin: 0 auto 2.5rem; line-height: 1.9; color: var(--text-muted); font-size: 0.97rem; }
+.about-story p { margin-bottom: 0.9rem; }
+.about-story em { color: var(--purple-light); }
+.founders-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 1.2rem; margin-bottom: 2rem; }
+.founder-card { background: rgba(106,13,173,0.22); border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 1.5rem 1rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; transition: all var(--transition); }
+.founder-card:hover { border-color: var(--purple-glow); box-shadow: 0 0 16px rgba(155,48,255,0.25); transform: translateY(-2px); }
+.founder-avatar { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, var(--purple-brand), var(--purple-glow)); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 0.3rem; box-shadow: 0 0 14px rgba(155,48,255,0.5); }
+.founder-card strong { color: var(--text-primary); font-size: 1rem; }
+.founder-card span { font-size: 0.82rem; color: var(--text-muted); }
+.founder-card a { font-size: 0.8rem; color: var(--purple-light); }
+.badge { display: inline-block; padding: 0.15rem 0.5rem; background: rgba(155,48,255,0.2); border: 1px solid var(--purple-glow); border-radius: 50px; font-size: 0.72rem; color: var(--purple-light); margin-left: 0.3rem; }
+.contact-box { text-align: center; padding: 1.2rem; background: rgba(106,13,173,0.15); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); color: var(--text-muted); font-size: 0.9rem; }
+.contact-box a { color: var(--purple-light); }
+
+/* FOOTER */
+.footer { text-align: center; padding: 2.5rem 1rem; border-top: 1px solid var(--glass-border); background: rgba(13,0,31,0.5); }
+.footer-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+.footer-links a { font-size: 0.88rem; color: var(--text-muted); }
+.footer-links a:hover { color: var(--neon-pink); }
+.footer-copy { font-size: 0.78rem; color: var(--text-muted); }
+
+/* TOAST */
+.toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: rgba(13,0,31,0.92); border: 1px solid var(--purple-glow); border-radius: var(--radius); padding: 0.85rem 1.5rem; color: var(--text-primary); font-size: 0.9rem; z-index: 9999; transition: transform 0.35s ease; backdrop-filter: var(--glass-blur); box-shadow: 0 0 20px rgba(155,48,255,0.4); }
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast a { color: var(--neon-pink); font-weight: 700; }
+
+/* LOGIN PAGE */
+body.login-page { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+.login-wrap { display: flex; width: min(900px,96vw); min-height: 520px; background: var(--glass-bg); backdrop-filter: var(--glass-blur); border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden; box-shadow: 0 0 60px rgba(106,13,173,0.5); }
+.login-left { flex: 1; background: linear-gradient(135deg, var(--purple-deep), var(--purple-rich)); display: flex; align-items: center; justify-content: center; padding: 2rem; border-right: 1px solid var(--glass-border); }
+.login-brand { text-align: center; }
+.login-logo { font-size: 5rem; filter: drop-shadow(0 0 20px var(--purple-glow)); animation: floatY 3s ease-in-out infinite; margin-bottom: 0.5rem; }
+.login-brand h1 { font-size: 2.4rem; font-weight: 900; background: linear-gradient(135deg, var(--purple-light), var(--neon-pink)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.login-brand p { color: var(--text-muted); font-size: 0.9rem; margin-top: 0.3rem; }
+.login-right { flex: 1; display: flex; align-items: center; justify-content: center; padding: 2.5rem; }
+.login-step { display: none; width: 100%; }
+.login-step.active { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+.avatar-circle { width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, var(--purple-brand), var(--purple-glow)); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; cursor: pointer; box-shadow: 0 0 24px var(--purple-glow); transition: all var(--transition); border: 3px solid var(--glass-border); }
+.avatar-circle:hover { box-shadow: 0 0 36px var(--neon-pink); transform: scale(1.06); }
+.step-hint { color: var(--text-muted); font-size: 0.9rem; }
+.login-step h2 { font-size: 1.4rem; color: var(--purple-light); text-align: center; margin-bottom: 0.5rem; }
+form { width: 100%; display: flex; flex-direction: column; gap: 0.75rem; }
+form input { padding: 0.8rem 1rem; background: rgba(106,13,173,0.18); border: 1px solid var(--glass-border); border-radius: var(--radius-sm); color: var(--text-primary); font-size: 0.95rem; outline: none; transition: border-color var(--transition), box-shadow var(--transition); }
+form input::placeholder { color: var(--text-muted); }
+form input:focus { border-color: var(--purple-glow); box-shadow: 0 0 10px rgba(155,48,255,0.3); }
+.switch-link { font-size: 0.83rem; color: var(--text-muted); text-align: center; }
+.switch-link a { color: var(--purple-light); }
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: block; }
+  .nav-links.open { display: flex; flex-direction: column; position: fixed; top: 60px; left: 0; right: 0; bottom: 0; background: rgba(13,0,31,0.97); padding: 1.5rem; z-index: 999; overflow-y: auto; }
+  .nav-links.open .dropdown { display: block; position: static; box-shadow: none; border: none; background: transparent; padding-left: 1rem; }
+  .hero-title { font-size: 2.8rem; }
+  .login-wrap { flex-direction: column; min-height: auto; }
+  .login-left { border-right: none; border-bottom: 1px solid var(--glass-border); padding: 1.5rem; }
+  .zone { padding: 4rem 1rem 2.5rem; }
+}
+</pre></div>
+<div style="page-break-before:always"><div style="background:#6A0DAD;color:#fff;padding:0.6rem 1.2rem;font-family:monospace;font-size:0.9rem;font-weight:700;border-radius:6px 6px 0 0">lunara-script.js</div><pre>/* LUNARA HUB — script.js */
+const SESSION_KEY = &#x27;lunara_user&#x27;;
+function getUser() { try { return JSON.parse(localStorage.getItem(SESSION_KEY)); } catch { return null; } }
+function setUser(u) { localStorage.setItem(SESSION_KEY, JSON.stringify(u)); }
+function logout() { localStorage.removeItem(SESSION_KEY); location.reload(); }
+
+function updateNavAvatar() {
+  const user = getUser();
+  const btn = document.querySelector(&#x27;.btn-login&#x27;);
+  if (!btn) return;
+  if (user) {
+    btn.textContent = user.name ? user.name[0].toUpperCase() : &#x27;👤&#x27;;
+    btn.style.cssText = &#x27;width:38px;height:38px;border-radius:50%;padding:0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;cursor:pointer;background:linear-gradient(135deg,#6A0DAD,#9B30FF);border:none;color:#fff;box-shadow:0 0 14px rgba(155,48,255,0.5);&#x27;;
+    btn.title = user.name || user.email;
+    btn.onclick = function(e) { e.preventDefault(); showProfileMenu(btn); };
+  }
+}
+
+function showProfileMenu(anchor) {
+  const existing = document.getElementById(&#x27;profileMenu&#x27;);
+  if (existing) { existing.remove(); return; }
+  const menu = document.createElement(&#x27;div&#x27;);
+  menu.id = &#x27;profileMenu&#x27;;
+  menu.style.cssText = &#x27;position:fixed;top:60px;right:1.5rem;background:rgba(13,0,31,0.97);border:1px solid rgba(155,48,255,0.4);border-radius:12px;padding:0.6rem 0;min-width:200px;z-index:3000;backdrop-filter:blur(18px);box-shadow:0 8px 32px rgba(106,13,173,0.5);&#x27;;
+  [
+    { label: &#x27;👤 Edit Profile Picture&#x27;, action: editProfilePicture },
+    { label: &#x27;✏️ Edit Name&#x27;, action: editName },
+    { label: &#x27;📞 Contact Developer&#x27;, action: () =&gt; window.open(&#x27;tel:+917676387443&#x27;) },
+    { label: &#x27;🚪 Logout&#x27;, action: logout },
+  ].forEach(item =&gt; {
+    const b = document.createElement(&#x27;button&#x27;);
+    b.textContent = item.label;
+    b.style.cssText = &#x27;display:block;width:100%;padding:0.6rem 1.2rem;background:none;border:none;color:#C084FC;font-size:0.9rem;text-align:left;cursor:pointer;&#x27;;
+    b.onmouseenter = () =&gt; b.style.background = &#x27;rgba(106,13,173,0.3)&#x27;;
+    b.onmouseleave = () =&gt; b.style.background = &#x27;none&#x27;;
+    b.onclick = () =&gt; { menu.remove(); item.action(); };
+    menu.appendChild(b);
+  });
+  document.body.appendChild(menu);
+  setTimeout(() =&gt; document.addEventListener(&#x27;click&#x27;, function h(e) {
+    if (!menu.contains(e.target) &amp;&amp; e.target !== anchor) { menu.remove(); document.removeEventListener(&#x27;click&#x27;, h); }
+  }), 50);
+}
+
+function editProfilePicture() {
+  const input = document.createElement(&#x27;input&#x27;);
+  input.type = &#x27;file&#x27;; input.accept = &#x27;image/*&#x27;;
+  input.onchange = () =&gt; {
+    const file = input.files[0]; if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () =&gt; { const u = getUser() || {}; u.avatar = reader.result; setUser(u); updateNavAvatar(); showToast(&#x27;Profile picture updated!&#x27;); };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}
+
+function editName() {
+  const u = getUser() || {};
+  const n = prompt(&#x27;Enter your new display name:&#x27;, u.name || &#x27;&#x27;);
+  if (n &amp;&amp; n.trim()) { u.name = n.trim(); setUser(u); updateNavAvatar(); showToast(&#x27;Name updated!&#x27;); }
+}
+
+function requireLogin() {
+  if (getUser()) return true;
+  showToast(&#x27;🔒 Please &lt;a href=&quot;login.html&quot;&gt;login&lt;/a&gt; to use this feature.&#x27;);
+  return false;
+}
+
+function showToast(msg) {
+  const t = document.getElementById(&#x27;loginToast&#x27;);
+  if (!t) return;
+  t.innerHTML = msg; t.classList.add(&#x27;show&#x27;);
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() =&gt; t.classList.remove(&#x27;show&#x27;), 3500);
+}
+
+function initHamburger() {
+  const btn = document.getElementById(&#x27;hamburger&#x27;);
+  const links = document.querySelector(&#x27;.nav-links&#x27;);
+  if (btn &amp;&amp; links) btn.addEventListener(&#x27;click&#x27;, () =&gt; links.classList.toggle(&#x27;open&#x27;));
+}
+
+function initSearch() {
+  const toggle = document.getElementById(&#x27;searchToggle&#x27;);
+  const overlay = document.getElementById(&#x27;searchOverlay&#x27;);
+  const close = document.getElementById(&#x27;searchClose&#x27;);
+  const input = document.getElementById(&#x27;searchInput&#x27;);
+  if (!toggle) return;
+  const sections = [
+    { id: &#x27;soundscape&#x27;, label: &#x27;Soundscape Music&#x27; },
+    { id: &#x27;art&#x27;,        label: &#x27;PixelLand Art&#x27; },
+    { id: &#x27;chatrooms&#x27;,  label: &#x27;Chat Rooms&#x27; },
+    { id: &#x27;games&#x27;,      label: &#x27;Tlunara JDM Arcade Games&#x27; },
+    { id: &#x27;marketplace&#x27;,label: &#x27;Moon Cart Marketplace Players&#x27; },
+    { id: &#x27;strategy&#x27;,   label: &#x27;Mainline Tech Strategy VC&#x27; },
+    { id: &#x27;tech&#x27;,       label: &#x27;Oxide Tech Aloxide&#x27; },
+    { id: &#x27;competition&#x27;,label: &#x27;Oxide Competition&#x27; },
+    { id: &#x27;about&#x27;,      label: &#x27;About Lunara&#x27; },
+  ];
+  toggle.addEventListener(&#x27;click&#x27;, () =&gt; { overlay.classList.add(&#x27;active&#x27;); setTimeout(() =&gt; input &amp;&amp; input.focus(), 100); });
+  close &amp;&amp; close.addEventListener(&#x27;click&#x27;, () =&gt; overlay.classList.remove(&#x27;active&#x27;));
+  document.addEventListener(&#x27;keydown&#x27;, e =&gt; {
+    if ((e.ctrlKey || e.metaKey) &amp;&amp; e.key === &#x27;k&#x27;) { e.preventDefault(); overlay.classList.add(&#x27;active&#x27;); setTimeout(() =&gt; input &amp;&amp; input.focus(), 100); }
+    if (e.key === &#x27;Escape&#x27;) overlay.classList.remove(&#x27;active&#x27;);
+  });
+  input &amp;&amp; input.addEventListener(&#x27;keydown&#x27;, e =&gt; {
+    if (e.key === &#x27;Enter&#x27;) {
+      const q = input.value.trim().toLowerCase();
+      const match = sections.find(s =&gt; s.label.toLowerCase().includes(q) || s.id.includes(q));
+      if (match) { overlay.classList.remove(&#x27;active&#x27;); document.getElementById(match.id)?.scrollIntoView({ behavior: &#x27;smooth&#x27; }); }
+      else showToast(&#x27;Section not found: &#x27; + input.value);
+    }
+  });
+}
+
+function initCountdown() {
+  const el = document.getElementById(&#x27;countdown&#x27;);
+  if (!el) return;
+  function update() {
+    const now = new Date(), next = new Date(now);
+    next.setHours(24,0,0,0);
+    const d = next - now;
+    const h = Math.floor(d/3600000), m = Math.floor((d%3600000)/60000), s = Math.floor((d%60000)/1000);
+    el.textContent = `${String(h).padStart(2,&#x27;0&#x27;)}:${String(m).padStart(2,&#x27;0&#x27;)}:${String(s).padStart(2,&#x27;0&#x27;)}`;
+  }
+  update(); setInterval(update, 1000);
+}
+
+function initNavScroll() {
+  const nav = document.getElementById(&#x27;navbar&#x27;);
+  if (!nav) return;
+  window.addEventListener(&#x27;scroll&#x27;, () =&gt; {
+    nav.style.background = window.scrollY &gt; 10 ? &#x27;rgba(13,0,31,0.92)&#x27; : &#x27;rgba(13,0,31,0.7)&#x27;;
+  });
+}
+
+function goStep(id) {
+  document.querySelectorAll(&#x27;.login-step&#x27;).forEach(el =&gt; el.classList.remove(&#x27;active&#x27;));
+  document.getElementById(id)?.classList.add(&#x27;active&#x27;);
+}
+
+function initLoginPage() {
+  const picker = document.getElementById(&#x27;avatarPickerBtn&#x27;);
+  if (picker) picker.addEventListener(&#x27;click&#x27;, () =&gt; goStep(&#x27;step-signin&#x27;));
+  const signinForm = document.getElementById(&#x27;signinForm&#x27;);
+  if (signinForm) signinForm.addEventListener(&#x27;submit&#x27;, e =&gt; {
+    e.preventDefault();
+    const email = document.getElementById(&#x27;signinEmail&#x27;).value.trim();
+    const pass = document.getElementById(&#x27;signinPassword&#x27;).value;
+    const users = JSON.parse(localStorage.getItem(&#x27;lunara_users&#x27;) || &#x27;[]&#x27;);
+    const user = users.find(u =&gt; u.email === email &amp;&amp; u.password === pass);
+    if (user) { setUser(user); window.location.href = &#x27;lunara-site.html&#x27;; }
+    else alert(&#x27;Incorrect email or password. Please register first.&#x27;);
+  });
+  const regForm = document.getElementById(&#x27;registerForm&#x27;);
+  if (regForm) regForm.addEventListener(&#x27;submit&#x27;, e =&gt; {
+    e.preventDefault();
+    const name = document.getElementById(&#x27;regName&#x27;).value.trim();
+    const email = document.getElementById(&#x27;regEmail&#x27;).value.trim();
+    const pass = document.getElementById(&#x27;regPassword&#x27;).value;
+    const users = JSON.parse(localStorage.getItem(&#x27;lunara_users&#x27;) || &#x27;[]&#x27;);
+    if (users.find(u =&gt; u.email === email)) { alert(&#x27;Account exists. Please sign in.&#x27;); return; }
+    const newUser = { name, email, password: pass, isAdmin: email === &#x27;katariavianyt45@gmail.com&#x27;, createdAt: Date.now() };
+    users.push(newUser);
+    localStorage.setItem(&#x27;lunara_users&#x27;, JSON.stringify(users));
+    setUser(newUser);
+    window.location.href = &#x27;lunara-site.html&#x27;;
+  });
+}
+
+document.addEventListener(&#x27;DOMContentLoaded&#x27;, () =&gt; {
+  updateNavAvatar();
+  initHamburger();
+  initSearch();
+  initCountdown();
+  initNavScroll();
+  initLoginPage();
+});
+</pre></div>
+
+
+<div class="wrap">
+<h2>Deploy</h2>
+<table>
+<tr><th>Platform</th><th>Steps</th></tr>
+<tr><td>Netlify</td><td>netlify.com &rarr; Add site &rarr; Deploy manually &rarr; drag folder</td></tr>
+<tr><td>GitHub Pages</td><td>Create repo &rarr; upload files &rarr; Settings &rarr; Pages &rarr; main branch</td></tr>
+<tr><td>Vercel</td><td>vercel.com &rarr; New Project &rarr; import repo (no build config needed)</td></tr>
+<tr><td>cPanel</td><td>File Manager &rarr; public_html &rarr; upload 4 files</td></tr>
+<tr><td>Local</td><td>Open lunara-site.html in Chrome directly</td></tr>
+</table>
+
+<h2>Customise</h2>
+<table>
+<tr><th>What</th><th>File + How</th></tr>
+<tr><td>Brand name</td><td>lunara-site.html: find/replace "Lunara"</td></tr>
+<tr><td>Colours</td><td>lunara-style.css: :root variables at top</td></tr>
+<tr><td>Nav items</td><td>lunara-site.html: ul.nav-links block</td></tr>
+<tr><td>Artists</td><td>lunara-site.html: div.artist-grid</td></tr>
+<tr><td>Games</td><td>lunara-site.html: div.games-grid</td></tr>
+<tr><td>Community Games</td><td>lunara-site.html: div.cg-grid</td></tr>
+<tr><td>Admin email</td><td>lunara-script.js: find katariavianyt45@gmail.com</td></tr>
+<tr><td>Discord link</td><td>lunara-site.html: find discord.gg/X7xuEdE3D6</td></tr>
+<tr><td>Founders</td><td>lunara-site.html: div.founders-grid</td></tr>
+<tr><td>Dev phone</td><td>lunara-script.js: find tel:+917676387443</td></tr>
+</table>
+</div>
+
+</body>
+</html>

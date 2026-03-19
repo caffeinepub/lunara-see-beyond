@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Lunara Hub — Full Codebase Export</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   LUNARA EXPORT — Print-friendly document styles
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 14px; }
+
+body {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background: #fff;
+  color: #1a1a2e;
+  line-height: 1.6;
+}
+
+a { color: #6A0DAD; }
+
+/* COVER PAGE */
+.cover {
+  background: linear-gradient(135deg, #0D001F 0%, #24003D 50%, #4B0082 100%);
+  color: #F0E6FF;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  page-break-after: always;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.cover-moon { font-size: 6rem; margin-bottom: 1.5rem; }
+
+.cover-title {
+  font-size: 4rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #C084FC, #00F5FF);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.cover-tagline {
+  font-size: 1.25rem;
+  color: #B89FD8;
+  margin-bottom: 3rem;
+}
+
+.cover-meta {
+  background: rgba(155,48,255,0.18);
+  border: 1px solid rgba(155,48,255,0.4);
+  border-radius: 12px;
+  padding: 1.5rem 2rem;
+  text-align: left;
+  min-width: 320px;
+  max-width: 480px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.cover-meta h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: #9B30FF; margin-bottom: 1rem; font-weight: 700; }
+
+.cover-meta ul { list-style: none; }
+
+.cover-meta li {
+  padding: 0.4rem 0;
+  font-size: 0.9rem;
+  color: #C084FC;
+  border-bottom: 1px solid rgba(155,48,255,0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cover-meta li:last-child { border-bottom: none; }
+
+/* DOCUMENT BODY */
+.doc { max-width: 900px; margin: 0 auto; padding: 3rem 2rem; }
+
+.page-break { page-break-before: always; }
+
+h1.doc-h1 {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #4B0082;
+  border-bottom: 3px solid #6A0DAD;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  margin-top: 3rem;
+}
+
+h2.doc-h2 {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #4B0082;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding-left: 0.75rem;
+  border-left: 4px solid #9B30FF;
+}
+
+h3.doc-h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #6A0DAD;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+p.doc-p {
+  color: #333;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+/* TOC */
+.toc {
+  background: #f9f4ff;
+  border: 1px solid #ddd0f5;
+  border-radius: 10px;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+}
+
+.toc h2 { font-size: 1rem; font-weight: 700; color: #4B0082; margin-bottom: 1rem; }
+
+.toc ol { padding-left: 1.25rem; }
+
+.toc li {
+  margin-bottom: 0.35rem;
+  font-size: 0.875rem;
+}
+
+.toc a { color: #6A0DAD; text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+
+/* TABLES */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+}
+
+thead tr {
+  background: #4B0082;
+  color: #fff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+th {
+  padding: 0.6rem 0.9rem;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.03em;
+}
+
+td {
+  padding: 0.55rem 0.9rem;
+  border-bottom: 1px solid #e8dff5;
+  color: #333;
+  vertical-align: top;
+}
+
+tr:nth-child(even) td { background: #f9f4ff; }
+
+/* UI description boxes */
+.ui-box {
+  border-left: 4px solid #9B30FF;
+  background: #f9f4ff;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  border-radius: 0 8px 8px 0;
+}
+
+.ui-box h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #4B0082;
+  margin-bottom: 0.4rem;
+}
+
+.ui-box p, .ui-box ul {
+  font-size: 0.85rem;
+  color: #444;
+  margin: 0;
+}
+
+.ui-box ul { padding-left: 1.25rem; margin-top: 0.35rem; }
+.ui-box li { margin-bottom: 0.2rem; }
+
+/* File tree */
+.file-tree {
+  background: #0f0f1a;
+  color: #C084FC;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.85rem;
+  padding: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+/* Code blocks */
+.code-file {
+  margin-bottom: 3rem;
+}
+
+.code-filename {
+  background: #4B0082;
+  color: #fff;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px 8px 0 0;
+  font-weight: 600;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+pre.code-block {
+  background: #0f0f1a;
+  color: #C084FC;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.78rem;
+  padding: 1.5rem 1.25rem;
+  overflow-x: auto;
+  border-radius: 0 0 8px 8px;
+  line-height: 1.65;
+  counter-reset: line;
+  white-space: pre;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  border: 1px solid #2d0060;
+  border-top: none;
+}
+
+pre.code-block .ln {
+  display: inline-block;
+  width: 2.5em;
+  color: #4a3070;
+  text-align: right;
+  margin-right: 1em;
+  user-select: none;
+  font-size: 0.75em;
+}
+
+/* Deploy table */
+.deploy-table td:first-child { font-weight: 600; color: #4B0082; }
+
+/* How to customise */
+.custom-table td:first-child { font-weight: 600; color: #333; }
+.custom-table td:last-child { font-family: 'Fira Code', monospace; font-size: 0.8rem; color: #6A0DAD; }
+
+/* PRINT */
+@media print {
+  .cover {
+    background: linear-gradient(135deg, #0D001F 0%, #24003D 50%, #4B0082 100%) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  thead tr { background: #4B0082 !important; }
+  pre.code-block { background: #0f0f1a !important; color: #C084FC !important; }
+  .code-filename { background: #4B0082 !important; }
+  .file-tree { background: #0f0f1a !important; color: #C084FC !important; }
+  a { color: #6A0DAD; }
+  body { font-size: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ COVER ═══════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-moon">🌙</div>
+  <div class="cover-title">Lunara Hub</div>
+  <div class="cover-tagline">See Beyond. Build Forward.</div>
+  <div class="cover-meta">
+    <h3>Files Included in This Export</h3>
+    <ul>
+      <li>📄 index.html &mdash; Main site (all zones)</li>
+      <li>📄 login.html &mdash; Chrome-style 3-step login page</li>
+      <li>🎨 style.css &mdash; Full purple neon/glass theme</li>
+      <li>⚡ script.js &mdash; All vanilla JS functionality</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══ DOCUMENT BODY ════════════════════════════════════════ -->
+<div class="doc">
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc" id="toc">
+  <h2>🗒️ Table of Contents</h2>
+  <ol>
+    <li><a href="#spec">Site Specification</a></li>
+    <li><a href="#structure">File Structure</a></li>
+    <li><a href="#ui-overview">UI Overview</a></li>
+    <li><a href="#code-index">Code: index.html</a></li>
+    <li><a href="#code-login">Code: login.html</a></li>
+    <li><a href="#code-css">Code: style.css</a></li>
+    <li><a href="#code-js">Code: script.js</a></li>
+    <li><a href="#deploy">How to Deploy</a></li>
+    <li><a href="#customise">How to Customise</a></li>
+  </ol>
+</div>
+
+<!-- 1. SPEC -->
+<h1 class="doc-h1" id="spec">1. Site Specification</h1>
+
+<h2 class="doc-h2">Zone Map</h2>
+<table>
+  <thead>
+    <tr><th>Nav Label</th><th>Zone Name</th><th>Key Features</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>🎵 Music</td><td>Soundscape Sanctuary</td><td>9 artist cards, music upload (login-gated), live countdown</td></tr>
+    <tr><td>🎨 Art</td><td>PixelLand</td><td>User-submitted art gallery, empty state until first upload</td></tr>
+    <tr><td>💬 Chat Rooms</td><td>General Chat Rooms</td><td>Global, Private, Grade-Specific, Study Groups with timer</td></tr>
+    <tr><td>🎮 Games</td><td>Tlunara JDM Arcade</td><td>8 games, dual leaderboard, Community Games pills + Discord</td></tr>
+    <tr><td>🛒 Players</td><td>Moon Cart</td><td>Second-hand marketplace, risk warning, empty until listed</td></tr>
+    <tr><td>🧠 Strategy VC</td><td>Mainline Tech</td><td>3 voice-channel room cards (Wild Gang, Strategy, Global Stage)</td></tr>
+    <tr><td>💻 Tech</td><td>Oxide</td><td>3 chatrooms: Doubts, Help, Regular Chat</td></tr>
+    <tr><td>🏆 Competition</td><td>Oxide Competition</td><td>Admin-only events, empty state + Discord CTA</td></tr>
+  </tbody>
+</table>
+
+<h2 class="doc-h2">Global Features</h2>
+<table>
+  <thead>
+    <tr><th>Feature</th><th>Details</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Authentication</td><td>3-step login page: avatar picker &rarr; sign in &rarr; register. Sessions via localStorage. Admin: katariavianyt45@gmail.com</td></tr>
+    <tr><td>Profile Menu</td><td>Circular avatar top-right; Edit Profile Picture, Edit Name, Contact Developer (tel:+917676387443), Logout</td></tr>
+    <tr><td>Global Search</td><td>Ctrl+K overlay; pill navigation to all 9 sections</td></tr>
+    <tr><td>Countdown Timer</td><td>Live HH:MM:SS countdown to midnight in hero stats</td></tr>
+    <tr><td>Frosted Glass Navbar</td><td>Fixed, backdrop-filter, scrolled state darkens background; 8 nav items with dropdowns</td></tr>
+    <tr><td>Responsive</td><td>Hamburger menu at 768px; stacked grids at 480px; login page hides left panel on mobile</td></tr>
+    <tr><td>Toast Notifications</td><td>showToast(msg) — 3-second auto-dismiss fixed bottom center</td></tr>
+    <tr><td>Theme</td><td>iOS-style frosted glass; purple palette #0D001F &rarr; #4B0082 &rarr; #9B30FF; neon pink/cyan accents</td></tr>
+  </tbody>
+</table>
+
+<!-- 2. FILE STRUCTURE -->
+<h1 class="doc-h1 page-break" id="structure">2. File Structure</h1>
+
+<div class="file-tree">
+lunara-hub/
+├── index.html       &lt;-- Main site (all zones, one page)
+├── login.html       &lt;-- Standalone Chrome-style login
+├── style.css        &lt;-- All styles (no framework)
+└── script.js        &lt;-- All JS (vanilla, no deps)
+
+Optional assets you can add:
+assets/
+├── logo.png         &lt;-- Replace moon emoji with real logo
+└── og-image.png     &lt;-- Open Graph preview image
+</div>
+
+<p class="doc-p">All four files are self-contained. No build step, no npm, no framework. Just drop them into any static host and open <code>index.html</code>.</p>
+
+<!-- 3. UI OVERVIEW -->
+<h1 class="doc-h1 page-break" id="ui-overview">3. UI Overview</h1>
+
+<div class="ui-box">
+  <h4>🔵 Navbar (fixed, frosted glass)</h4>
+  <ul>
+    <li>Left: "🌙 Lunara" logo linking to hero</li>
+    <li>Center: 8 nav items, each with a dropdown sub-link</li>
+    <li>Right: search icon (🔍), Login button (pre-login) or circular avatar (post-login), hamburger (&le;768px)</li>
+    <li>On scroll: background darkens to 88% opacity</li>
+  </ul>
+</div>
+
+<div class="ui-box">
+  <h4>🌟 Hero Section</h4>
+  <ul>
+    <li>Full-viewport centered layout; radial purple glow behind content</li>
+    <li>Floating moon emoji (CSS floatY animation), gradient &ldquo;Lunara&rdquo; title (purple &rarr; cyan &rarr; pink)</li>
+    <li>Tagline, two CTA buttons (Explore &amp; Login), three stats (countdown / 9 zones / &infin;)</li>
+  </ul>
+</div>
+
+<div class="ui-box">
+  <h4>🎵 Soundscape Sanctuary</h4>
+  <ul>
+    <li>9-column auto-fill grid of artist cards (circular emoji avatar, name, genre)</li>
+    <li>Artists: Tame Impala, Drake, Pink Floyd, Michael Jackson, Au5, Sabrina Carpenter, Dua Lipa, Sheryl Crow, Tate McRae</li>
+    <li>Dashed upload box below grid; upload button gated behind login</li>
+  </ul>
+</div>
+
+<div class="ui-box">
+  <h4>🎨 PixelLand</h4>
+  <ul>
+    <li>Dashed empty-state box: &ldquo;No art uploaded yet — Be the first!&rdquo;</li>
+    <li>&ldquo;Add Your Art&rdquo; button triggers file input (login-gated)</li>
+    <li>Gallery populates with real uploads only</li>
+  </ul>
+</div>
+
+<div class="ui-box">
+  <h4>💬 Chat Rooms</h4>
+  <ul>
+    <li>4-card grid: Global Chat, Private Rooms, Grade-Specific, Study Groups</li>
+    <li>Study Groups sub-section below with empty state and &ldquo;Make a Study Room&rdquo; button</li>
+    <li>Study room creation: prompt series (name, duration, breaks, interval) &rarr; toast confirmation</li>
+  </ul>
+</div>
+
+<div class="ui-box">
+  <h4>🎮 Tlunara JDM Arcade</h4>
+  <ul>
+    <li>8-card game grid: Tic-Tac-Toe, Chess, Sudoku, Hand Cricket, Ludo, 2D Car Racing, Truth or Dare, Roast Battle</li>
+    <li>Leaderboard card below grid: &ldquo;Be the first on the leaderboard&rdquo;</li>
+    <li>Community Games sub-section: 5 game pills + Join Discord button</li>
+  </ul>
+</div>
+
+<div class="ui-box">
+  <h4>🛒 Moon Cart</h4>
+  <ul>
+    <li>Orange risk-warning banner at top</li>
+    <li>Dashed empty state: &ldquo;No listings yet — Be the first!&rdquo;</li>
+    <li>&ldquo;List an Item&rdquo; button (login-gated)</li>
+  </ul>
+</div>
+
+<div class="ui-box">
+  <h4>🧠 Mainline Tech</h4>
+  <ul>
+    <li>3-card grid: Wild Gang Voice, Strategy Room, Global Stage</li>
+    <li>All cards require login to access</li>
+  </ul>
+</div>
+
+<div class="ui-box">
+  <h4>💻 Oxide</h4>
+  <ul>
+    <li>3-card grid: Doubts, Help, Regular Chat</li>
+    <li>All cards require login</li>
+  </ul>
+</div>
+
+<div class="ui-box">
+  <h4>🏆 Oxide Competition</h4>
+  <ul>
+    <li>Empty state: &ldquo;No competitions yet&rdquo; + Join Discord CTA button</li>
+    <li>Admin controls events; section starts empty</li>
+  </ul>
+</div>
+
+<div class="ui-box">
+  <h4>🌙 About</h4>
+  <ul>
+    <li>Story text paragraphs (Lunara origin story)</li>
+    <li>3 founder cards: Arthur (links to Instagram), Abhi, Luther (Supporter badge)</li>
+    <li>Contact box: email link to katariavianyt45@gmail.com</li>
+  </ul>
+</div>
+
+<div class="ui-box">
+  <h4>🔐 Login Page (login.html)</h4>
+  <ul>
+    <li>Two-column layout: left panel (purple gradient, floating moon, title/tagline) + right panel (step forms)</li>
+    <li>Step 1 — Avatar Picker: big clickable moon circle, welcome text, register link</li>
+    <li>Step 2 — Sign In: email + password form; validates against localStorage users array</li>
+    <li>Step 3 — Register: name + email + password; grants admin for katariavianyt45@gmail.com</li>
+    <li>goStep(id) function animates between steps; sessions persist via SESSION_KEY</li>
+  </ul>
+</div>
+
+<!-- 4. CODE FILES -->
+<h1 class="doc-h1 page-break" id="code-index">4. Code: index.html</h1>
+<p class="doc-p">The complete single-page main site. All zones on one scrollable page. No server required.</p>
+
+<div class="code-file">
+  <div class="code-filename">📄 index.html</div>
+  <pre class="code-block" id="pre-index"></pre>
+</div>
+
+<h1 class="doc-h1 page-break" id="code-login">5. Code: login.html</h1>
+<p class="doc-p">Standalone login page. Open directly or link from the main site Login button.</p>
+
+<div class="code-file">
+  <div class="code-filename">📄 login.html</div>
+  <pre class="code-block" id="pre-login"></pre>
+</div>
+
+<h1 class="doc-h1 page-break" id="code-css">6. Code: style.css</h1>
+<p class="doc-p">All styles in one file. CSS custom properties at the top for easy theming.</p>
+
+<div class="code-file">
+  <div class="code-filename">🎨 style.css</div>
+  <pre class="code-block" id="pre-css"></pre>
+</div>
+
+<h1 class="doc-h1 page-break" id="code-js">7. Code: script.js</h1>
+<p class="doc-p">Pure vanilla JS. No imports, no npm. Drop into any project.</p>
+
+<div class="code-file">
+  <div class="code-filename">⚡ script.js</div>
+  <pre class="code-block" id="pre-js"></pre>
+</div>
+
+<!-- 8. DEPLOY -->
+<h1 class="doc-h1 page-break" id="deploy">8. How to Deploy</h1>
+
+<table class="deploy-table">
+  <thead><tr><th>Platform</th><th>Steps</th><th>Cost</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>Netlify</td>
+      <td>Drag &amp; drop the folder onto netlify.com/drop &mdash; instant live URL</td>
+      <td>Free</td>
+    </tr>
+    <tr>
+      <td>GitHub Pages</td>
+      <td>Push folder to a repo &rarr; Settings &rarr; Pages &rarr; Deploy from main branch root</td>
+      <td>Free</td>
+    </tr>
+    <tr>
+      <td>Vercel</td>
+      <td>Run <code>vercel</code> in the folder, or connect GitHub repo &mdash; auto-detects static</td>
+      <td>Free</td>
+    </tr>
+    <tr>
+      <td>cPanel / Shared Host</td>
+      <td>Upload all files to <code>public_html/</code> via File Manager or FTP</td>
+      <td>Paid hosting</td>
+    </tr>
+    <tr>
+      <td>Local / Testing</td>
+      <td>Open <code>index.html</code> directly in browser OR run <code>npx serve .</code> in the folder</td>
+      <td>Free</td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="doc-p"><strong>Note:</strong> All data (users, sessions) is stored in the browser&rsquo;s localStorage. For a real backend with persistent data across devices, you would need to add a server (Node.js/Firebase/Supabase) and replace the localStorage calls in script.js.</p>
+
+<!-- 9. CUSTOMISE -->
+<h1 class="doc-h1" id="customise">9. How to Customise</h1>
+
+<table class="custom-table">
+  <thead><tr><th>What to Change</th><th>Where</th></tr></thead>
+  <tbody>
+    <tr><td>Brand colours</td><td>style.css &mdash; edit :root CSS variables (--purple-brand, --purple-glow, etc.)</td></tr>
+    <tr><td>Site name / tagline</td><td>index.html &mdash; .nav-logo, .hero-title, .hero-tagline, &lt;title&gt;, footer-copy</td></tr>
+    <tr><td>Admin email</td><td>script.js &mdash; ADMIN_EMAIL constant (line ~6)</td></tr>
+    <tr><td>Discord link</td><td>index.html &mdash; all href="https://discord.gg/X7xuEdE3D6" occurrences</td></tr>
+    <tr><td>Artist list</td><td>index.html &mdash; .artist-grid section; add/remove .artist-card divs</td></tr>
+    <tr><td>Game list</td><td>index.html &mdash; .games-grid section; add/remove .game-card divs</td></tr>
+    <tr><td>Founders</td><td>index.html &mdash; .founders-grid section; update names, lines, badges</td></tr>
+    <tr><td>Contact email</td><td>index.html &mdash; .contact-box anchor href and text; also about section</td></tr>
+    <tr><td>Logo (replace moon emoji)</td><td>index.html &mdash; .hero-moon, .nav-logo; replace emoji with &lt;img src="assets/logo.png"&gt;</td></tr>
+    <tr><td>Fonts</td><td>style.css &mdash; font-family in body rule; update Google Fonts link in &lt;head&gt;</td></tr>
+    <tr><td>Add a new zone</td><td>1) Add &lt;section id="myzone"&gt; in index.html. 2) Add .nav-item + .dropdown in navbar. 3) Add to sections array in initSearch() in script.js.</td></tr>
+  </tbody>
+</table>
+
+<br />
+<p class="doc-p" style="text-align:center;color:#9B30FF;font-weight:700;margin-top:2rem">🌙 Lunara Hub — See Beyond. Build Forward.</p>
+<p class="doc-p" style="text-align:center;color:#888;font-size:0.8rem">Generated export document &mdash; all code above is ready to copy, edit, and deploy.</p>
+
+</div><!-- /doc -->
+
+<script>
+// Inline the sibling files from the same folder so the export doc is self-contained.
+// We fetch the files relative to this document and inject them as line-numbered code.
+(function() {
+  var files = [
+    { id: 'pre-index', url: 'index.html' },
+    { id: 'pre-login', url: 'login.html' },
+    { id: 'pre-css',   url: 'style.css'  },
+    { id: 'pre-js',    url: 'script.js'  }
+  ];
+
+  files.forEach(function(f) {
+    var pre = document.getElementById(f.id);
+    if (!pre) return;
+
+    fetch(f.url)
+      .then(function(r) { return r.text(); })
+      .then(function(text) {
+        // Escape HTML entities
+        var escaped = text
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+
+        // Add line numbers as spans
+        var lines = escaped.split('\n');
+        var numbered = lines.map(function(line, i) {
+          return '<span class="ln">' + String(i + 1).padStart(4, ' ') + '</span>' + line;
+        }).join('\n');
+
+        pre.innerHTML = numbered;
+      })
+      .catch(function() {
+        pre.textContent = '// Could not load ' + f.url + ' \u2014 open this file from a local server (npx serve .) or deploy to a host.';
+      });
+  });
+})();
+</script>
+
+</body>
+</html>

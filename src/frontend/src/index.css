@@ -1,0 +1,250 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.75rem;
+
+    /* ── Lunara Dark Purple Theme ── */
+    --background: 0.06 0.025 302;
+    --foreground: 0.96 0.01 302;
+
+    /* Card/surface: very subtle glass-like */
+    --card: 0.1 0.03 302;
+    --card-foreground: 0.96 0.01 302;
+
+    --popover: 0.1 0.03 302;
+    --popover-foreground: 0.96 0.01 302;
+
+    /* Primary: vivid purple */
+    --primary: 0.37 0.24 302;
+    --primary-foreground: 1 0 0;
+
+    /* Secondary: medium dark purple */
+    --secondary: 0.12 0.04 302;
+    --secondary-foreground: 0.96 0.01 302;
+
+    /* Muted: dark purple variant */
+    --muted: 0.11 0.035 302;
+    --muted-foreground: 0.65 0.04 302;
+
+    /* Accent: vivid purple */
+    --accent: 0.37 0.24 302;
+    --accent-foreground: 1 0 0;
+
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+
+    --border: 0.22 0.04 302;
+    --input: 0.2 0.04 302;
+    --ring: 0.37 0.24 302;
+
+    /* Custom Lunara tokens */
+    --lunara-gold: 0.8 0.14 85;
+    --lunara-navy: 0.16 0.07 302;
+    --lunara-navy-deep: 0.08 0.03 302;
+    --lunara-beige: 0.14 0.05 302;
+    --lunara-soundscape: 0.38 0.2 285;
+    --lunara-devden: 0.34 0.18 310;
+    --lunara-artistic: 0.4 0.22 320;
+    --lunara-gold-vivid: 0.75 0.18 85;
+
+    --chart-1: 0.37 0.24 302;
+    --chart-2: 0.34 0.18 310;
+    --chart-3: 0.4 0.22 320;
+    --chart-4: 0.38 0.2 285;
+    --chart-5: 0.65 0.14 302;
+
+    --sidebar: 0.12 0.05 302;
+    --sidebar-foreground: 0.96 0.01 302;
+    --sidebar-primary: 0.37 0.24 302;
+    --sidebar-primary-foreground: 1 0 0;
+    --sidebar-accent: 0.16 0.06 302;
+    --sidebar-accent-foreground: 0.96 0.01 302;
+    --sidebar-border: 0.2 0.06 302;
+    --sidebar-ring: 0.37 0.24 302;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-poppins;
+    font-feature-settings: "kern" 1, "liga" 1;
+    background: linear-gradient(
+      160deg,
+      #0d001f 0%,
+      #1a0030 40%,
+      #24003d 70%,
+      #330055 100%
+    );
+    min-height: 100vh;
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-poppins font-bold;
+  }
+}
+
+@layer utilities {
+  /* ── Liquid Glass System ── */
+  .glass {
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(32px) saturate(200%);
+    -webkit-backdrop-filter: blur(32px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.11);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16), 0 8px 32px
+      rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .glass-card:hover {
+    background: rgba(255, 255, 255, 0.11);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 12px 40px
+      rgba(0, 0, 0, 0.45), 0 0 24px rgba(106, 13, 173, 0.15);
+  }
+
+  .glass-strong {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(40px) saturate(220%);
+    -webkit-backdrop-filter: blur(40px) saturate(220%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 12px 48px
+      rgba(0, 0, 0, 0.5);
+  }
+
+  .glass-nav {
+    background: rgba(13, 0, 31, 0.55);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.05), 0 4px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .glass-button {
+    background: rgba(106, 13, 173, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 4px 16px
+      rgba(106, 13, 173, 0.35);
+  }
+
+  .glass-outline {
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .glass-pill {
+    background: rgba(255, 255, 255, 0.09);
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  }
+
+  .glass-modal {
+    background: rgba(20, 0, 40, 0.8);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 20px 60px
+      rgba(0, 0, 0, 0.6);
+  }
+
+  .glass-section {
+    background: rgba(13, 0, 31, 0.5);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .text-gold {
+    color: oklch(var(--lunara-gold));
+  }
+  .bg-gold {
+    background-color: oklch(var(--lunara-gold));
+  }
+  .bg-lunara-gold {
+    background-color: oklch(var(--lunara-gold-vivid));
+  }
+  .bg-navy {
+    background-color: oklch(var(--lunara-navy));
+  }
+  .bg-navy-deep {
+    background-color: oklch(var(--lunara-navy-deep));
+  }
+  .bg-beige {
+    background-color: oklch(var(--lunara-beige));
+  }
+  .bg-soundscape {
+    background-color: oklch(var(--lunara-soundscape));
+  }
+  .bg-lunara-soundscape {
+    background-color: oklch(var(--lunara-soundscape));
+  }
+  .bg-devden {
+    background-color: oklch(var(--lunara-devden));
+  }
+  .bg-lunara-devden {
+    background-color: oklch(var(--lunara-devden));
+  }
+  .bg-artistic {
+    background-color: oklch(var(--lunara-artistic));
+  }
+  .bg-lunara-artistic {
+    background-color: oklch(var(--lunara-artistic));
+  }
+  .text-navy {
+    color: oklch(var(--lunara-navy));
+  }
+  .border-gold {
+    border-color: oklch(var(--lunara-gold));
+  }
+  .gradient-hero {
+    background: linear-gradient(160deg, #0d001f 0%, #24003d 55%, #4b0082 100%);
+  }
+  .gradient-soundscape {
+    background: linear-gradient(
+      135deg,
+      oklch(0.16 0.08 285) 0%,
+      oklch(0.36 0.2 280) 100%
+    );
+  }
+  .gradient-devden {
+    background: linear-gradient(
+      135deg,
+      oklch(0.14 0.07 310) 0%,
+      oklch(0.34 0.18 315) 100%
+    );
+  }
+  .gradient-artistic {
+    background: linear-gradient(
+      135deg,
+      oklch(0.16 0.09 318) 0%,
+      oklch(0.4 0.22 322) 100%
+    );
+  }
+  .shadow-card {
+    box-shadow: 0 4px 24px oklch(0.07 0.04 302 / 0.5);
+  }
+  .shadow-hero {
+    box-shadow: 0 8px 40px oklch(0.37 0.24 302 / 0.35);
+  }
+}
