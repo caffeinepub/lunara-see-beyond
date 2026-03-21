@@ -23,4 +23,5 @@ export enum Zone {
 export interface backendInterface {
     addPost(title: string, content: string, zone: Zone, author: string): Promise<void>;
     getAllPosts(): Promise<Array<Post>>;
+    _initializeAccessControlWithSecret(secret: string): Promise<void>;
 }

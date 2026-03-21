@@ -248,3 +248,468 @@
     box-shadow: 0 8px 40px oklch(0.37 0.24 302 / 0.35);
   }
 }
+
+/* ── Light Mode ── */
+.light-mode {
+  --background: 0.97 0.015 302;
+  --foreground: 0.12 0.06 302;
+  --card: 0.98 0.01 302;
+  --card-foreground: 0.12 0.06 302;
+  --popover: 0.96 0.02 302;
+  --popover-foreground: 0.12 0.06 302;
+  --primary: 0.37 0.24 302;
+  --primary-foreground: 1 0 0;
+  --secondary: 0.92 0.04 302;
+  --secondary-foreground: 0.12 0.06 302;
+  --muted: 0.93 0.03 302;
+  --muted-foreground: 0.45 0.06 302;
+  --accent: 0.37 0.24 302;
+  --accent-foreground: 1 0 0;
+  --border: 0.82 0.06 302;
+  --input: 0.88 0.04 302;
+  --ring: 0.37 0.24 302;
+}
+
+.light-mode body {
+  background: linear-gradient(
+    160deg,
+    #f5f0ff 0%,
+    #ede8ff 40%,
+    #e0d5ff 70%,
+    #d5c8ff 100%
+  );
+  color: #1a0035;
+}
+
+.light-mode .glass {
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(106, 13, 173, 0.15);
+}
+
+.light-mode .glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(106, 13, 173, 0.12);
+  box-shadow: 0 4px 24px rgba(106, 13, 173, 0.08), 0 1px 2px
+    rgba(106, 13, 173, 0.06);
+}
+
+.light-mode .glass-card:hover {
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 8px 32px rgba(106, 13, 173, 0.14), 0 0 24px
+    rgba(106, 13, 173, 0.08);
+}
+
+.light-mode .glass-nav {
+  background: rgba(245, 240, 255, 0.92);
+  border-bottom: 1px solid rgba(106, 13, 173, 0.12);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8), 0 4px 24px
+    rgba(106, 13, 173, 0.06);
+}
+
+.light-mode .glass-modal {
+  background: rgba(248, 244, 255, 0.97);
+  border: 1px solid rgba(106, 13, 173, 0.15);
+  box-shadow: 0 20px 60px rgba(106, 13, 173, 0.15);
+}
+
+.light-mode .glass-strong {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(106, 13, 173, 0.18);
+}
+
+.light-mode .glass-pill {
+  background: rgba(106, 13, 173, 0.1);
+  border: 1px solid rgba(106, 13, 173, 0.2);
+}
+
+.light-mode .glass-outline {
+  background: rgba(106, 13, 173, 0.06);
+  border: 1px solid rgba(106, 13, 173, 0.2);
+}
+
+.light-mode .glass-button {
+  background: rgba(106, 13, 173, 0.75);
+  border: 1px solid rgba(106, 13, 173, 0.4);
+  color: white;
+}
+
+.light-mode .glass-section {
+  background: rgba(237, 232, 255, 0.65);
+}
+
+/* ── Light Mode: LunaChat sidebar ── */
+.light-mode .lunachat-sidebar {
+  background: rgba(237, 232, 255, 0.85) !important;
+  border-right: 1px solid rgba(106, 13, 173, 0.12) !important;
+}
+
+/* ── Light Mode: Typography overrides ── */
+.light-mode h1,
+.light-mode h2,
+.light-mode h3,
+.light-mode h4,
+.light-mode h5,
+.light-mode h6 {
+  color: #1a0035 !important;
+}
+
+.light-mode p,
+.light-mode span,
+.light-mode li,
+.light-mode label {
+  color: #1a0035;
+}
+
+.light-mode .text-white {
+  color: #1a0035 !important;
+}
+
+/* ── Light Mode: Nav text overrides ── */
+/* Nav links and interactive text in glass-nav must be dark */
+.light-mode .glass-nav a,
+.light-mode .glass-nav button,
+.light-mode .glass-nav span {
+  color: #1a0035 !important;
+}
+
+/* Faint white nav text → readable dark purple */
+.light-mode .glass-nav .text-white\/60,
+.light-mode .glass-nav .text-white\/70,
+.light-mode .glass-nav .text-white\/80 {
+  color: rgba(26, 0, 53, 0.7) !important;
+}
+
+/* Active nav pill stays visible */
+.light-mode .glass-nav .glass-pill {
+  background: rgba(106, 13, 173, 0.15);
+  border-color: rgba(106, 13, 173, 0.3);
+}
+
+/* ── Light Mode: Tailwind purple text overrides ── */
+/* Very light purples are invisible on white/light backgrounds */
+.light-mode .text-purple-100,
+.light-mode .text-purple-200,
+.light-mode .text-purple-300 {
+  color: oklch(0.35 0.18 302) !important;
+}
+
+.light-mode .text-purple-400 {
+  color: oklch(0.4 0.22 302) !important;
+}
+
+.light-mode .text-purple-500 {
+  color: oklch(0.42 0.24 302) !important;
+}
+
+/* Purple-600 and darker are already readable in light mode, keep them vivid */
+.light-mode .text-purple-600 {
+  color: oklch(0.38 0.26 302) !important;
+}
+
+/* ── Light Mode: Tailwind gray text overrides ── */
+/* Light grays are near-invisible on white/light purple backgrounds */
+.light-mode .text-gray-100,
+.light-mode .text-gray-200,
+.light-mode .text-gray-300,
+.light-mode .text-gray-400 {
+  color: oklch(0.3 0.06 302) !important;
+}
+
+.light-mode .text-gray-500,
+.light-mode .text-gray-600 {
+  color: oklch(0.4 0.08 302) !important;
+}
+
+/* Slate variants (often used interchangeably with gray) */
+.light-mode .text-slate-100,
+.light-mode .text-slate-200,
+.light-mode .text-slate-300,
+.light-mode .text-slate-400 {
+  color: oklch(0.3 0.05 302) !important;
+}
+
+.light-mode .text-slate-500,
+.light-mode .text-slate-600 {
+  color: oklch(0.42 0.07 302) !important;
+}
+
+/* Zinc/neutral variants */
+.light-mode .text-zinc-100,
+.light-mode .text-zinc-200,
+.light-mode .text-zinc-300,
+.light-mode .text-zinc-400 {
+  color: oklch(0.3 0.04 302) !important;
+}
+
+/* ── Light Mode: Opacity-based white text ── */
+/* Faint whites → readable dark purple */
+.light-mode .text-white\/10,
+.light-mode .text-white\/20,
+.light-mode .text-white\/25 {
+  color: rgba(26, 0, 53, 0.4) !important;
+}
+
+.light-mode .text-white\/30,
+.light-mode .text-white\/40 {
+  color: rgba(26, 0, 53, 0.55) !important;
+}
+
+.light-mode .text-white\/45,
+.light-mode .text-white\/50,
+.light-mode .text-white\/60 {
+  color: rgba(26, 0, 53, 0.65) !important;
+}
+
+.light-mode .text-white\/70 {
+  color: rgba(26, 0, 53, 0.75) !important;
+}
+
+.light-mode .text-white\/80 {
+  color: rgba(26, 0, 53, 0.85) !important;
+}
+
+.light-mode .text-white\/90,
+.light-mode .text-white\/95 {
+  color: rgba(26, 0, 53, 0.92) !important;
+}
+
+/* ── Light Mode: Muted foreground ── */
+.light-mode .text-muted-foreground {
+  color: oklch(0.42 0.08 302) !important;
+}
+
+/* ── Light Mode: Foreground override ── */
+.light-mode .text-foreground {
+  color: #1a0035 !important;
+}
+
+/* Faint white borders → subtle purple tint */
+.light-mode .border-white\/5,
+.light-mode .border-white\/10,
+.light-mode .border-white\/15 {
+  border-color: rgba(106, 13, 173, 0.18) !important;
+}
+
+.light-mode .border-white\/20,
+.light-mode .border-white\/25,
+.light-mode .border-white\/30 {
+  border-color: rgba(106, 13, 173, 0.25) !important;
+}
+
+/* Faint white backgrounds → light purple tint */
+.light-mode .bg-white\/05,
+.light-mode .bg-white\/5,
+.light-mode .bg-white\/10 {
+  background: rgba(106, 13, 173, 0.06) !important;
+}
+
+.light-mode .bg-white\/15,
+.light-mode .bg-white\/20 {
+  background: rgba(106, 13, 173, 0.1) !important;
+}
+
+/* Dark glass backgrounds → light equivalent */
+.light-mode .bg-black\/20,
+.light-mode .bg-black\/30,
+.light-mode .bg-black\/40,
+.light-mode .bg-black\/50,
+.light-mode .bg-black\/60 {
+  background: rgba(106, 13, 173, 0.06) !important;
+}
+
+/* ── Light Mode: Inputs & Forms ── */
+.light-mode input,
+.light-mode textarea,
+.light-mode select {
+  background: rgba(255, 255, 255, 0.92) !important;
+  color: #1a0035 !important;
+  border-color: rgba(106, 13, 173, 0.25) !important;
+}
+
+.light-mode input::placeholder,
+.light-mode textarea::placeholder {
+  color: rgba(26, 0, 53, 0.45) !important;
+}
+
+.light-mode input:focus,
+.light-mode textarea:focus,
+.light-mode select:focus {
+  border-color: rgba(106, 13, 173, 0.55) !important;
+  box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.12) !important;
+}
+
+/* ── Light Mode: Dropdown / Popover menus ── */
+.light-mode [data-radix-popper-content-wrapper] [role="menuitem"],
+.light-mode [data-radix-popper-content-wrapper] [role="option"],
+.light-mode [data-radix-popper-content-wrapper] {
+  color: #1a0035 !important;
+}
+
+.light-mode [data-radix-popper-content-wrapper] .text-white\/70,
+.light-mode [data-radix-popper-content-wrapper] .text-white\/90 {
+  color: #1a0035 !important;
+}
+
+/* ── Light Mode: hero & CTA white text → readable dark purple ── */
+.light-mode .text-white\/60,
+.light-mode .text-white\/70,
+.light-mode .text-white\/80 {
+  color: #3a006f !important;
+  opacity: 1 !important;
+}
+.light-mode [class*="text-white"] {
+  color: #1a0035 !important;
+  opacity: 1 !important;
+}
+.light-mode p.text-white\/60,
+.light-mode p[class*="text-white"] {
+  color: #3a006f !important;
+  opacity: 1 !important;
+}
+
+/* ── Light Mode: Extended color overrides ── */
+/* Orange text variants */
+.light-mode .text-orange-100,
+.light-mode .text-orange-200,
+.light-mode .text-orange-300,
+.light-mode .text-orange-400 {
+  color: #7c2d12 !important;
+}
+.light-mode .text-orange-500 {
+  color: #9a3412 !important;
+}
+
+/* Amber text variants */
+.light-mode .text-amber-100,
+.light-mode .text-amber-200,
+.light-mode .text-amber-300,
+.light-mode .text-amber-400 {
+  color: #78350f !important;
+}
+.light-mode .text-amber-500 {
+  color: #92400e !important;
+}
+
+/* Yellow text variants */
+.light-mode .text-yellow-100,
+.light-mode .text-yellow-200,
+.light-mode .text-yellow-300,
+.light-mode .text-yellow-400 {
+  color: #713f12 !important;
+}
+
+/* Cyan text variants */
+.light-mode .text-cyan-100,
+.light-mode .text-cyan-200,
+.light-mode .text-cyan-300,
+.light-mode .text-cyan-400 {
+  color: #164e63 !important;
+}
+.light-mode .text-cyan-500 {
+  color: #0e7490 !important;
+}
+
+/* Blue text variants */
+.light-mode .text-blue-100,
+.light-mode .text-blue-200,
+.light-mode .text-blue-300,
+.light-mode .text-blue-400 {
+  color: #1e3a5f !important;
+}
+.light-mode .text-blue-500 {
+  color: #1d4ed8 !important;
+}
+
+/* Indigo text variants */
+.light-mode .text-indigo-100,
+.light-mode .text-indigo-200,
+.light-mode .text-indigo-300,
+.light-mode .text-indigo-400 {
+  color: #312e81 !important;
+}
+
+/* Green text variants */
+.light-mode .text-green-100,
+.light-mode .text-green-200,
+.light-mode .text-green-300,
+.light-mode .text-green-400 {
+  color: #14532d !important;
+}
+.light-mode .text-green-500 {
+  color: #15803d !important;
+}
+
+/* Red text variants */
+.light-mode .text-red-100,
+.light-mode .text-red-200,
+.light-mode .text-red-300,
+.light-mode .text-red-400 {
+  color: #7f1d1d !important;
+}
+
+/* Pink/Rose text variants */
+.light-mode .text-pink-100,
+.light-mode .text-pink-200,
+.light-mode .text-pink-300,
+.light-mode .text-pink-400 {
+  color: #831843 !important;
+}
+.light-mode .text-rose-100,
+.light-mode .text-rose-200,
+.light-mode .text-rose-300,
+.light-mode .text-rose-400 {
+  color: #881337 !important;
+}
+
+/* Fuchsia/Violet text variants */
+.light-mode .text-fuchsia-100,
+.light-mode .text-fuchsia-200,
+.light-mode .text-fuchsia-300,
+.light-mode .text-fuchsia-400 {
+  color: #4a044e !important;
+}
+.light-mode .text-violet-100,
+.light-mode .text-violet-200,
+.light-mode .text-violet-300,
+.light-mode .text-violet-400 {
+  color: #2e1065 !important;
+}
+
+/* ── Light Mode: Chat bubble backgrounds → readable ── */
+.light-mode .bg-orange-500\/20,
+.light-mode [class*="bg-orange"][class*="\/20"],
+.light-mode [class*="bg-orange"][class*="\/10"] {
+  background: rgba(234, 88, 12, 0.12) !important;
+}
+.light-mode .bg-amber-500\/20,
+.light-mode [class*="bg-amber"][class*="\/20"],
+.light-mode [class*="bg-amber"][class*="\/10"] {
+  background: rgba(217, 119, 6, 0.12) !important;
+}
+
+/* ── Light Mode: Catch-all for any remaining white/light text ── */
+.light-mode [class*="text-white"] {
+  color: #1a0035 !important;
+}
+.light-mode [style*="color: white"],
+.light-mode [style*="color:#fff"],
+.light-mode [style*="color: #fff"] {
+  color: #1a0035 !important;
+}
+
+/* Placeholder text in light mode */
+.light-mode ::placeholder {
+  color: rgba(26, 0, 53, 0.45) !important;
+}
+
+/* ── Light Mode: Section and hero text ── */
+.light-mode section p,
+.light-mode section span,
+.light-mode section h1,
+.light-mode section h2,
+.light-mode section h3 {
+  color: #1a0035;
+}
+.light-mode section [class*="text-white"] {
+  color: #1a0035 !important;
+}

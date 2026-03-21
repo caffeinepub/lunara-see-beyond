@@ -17,17 +17,22 @@ import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/useAuth";
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import {
-  Camera,
   LogOut,
   Menu,
-  Pencil,
   Phone,
+  ScrollText,
   Search,
+  Settings,
   User,
+  Users,
   X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import IntroPopup from "./IntroPopup";
+import PeopleSearch from "./PeopleSearch";
+import RulesPopup from "./RulesPopup";
+import SettingsModal from "./SettingsModal";
 
 const navLinks = [
   { label: "Explore", href: "/" as const },
@@ -37,6 +42,7 @@ const navLinks = [
   { label: "Aloxide", href: "/aloxide" as const },
   { label: "Lunar Arcadia", href: "/lunar-arcadia" as const },
   { label: "MoonMart", href: "/marketplace" as const },
+  { label: "LunaChat", href: "/lunachat" as const },
   { label: "About", href: "/about" as const },
 ];
 
@@ -110,9 +116,16 @@ const searchSections = [
   {
     name: "MoonMart",
     description: "Marketplace — second-hand listings from real users",
-    emoji: "🛒",
+    emoji: "🛍",
     href: "/marketplace",
     keywords: ["buy", "sell", "market", "second-hand", "listings", "shop"],
+  },
+  {
+    name: "LunaChat",
+    description: "WhatsApp-style messaging with the community",
+    emoji: "💬",
+    href: "/lunachat",
+    keywords: ["chat", "message", "dm", "group", "lunachat", "messaging"],
   },
   {
     name: "About",
@@ -131,13 +144,21 @@ const searchSections = [
   },
 ];
 
-function SiteSearch({ onClose }: { onClose: () => void }) {
+function SiteSearch({
+  onClose,
+  onOpenPeopleProfile,
+  onOpenPeopleSearch,
+}: {
+  onClose: () => void;
+  onOpenPeopleProfile: (email: string) => void;
+  onOpenPeopleSearch: () => void;
+}) {
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const navigate = useNavigate();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const filtered = query.trim()
+  const filteredSections = query.trim()
     ? searchSections.filter((s) => {
         const q = query.toLowerCase();
         return (
@@ -148,7 +169,30 @@ function SiteSearch({ onClose }: { onClose: () => void }) {
       })
     : searchSections;
 
-  // Auto-focus input
+  // Search registered users
+  const filteredUsers: { email: string; name: string }[] = [];
+  if (query.trim()) {
+    try {
+      const stored = localStorage.getItem("lunara_users_db");
+      if (stored) {
+        const db: Record<string, { name: string }> = JSON.parse(stored);
+        const q = query.toLowerCase();
+        for (const [email, data] of Object.entries(db)) {
+          if (
+            data.name?.toLowerCase().includes(q) ||
+            email.toLowerCase().includes(q)
+          ) {
+            filteredUsers.push({ email, name: data.name || email });
+          }
+        }
+      }
+    } catch {
+      // ignore parse errors
+    }
+  }
+
+  const totalItems = filteredSections.length + filteredUsers.length;
+
   useEffect(() => {
     setTimeout(() => inputRef.current?.focus(), 50);
   }, []);
@@ -163,12 +207,23 @@ function SiteSearch({ onClose }: { onClose: () => void }) {
       onClose();
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
-      setActiveIndex((i) => Math.min(i + 1, filtered.length - 1));
+      setActiveIndex((i) => Math.min(i + 1, totalItems - 1));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setActiveIndex((i) => Math.max(i - 1, 0));
-    } else if (e.key === "Enter" && filtered.length > 0) {
-      goTo(filtered[activeIndex].href);
+    } else if (e.key === "Enter") {
+      if (
+        activeIndex < filteredSections.length &&
+        filteredSections.length > 0
+      ) {
+        goTo(filteredSections[activeIndex].href);
+      } else {
+        const userIdx = activeIndex - filteredSections.length;
+        if (filteredUsers[userIdx]) {
+          onOpenPeopleProfile(filteredUsers[userIdx].email);
+          onClose();
+        }
+      }
     }
   };
 
@@ -197,7 +252,6 @@ function SiteSearch({ onClose }: { onClose: () => void }) {
         className="w-full max-w-xl"
         onKeyDown={handleKeyDown}
       >
-        {/* Search input box */}
         <div
           className="flex items-center gap-3 px-4 py-3 rounded-2xl border border-purple-400/30"
           style={{
@@ -216,7 +270,7 @@ function SiteSearch({ onClose }: { onClose: () => void }) {
               setQuery(e.target.value);
               setActiveIndex(0);
             }}
-            placeholder="Search sections, zones, features…"
+            placeholder="Search sections, zones, people…"
             className="flex-1 bg-transparent text-white placeholder:text-white/40 text-base outline-none"
             data-ocid="search.search_input"
             autoComplete="off"
@@ -243,14 +297,14 @@ function SiteSearch({ onClose }: { onClose: () => void }) {
           </button>
         </div>
 
-        {/* Label */}
         <p className="text-white/40 text-xs px-1 mt-3 mb-2">
           {query.trim()
-            ? `${filtered.length} result${filtered.length !== 1 ? "s" : ""}`
+            ? `${filteredSections.length + filteredUsers.length} result${
+                filteredSections.length + filteredUsers.length !== 1 ? "s" : ""
+              }`
             : "Quick Links"}
         </p>
 
-        {/* Results */}
         <div
           className="rounded-2xl border border-purple-400/20 overflow-hidden"
           style={{
@@ -260,50 +314,148 @@ function SiteSearch({ onClose }: { onClose: () => void }) {
             boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
           }}
         >
-          {filtered.length === 0 ? (
+          {filteredSections.length === 0 && filteredUsers.length === 0 ? (
             <div className="px-4 py-8 text-center text-white/40 text-sm">
-              No sections found for &ldquo;{query}&rdquo;
+              No results found for &ldquo;{query}&rdquo;
             </div>
           ) : (
-            filtered.map((section, i) => (
-              <button
-                key={section.href}
-                type="button"
-                onClick={() => goTo(section.href)}
-                onMouseEnter={() => setActiveIndex(i)}
-                className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-150 ${
-                  i < filtered.length - 1 ? "border-b border-white/[0.06]" : ""
-                } ${
-                  i === activeIndex
-                    ? "bg-purple-500/25"
-                    : "hover:bg-white/[0.05]"
-                }`}
-                data-ocid={`search.item.${i + 1}`}
-              >
-                <span className="text-2xl shrink-0 w-8 text-center">
-                  {section.emoji}
-                </span>
-                <div className="min-w-0">
-                  <p
-                    className={`font-semibold text-sm ${i === activeIndex ? "text-white" : "text-white/80"}`}
-                  >
-                    {section.name}
-                  </p>
-                  <p className="text-white/45 text-xs truncate">
-                    {section.description}
-                  </p>
-                </div>
-                {i === activeIndex && (
-                  <span className="ml-auto text-purple-300/60 text-xs font-mono shrink-0">
-                    ↵
-                  </span>
-                )}
-              </button>
-            ))
+            <>
+              {/* Find People quick link — shown when no query */}
+              {!query.trim() && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    onOpenPeopleSearch();
+                    onClose();
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-150 border-b border-white/[0.06] hover:bg-white/[0.05]"
+                  data-ocid="search.item.find_people"
+                >
+                  <span className="text-2xl shrink-0 w-8 text-center">👥</span>
+                  <div className="min-w-0">
+                    <p className="font-semibold text-sm text-white/80">
+                      Find People 🔍
+                    </p>
+                    <p className="text-white/45 text-xs truncate">
+                      Search for users and view profiles
+                    </p>
+                  </div>
+                </button>
+              )}
+              {/* Zones section */}
+              {filteredSections.length > 0 && (
+                <>
+                  {query.trim() && filteredUsers.length > 0 && (
+                    <div className="px-4 py-2 border-b border-white/[0.06]">
+                      <p className="text-white/35 text-xs font-semibold uppercase tracking-wider">
+                        Zones & Sections
+                      </p>
+                    </div>
+                  )}
+                  {filteredSections.map((section, i) => (
+                    <button
+                      key={section.href}
+                      type="button"
+                      onClick={() => goTo(section.href)}
+                      onMouseEnter={() => setActiveIndex(i)}
+                      className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-150 ${
+                        i < filteredSections.length - 1 ||
+                        filteredUsers.length > 0
+                          ? "border-b border-white/[0.06]"
+                          : ""
+                      } ${
+                        i === activeIndex
+                          ? "bg-purple-500/25"
+                          : "hover:bg-white/[0.05]"
+                      }`}
+                      data-ocid={`search.item.${i + 1}`}
+                    >
+                      <span className="text-2xl shrink-0 w-8 text-center">
+                        {section.emoji}
+                      </span>
+                      <div className="min-w-0">
+                        <p
+                          className={`font-semibold text-sm ${
+                            i === activeIndex ? "text-white" : "text-white/80"
+                          }`}
+                        >
+                          {section.name}
+                        </p>
+                        <p className="text-white/45 text-xs truncate">
+                          {section.description}
+                        </p>
+                      </div>
+                      {i === activeIndex && (
+                        <span className="ml-auto text-purple-300/60 text-xs font-mono shrink-0">
+                          ↵
+                        </span>
+                      )}
+                    </button>
+                  ))}
+                </>
+              )}
+
+              {/* People section */}
+              {filteredUsers.length > 0 && (
+                <>
+                  <div className="px-4 py-2 border-b border-white/[0.06]">
+                    <p className="text-white/35 text-xs font-semibold uppercase tracking-wider">
+                      People
+                    </p>
+                  </div>
+                  {filteredUsers.map((u, i) => {
+                    const globalIdx = filteredSections.length + i;
+                    return (
+                      <button
+                        key={u.email}
+                        type="button"
+                        onClick={() => {
+                          onOpenPeopleProfile(u.email);
+                          onClose();
+                        }}
+                        onMouseEnter={() => setActiveIndex(globalIdx)}
+                        className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-all duration-150 ${
+                          i < filteredUsers.length - 1
+                            ? "border-b border-white/[0.06]"
+                            : ""
+                        } ${
+                          globalIdx === activeIndex
+                            ? "bg-purple-500/25"
+                            : "hover:bg-white/[0.05]"
+                        }`}
+                        data-ocid={`search.item.${globalIdx + 1}`}
+                      >
+                        <span className="text-2xl shrink-0 w-8 text-center">
+                          👤
+                        </span>
+                        <div className="min-w-0">
+                          <p
+                            className={`font-semibold text-sm ${
+                              globalIdx === activeIndex
+                                ? "text-white"
+                                : "text-white/80"
+                            }`}
+                          >
+                            {u.name}
+                          </p>
+                          <p className="text-white/45 text-xs truncate">
+                            {u.email}
+                          </p>
+                        </div>
+                        {globalIdx === activeIndex && (
+                          <span className="ml-auto text-purple-300/60 text-xs font-mono shrink-0">
+                            ↵
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </>
+              )}
+            </>
           )}
         </div>
 
-        {/* Hint */}
         <p className="text-white/25 text-xs text-center mt-3">
           ↑↓ navigate · ↵ open · ESC close · Ctrl+K reopen
         </p>
@@ -315,19 +467,20 @@ function SiteSearch({ onClose }: { onClose: () => void }) {
 export default function Header() {
   const auth = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [editNameOpen, setEditNameOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [newName, setNewName] = useState("");
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [peopleSearchOpen, setPeopleSearchOpen] = useState(false);
+  const [peopleInitialUser, setPeopleInitialUser] = useState<
+    string | undefined
+  >(undefined);
+  const [rulesForceOpen, setRulesForceOpen] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [displayName, setDisplayName] = useState<string>("");
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
   const routerState = useRouterState();
   const pathname = routerState.location.pathname;
 
   const userId = auth.user?.email ?? "";
 
-  // Load persisted avatar and name
   useEffect(() => {
     if (!userId) return;
     const storedAvatar = localStorage.getItem(`lunara_avatar_${userId}`);
@@ -336,7 +489,31 @@ export default function Header() {
     setDisplayName(storedName ?? auth.user?.name ?? "");
   }, [userId, auth.user?.name]);
 
-  // Global Ctrl+K / Cmd+K shortcut
+  // Listen for updates from SettingsModal
+  useEffect(() => {
+    const handler = (e: StorageEvent) => {
+      if (!userId) return;
+      if (e.key === `lunara_avatar_${userId}` && e.newValue) {
+        setAvatarUrl(e.newValue);
+      }
+      if (e.key === `lunara_name_${userId}` && e.newValue) {
+        setDisplayName(e.newValue);
+      }
+    };
+    window.addEventListener("storage", handler);
+    return () => window.removeEventListener("storage", handler);
+  }, [userId]);
+
+  // Apply saved theme on mount
+  useEffect(() => {
+    const theme = localStorage.getItem("lunara_theme");
+    if (theme === "light") {
+      document.documentElement.classList.add("light-mode");
+    } else {
+      document.documentElement.classList.remove("light-mode");
+    }
+  }, []);
+
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "k") {
@@ -358,24 +535,9 @@ export default function Header() {
     auth.user?.name?.charAt(0).toUpperCase() ??
     "";
 
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !userId) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const dataUrl = ev.target?.result as string;
-      localStorage.setItem(`lunara_avatar_${userId}`, dataUrl);
-      setAvatarUrl(dataUrl);
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const handleSaveName = () => {
-    if (!newName.trim() || !userId) return;
-    localStorage.setItem(`lunara_name_${userId}`, newName.trim());
-    setDisplayName(newName.trim());
-    setEditNameOpen(false);
-    setNewName("");
+  const handleOpenPeopleProfile = (email: string) => {
+    setPeopleInitialUser(email);
+    setPeopleSearchOpen(true);
   };
 
   return (
@@ -392,7 +554,7 @@ export default function Header() {
               <div className="relative">
                 <div className="absolute inset-0 rounded-full bg-accent/40 blur-md" />
                 <img
-                  src="/assets/uploads/Untitled-design-2--1.png"
+                  src="/assets/lunara-logo.png"
                   alt="Lunara logo"
                   className="relative w-9 h-9 object-cover rounded-full ring-2 ring-white/20"
                 />
@@ -440,16 +602,6 @@ export default function Header() {
 
               {auth.user ? (
                 <>
-                  {/* Hidden file input for avatar */}
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={handleAvatarChange}
-                    data-ocid="header.upload_button"
-                  />
-
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <button
@@ -482,27 +634,24 @@ export default function Header() {
                       </DropdownMenuLabel>
                       <DropdownMenuSeparator className="bg-white/10" />
 
-                      {/* Edit Profile Picture */}
+                      {/* Settings */}
                       <DropdownMenuItem
                         className="text-white/70 hover:text-white focus:text-white cursor-pointer gap-2"
-                        onClick={() => fileInputRef.current?.click()}
-                        data-ocid="header.edit_button"
+                        onClick={() => setSettingsOpen(true)}
+                        data-ocid="header.button"
                       >
-                        <Camera className="w-4 h-4 text-purple-300" />
-                        Edit Profile Picture
+                        <Settings className="w-4 h-4 text-purple-300" />
+                        Settings ⚙️
                       </DropdownMenuItem>
 
-                      {/* Edit Name */}
+                      {/* Re-read Rules */}
                       <DropdownMenuItem
                         className="text-white/70 hover:text-white focus:text-white cursor-pointer gap-2"
-                        onClick={() => {
-                          setNewName(displayName || auth.user?.name || "");
-                          setEditNameOpen(true);
-                        }}
-                        data-ocid="header.edit_button"
+                        onClick={() => setRulesForceOpen(true)}
+                        data-ocid="header.button"
                       >
-                        <Pencil className="w-4 h-4 text-purple-300" />
-                        Edit Name
+                        <ScrollText className="w-4 h-4 text-purple-300" />
+                        Re-read Rules 📜
                       </DropdownMenuItem>
 
                       {/* Contact Developer */}
@@ -581,10 +730,27 @@ export default function Header() {
               </Link>
             ))}
             {auth.user && (
-              <div className="pt-2 px-1">
-                <p className="text-white/60 text-sm mb-2">
-                  Hi, {displayName || auth.user.name}
-                </p>
+              <div className="pt-2 px-1 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSettingsOpen(true);
+                    setMobileOpen(false);
+                  }}
+                  className="text-white/60 text-sm hover:text-white flex items-center gap-1"
+                >
+                  <Settings className="w-4 h-4" /> Settings
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setRulesForceOpen(true);
+                    setMobileOpen(false);
+                  }}
+                  className="text-white/60 text-sm hover:text-white flex items-center gap-1"
+                >
+                  <ScrollText className="w-4 h-4" /> Rules
+                </button>
               </div>
             )}
           </div>
@@ -593,47 +759,42 @@ export default function Header() {
 
       {/* Full-screen Search Overlay */}
       <AnimatePresence>
-        {searchOpen && <SiteSearch onClose={() => setSearchOpen(false)} />}
+        {searchOpen && (
+          <SiteSearch
+            onClose={() => setSearchOpen(false)}
+            onOpenPeopleProfile={handleOpenPeopleProfile}
+            onOpenPeopleSearch={() => {
+              setSearchOpen(false);
+              setPeopleSearchOpen(true);
+            }}
+          />
+        )}
       </AnimatePresence>
 
-      {/* Edit Name Dialog */}
-      <Dialog open={editNameOpen} onOpenChange={setEditNameOpen}>
-        <DialogContent className="glass border border-white/10 text-white sm:max-w-sm">
-          <DialogHeader>
-            <DialogTitle className="text-white flex items-center gap-2">
-              <Pencil className="w-4 h-4 text-purple-300" /> Edit Display Name
-            </DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 pt-2">
-            <Input
-              value={newName}
-              onChange={(e) => setNewName(e.target.value)}
-              placeholder="Enter new name"
-              className="bg-white/10 border-white/20 text-white placeholder:text-white/40 focus:border-purple-400"
-              onKeyDown={(e) => e.key === "Enter" && handleSaveName()}
-              data-ocid="header.input"
-              autoFocus
-            />
-            <div className="flex gap-2 justify-end">
-              <Button
-                variant="ghost"
-                onClick={() => setEditNameOpen(false)}
-                className="text-white/60 hover:text-white"
-                data-ocid="header.cancel_button"
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={handleSaveName}
-                className="bg-purple-600 hover:bg-purple-500 text-white"
-                data-ocid="header.save_button"
-              >
-                Save
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {/* Settings Modal */}
+      <SettingsModal
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+      />
+
+      {/* People Search Modal */}
+      <PeopleSearch
+        open={peopleSearchOpen}
+        onClose={() => {
+          setPeopleSearchOpen(false);
+          setPeopleInitialUser(undefined);
+        }}
+        initialUser={peopleInitialUser}
+      />
+
+      {/* First-login Intro Popup */}
+      <IntroPopup onGoToSettings={() => setSettingsOpen(true)} />
+
+      {/* Rules Popup (first login + force re-read) */}
+      <RulesPopup
+        forceOpen={rulesForceOpen}
+        onClose={() => setRulesForceOpen(false)}
+      />
     </>
   );
 }

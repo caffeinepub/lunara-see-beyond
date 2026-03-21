@@ -1,21 +1,27 @@
+import { LoginGate } from "@/components/LoginGate";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { getLanguageCode, translateText } from "@/utils/translate";
 import {
   BookOpen,
   Bot,
+  Check,
   Flame,
   MessageCircle,
   Mic,
   Pause,
+  Pencil,
   Play,
   Plus,
   RefreshCw,
   Send,
   Sparkles,
   Timer,
+  Trash2,
   Trophy,
   Users,
+  X,
   Zap,
 } from "lucide-react";
 import { motion } from "motion/react";
@@ -163,10 +169,49 @@ const initialChatRooms: ChatRoom[] = [
 ];
 
 function Chatrooms() {
+  const { user } = useAuth();
   const [rooms, setRooms] = useState<ChatRoom[]>(initialChatRooms);
   const [activeRoomId, setActiveRoomId] = useState("lunar-lounge");
   const [input, setInput] = useState("");
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [editingIdx, setEditingIdx] = useState<number | null>(null);
+  const [editText, setEditText] = useState("");
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const deleteMsg = (idx: number) => {
+    setRooms((prev) =>
+      prev.map((r) =>
+        r.id === activeRoomId
+          ? { ...r, messages: r.messages.filter((_, i) => i !== idx) }
+          : r,
+      ),
+    );
+  };
+
+  const startEdit = (idx: number, text: string) => {
+    setEditingIdx(idx);
+    setEditText(text);
+  };
+
+  const confirmEdit = () => {
+    if (editingIdx === null || !editText.trim()) {
+      setEditingIdx(null);
+      return;
+    }
+    setRooms((prev) =>
+      prev.map((r) =>
+        r.id === activeRoomId
+          ? {
+              ...r,
+              messages: r.messages.map((m, i) =>
+                i === editingIdx ? { ...m, text: editText.trim() } : m,
+              ),
+            }
+          : r,
+      ),
+    );
+    setEditingIdx(null);
+    setEditText("");
+  };
 
   const activeRoom = rooms.find((r) => r.id === activeRoomId)!;
 
@@ -186,10 +231,10 @@ function Chatrooms() {
       ),
     );
     setInput("");
-    setTimeout(
-      () => messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }),
-      50,
-    );
+    setTimeout(() => {
+      if (containerRef.current)
+        containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }, 50);
   };
 
   return (
@@ -252,48 +297,114 @@ function Chatrooms() {
                 </Badge>
               </div>
             </div>
-            <div className="flex-1 overflow-y-auto p-5 space-y-3 max-h-80">
-              {activeRoom.messages.map((msg, i) => (
-                <div
-                  key={`${msg.sender}-${msg.time}-${i}`}
-                  className={`flex flex-col gap-0.5 ${
-                    msg.sender === "You" ? "items-end" : "items-start"
-                  }`}
-                >
-                  <span className="text-xs text-white/40">
-                    {msg.sender} · {msg.time}
-                  </span>
+            <div
+              ref={containerRef}
+              className="flex-1 overflow-y-auto p-5 space-y-3 max-h-80"
+              style={{ minHeight: 0, maxHeight: "calc(100vh - 320px)" }}
+            >
+              {activeRoom.messages.map((msg, i) => {
+                const isOwn = msg.sender === "You";
+                const isEditing = editingIdx === i;
+                return (
                   <div
-                    className={`max-w-xs px-3 py-2 rounded-xl text-sm ${
-                      msg.sender === "You"
-                        ? "bg-accent/30 text-foreground"
-                        : "bg-white/10 text-foreground"
-                    }`}
+                    key={`${msg.sender}-${msg.time}-${i}`}
+                    className={`group flex flex-col gap-0.5 ${isOwn ? "items-end" : "items-start"}`}
                   >
-                    {msg.text}
+                    <span className="text-xs text-white/40">
+                      {msg.sender} · {msg.time}
+                    </span>
+                    <div
+                      className={`flex items-end gap-1.5 ${isOwn ? "flex-row-reverse" : "flex-row"}`}
+                    >
+                      {isOwn && !isEditing && (
+                        <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity mb-0.5">
+                          <button
+                            type="button"
+                            onClick={() => startEdit(i, msg.text)}
+                            className="p-1 rounded-lg bg-white/10 hover:bg-accent/30 text-white/50 hover:text-white transition-colors"
+                            title="Edit"
+                          >
+                            <Pencil className="w-3 h-3" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => deleteMsg(i)}
+                            className="p-1 rounded-lg bg-white/10 hover:bg-red-500/40 text-white/50 hover:text-red-300 transition-colors"
+                            title="Delete"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        </div>
+                      )}
+                      {isEditing ? (
+                        <div className="flex items-center gap-1 max-w-xs">
+                          <input
+                            value={editText}
+                            onChange={(e) => setEditText(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") confirmEdit();
+                              if (e.key === "Escape") setEditingIdx(null);
+                            }}
+                            className="flex-1 bg-white/15 border border-accent/50 rounded-xl px-3 py-1.5 text-sm text-white outline-none min-w-0"
+                          />
+                          <button
+                            type="button"
+                            onClick={confirmEdit}
+                            className="p-1 rounded-lg bg-accent/40 hover:bg-accent/60 text-white transition-colors"
+                          >
+                            <Check className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setEditingIdx(null)}
+                            className="p-1 rounded-lg bg-white/10 hover:bg-white/20 text-white/60 transition-colors"
+                          >
+                            <X className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      ) : (
+                        <div
+                          className={`max-w-xs px-3 py-2 rounded-xl text-sm ${
+                            isOwn
+                              ? "bg-accent/30 text-foreground"
+                              : "bg-white/10 text-foreground"
+                          }`}
+                        >
+                          {msg.text}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
-              <div ref={messagesEndRef} />
+                );
+              })}
             </div>
-            <div className="px-5 py-4 border-t border-white/10 flex gap-2">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-                placeholder={`Message ${activeRoom.icon} ${activeRoom.name}...`}
-                className="flex-1 bg-white/10 text-white placeholder-white/30 rounded-xl px-4 py-2.5 text-sm border border-white/10 outline-none focus:border-accent/50"
-                data-ocid="chatrooms.input"
-              />
-              <Button
-                onClick={sendMessage}
-                className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-xl px-4"
-                data-ocid="chatrooms.submit_button"
-              >
-                <Send className="w-4 h-4" />
-              </Button>
-            </div>
+            {user ? (
+              <div className="px-5 py-4 border-t border-white/10 flex gap-2">
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                  placeholder={`Message ${activeRoom.icon} ${activeRoom.name}...`}
+                  className="flex-1 bg-white/10 text-white placeholder-white/30 rounded-xl px-4 py-2.5 text-sm border border-white/10 outline-none focus:border-accent/50"
+                  data-ocid="chatrooms.input"
+                />
+                <Button
+                  onClick={sendMessage}
+                  className="bg-accent text-accent-foreground hover:bg-accent/90 rounded-xl px-4"
+                  data-ocid="chatrooms.submit_button"
+                >
+                  <Send className="w-4 h-4" />
+                </Button>
+              </div>
+            ) : (
+              <div className="border-t border-white/10">
+                <LoginGate
+                  message="Log in to participate"
+                  subtext="Sign in to chat in Wild Gang chatrooms."
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -353,27 +464,29 @@ function StudyRoomOverlay({
       setSec((prev) => {
         if (prev <= 1) {
           setRunning(false);
-          setMsgs((m) => [
-            ...m,
-            {
-              from: "🤖 LunaBot",
-              text: "Session complete! Great work. 🎉",
-              ts: Date.now(),
-            },
-          ]);
+          translateText(
+            "Session complete! Great work. 🎉",
+            getLanguageCode(),
+          ).then((translated) => {
+            setMsgs((m) => [
+              ...m,
+              { from: "🤖 LunaBot", text: translated, ts: Date.now() },
+            ]);
+          });
           return 0;
         }
         const next = prev - 1;
         if (breakIntervalSec > 0 && next === nextBreakRef.current) {
           nextBreakRef.current -= breakIntervalSec;
-          setMsgs((m) => [
-            ...m,
-            {
-              from: "🤖 LunaBot",
-              text: `Break time! Resuming in ${session.room.breakInterval} minutes... ☕`,
-              ts: Date.now(),
-            },
-          ]);
+          translateText(
+            `Break time! Resuming in ${session.room.breakInterval} minutes... ☕`,
+            getLanguageCode(),
+          ).then((translated) => {
+            setMsgs((m) => [
+              ...m,
+              { from: "🤖 LunaBot", text: translated, ts: Date.now() },
+            ]);
+          });
         }
         return next;
       });
@@ -526,6 +639,7 @@ function StudyRoomOverlay({
 }
 
 function StudyGroups() {
+  const { user } = useAuth();
   const [rooms, setRooms] = useState<StudyRoom[]>(loadStudyRooms);
   const [showForm, setShowForm] = useState(false);
   const [activeRoom, setActiveRoom] = useState<StudyRoom | null>(null);
@@ -597,7 +711,7 @@ function StudyGroups() {
                 </p>
               </div>
             </div>
-            {!showForm && (
+            {user && !showForm && (
               <Button
                 size="sm"
                 className="glass-button text-white rounded-xl gap-1"

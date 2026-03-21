@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import {
   ArrowRight,
   BookOpen,
@@ -8,7 +8,7 @@ import {
   Gamepad2,
   Globe,
   Headphones,
-  Mail,
+  MessageCircle,
   MessageSquare,
   Music,
   Palette,
@@ -76,6 +76,28 @@ const zones = [
     icon: Gamepad2,
     gradientClass: "gradient-devden",
   },
+  {
+    id: "marketplace",
+    title: "MoonMart",
+    tagline: "Marketplace Zone",
+    description:
+      "Buy and sell second-hand items directly within the community. OLX-style listings from real users.",
+    cta: "Browse Market",
+    href: "/marketplace" as const,
+    icon: ShoppingBag,
+    gradientClass: "gradient-hero",
+  },
+  {
+    id: "lunachat",
+    title: "LunaChat",
+    tagline: "Messaging Zone",
+    description:
+      "WhatsApp-style direct messages and group chats with the whole Lunara community. Real-time, personal, and built right in.",
+    cta: "Open Chat",
+    href: "/lunachat" as const,
+    icon: MessageCircle,
+    gradientClass: "gradient-artistic",
+  },
 ];
 
 const stats = [
@@ -98,51 +120,59 @@ const features = [
     title: "Music & Discovery",
     description:
       "Stream music, follow artists, and build playlists all in one place.",
+    href: "/soundscape" as const,
   },
   {
     icon: Gamepad2,
     title: "Games & Leaderboards",
     description:
       "Play casual games, climb leaderboards, and challenge the community.",
+    href: "/lunar-arcadia" as const,
   },
   {
     icon: Palette,
     title: "Art & Creativity",
     description:
       "Share your work in Pixel Hands and get real feedback from real people.",
+    href: "/pixellens" as const,
   },
   {
     icon: MessageSquare,
     title: "Community Chat",
     description:
       "Text and voice chatrooms across every zone. No friction, just connection.",
+    href: "/wildgang" as const,
   },
   {
     icon: ShoppingBag,
     title: "MoonMart Marketplace",
     description:
       "Buy and sell second-hand items directly within the community.",
+    href: "/marketplace" as const,
   },
   {
     icon: Brain,
     title: "Focus & Study",
     description:
       "Collaborative study sessions with custom timers in Wild Gang.",
+    href: "/wildgang" as const,
   },
 ];
 
 const tickerItems = [
-  { emoji: "🎵", label: "Music", href: "/soundscape" as const },
-  { emoji: "🎨", label: "Art", href: "/pixellens" as const },
-  { emoji: "💬", label: "Chatrooms", href: "/wildgang" as const },
-  { emoji: "🎮", label: "Games", href: "/lunar-arcadia" as const },
-  { emoji: "🛒", label: "Marketplace", href: "/marketplace" as const },
+  { emoji: "🎵", label: "Soundscape", href: "/soundscape" as const },
+  { emoji: "🎨", label: "Pixel Hands", href: "/pixellens" as const },
+  { emoji: "👥", label: "Wild Gang", href: "/wildgang" as const },
+  { emoji: "🎮", label: "Lunar Arcadia", href: "/lunar-arcadia" as const },
+  { emoji: "🛒", label: "MoonMart", href: "/marketplace" as const },
   { emoji: "🧠", label: "Study VCs", href: "/wildgang" as const },
-  { emoji: "💻", label: "Tech", href: "/aloxide" as const },
+  { emoji: "💻", label: "Aloxide", href: "/aloxide" as const },
+  { emoji: "💬", label: "LunaChat", href: "/lunachat" as const },
 ];
 
 export default function Home() {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -176,7 +206,7 @@ export default function Home() {
               <div className="absolute inset-0 rounded-full bg-accent/30 blur-2xl scale-150" />
               <div className="relative p-1 rounded-full glass-pill">
                 <img
-                  src="/assets/uploads/Untitled-design-2--1.png"
+                  src="/assets/lunara-logo.png"
                   alt="Lunara"
                   className="w-28 h-28 rounded-full object-cover"
                 />
@@ -205,11 +235,7 @@ export default function Home() {
               {!user && (
                 <Button
                   className="glass-button text-white font-semibold px-7 py-3 h-auto rounded-full hover:brightness-110 shadow-hero transition-transform hover:scale-[1.03] active:scale-[0.98]"
-                  onClick={() =>
-                    document
-                      .getElementById("zones")
-                      ?.scrollIntoView({ behavior: "smooth" })
-                  }
+                  onClick={() => navigate({ to: "/login" })}
                   data-ocid="hero.primary_button"
                 >
                   <Users className="w-4 h-4 mr-2" />
@@ -229,14 +255,16 @@ export default function Home() {
                 Explore Zones
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
-              <a
-                href="mailto:katariavianyt45@gmail.com?subject=Inquiry%20from%20Lunara%20visitor"
-                className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-white glass-outline hover:bg-white/12 transition-all hover:scale-[1.03] active:scale-[0.98]"
-                data-ocid="hero.secondary_button"
-              >
-                <Mail className="w-4 h-4" />
-                Get in Touch
-              </a>
+              {!user && (
+                <Link
+                  to="/login"
+                  className="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-white glass-outline hover:bg-white/12 transition-all hover:scale-[1.03] active:scale-[0.98]"
+                  data-ocid="hero.secondary_button"
+                >
+                  <Users className="w-4 h-4" />
+                  Get in Touch
+                </Link>
+              )}
             </div>
           </motion.div>
         </div>
@@ -347,7 +375,7 @@ export default function Home() {
           >
             <h2 className="text-3xl font-bold text-white">Choose Your Zone</h2>
             <p className="text-white/50 mt-2 text-base">
-              Five distinct spaces crafted for every kind of creative mind.
+              Seven distinct spaces crafted for every kind of creative mind.
             </p>
           </motion.div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -406,23 +434,80 @@ export default function Home() {
       <section className="py-14 glass-section">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {stats.map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.12 }}
-                className="glass-card rounded-2xl p-7 flex flex-col items-center text-center gap-3"
-                data-ocid={`stats.item.${i + 1}`}
-              >
-                <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mb-1">
-                  <stat.icon className="w-6 h-6 text-accent" />
-                </div>
-                <p className="text-white font-bold text-2xl">{stat.label}</p>
-                <p className="text-white/50 text-sm">{stat.sub}</p>
-              </motion.div>
-            ))}
+            {stats.map((stat, i) => {
+              const isZones = stat.label === "7 Zones";
+              const isLaunch = stat.label === "Launch Year 2024";
+              const isPlatform = stat.label === "One Platform";
+
+              const cardInner = (
+                <>
+                  <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center mb-1">
+                    <stat.icon className="w-6 h-6 text-accent" />
+                  </div>
+                  <p className="text-white font-bold text-2xl pointer-events-none select-none">
+                    {stat.label}
+                  </p>
+                  <p className="text-white/50 text-sm pointer-events-none select-none">
+                    {stat.sub}
+                  </p>
+                  {isZones && (
+                    <span className="text-purple-300 text-xs font-medium flex items-center gap-1 pointer-events-none select-none">
+                      Explore Zones →
+                    </span>
+                  )}
+                  {isLaunch && (
+                    <span className="text-purple-300 text-xs font-medium flex items-center gap-1 pointer-events-none select-none">
+                      View the Story →
+                    </span>
+                  )}
+                  {isPlatform && (
+                    <span className="text-purple-300 text-xs font-medium flex items-center gap-1 pointer-events-none select-none">
+                      Learn More →
+                    </span>
+                  )}
+                </>
+              );
+
+              if (isZones) {
+                return (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: i * 0.12 }}
+                    className="glass-card rounded-2xl p-7 flex flex-col items-center text-center gap-3 cursor-pointer hover:ring-2 hover:ring-accent/50 transition-all"
+                    onClick={() =>
+                      document
+                        .getElementById("zones")
+                        ?.scrollIntoView({ behavior: "smooth" })
+                    }
+                    data-ocid={`stats.item.${i + 1}`}
+                  >
+                    {cardInner}
+                  </motion.div>
+                );
+              }
+
+              return (
+                <motion.div
+                  key={stat.label}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.12 }}
+                  data-ocid={`stats.item.${i + 1}`}
+                  className="block"
+                >
+                  <Link
+                    to="/about"
+                    className="glass-card rounded-2xl p-7 flex flex-col items-center text-center gap-3 cursor-pointer hover:ring-2 hover:ring-accent/50 transition-all block no-underline"
+                  >
+                    {cardInner}
+                  </Link>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -446,86 +531,93 @@ export default function Home() {
           </motion.div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map((feature, i) => (
-              <motion.div
+              <Link
                 key={feature.title}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="glass-card rounded-2xl p-6 flex flex-col gap-3 hover:border-accent/30 transition-all"
+                to={feature.href}
+                className="block no-underline"
                 data-ocid={`features.item.${i + 1}`}
               >
-                <div className="w-11 h-11 rounded-xl bg-accent/20 flex items-center justify-center">
-                  <feature.icon className="w-5 h-5 text-accent" />
-                </div>
-                <h3 className="font-bold text-white text-lg">
-                  {feature.title}
-                </h3>
-                <p className="text-white/55 text-sm leading-relaxed">
-                  {feature.description}
-                </p>
-              </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.08 }}
+                  className="glass-card rounded-2xl p-6 flex flex-col gap-3 hover:border-accent/50 hover:-translate-y-1 cursor-pointer transition-all h-full"
+                >
+                  <div className="w-11 h-11 rounded-xl bg-accent/20 flex items-center justify-center">
+                    <feature.icon className="w-5 h-5 text-accent" />
+                  </div>
+                  <h3 className="font-bold text-white text-lg">
+                    {feature.title}
+                  </h3>
+                  <p className="text-white/55 text-sm leading-relaxed">
+                    {feature.description}
+                  </p>
+                  <div className="mt-auto pt-2 flex items-center gap-1 text-accent text-xs font-semibold">
+                    Explore
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </div>
+                </motion.div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
 
       {/* ── CTA Banner ───────────────────────────────────────── */}
-      <section
-        className="py-16"
-        style={{
-          background:
-            "linear-gradient(160deg, #0D001F 0%, #24003D 55%, #4B0082 100%)",
-        }}
-      >
-        <div className="max-w-3xl mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <div className="relative inline-block mb-4">
-              <div className="absolute inset-0 rounded-full bg-accent/30 blur-xl scale-150" />
-              <div className="relative p-1 rounded-full glass-pill">
-                <img
-                  src="/assets/uploads/Untitled-design-2--1.png"
-                  alt="Lunara"
-                  className="w-16 h-16 rounded-full"
-                />
+      {!user && (
+        <section
+          className="py-16"
+          style={{
+            background:
+              "linear-gradient(160deg, #0D001F 0%, #24003D 55%, #4B0082 100%)",
+          }}
+        >
+          <div className="max-w-3xl mx-auto px-4 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <div className="relative inline-block mb-4">
+                <div className="absolute inset-0 rounded-full bg-accent/30 blur-xl scale-150" />
+                <div className="relative p-1 rounded-full glass-pill">
+                  <img
+                    src="/assets/lunara-logo.png"
+                    alt="Lunara"
+                    className="w-16 h-16 rounded-full"
+                  />
+                </div>
               </div>
-            </div>
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Ready to See Beyond?
-            </h2>
-            <p className="text-white/60 mb-8 text-lg">
-              Be among the first to explore Lunara — your all-in-one space for
-              creativity, community, and connection.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Button
-                className="glass-button text-white font-semibold px-10 py-4 h-auto rounded-full text-lg hover:brightness-110 shadow-hero transition-transform hover:scale-[1.03]"
-                onClick={() =>
-                  document
-                    .getElementById("zones")
-                    ?.scrollIntoView({ behavior: "smooth" })
-                }
-                data-ocid="cta.primary_button"
-              >
-                <Sparkles className="w-5 h-5 mr-2" />
-                Start Your Journey
-              </Button>
-              <a
-                href="mailto:katariavianyt45@gmail.com?subject=Hello%20from%20Lunara"
-                className="inline-flex items-center gap-2 px-10 py-4 rounded-full font-semibold text-white glass-outline hover:bg-white/12 transition-all text-lg"
-                data-ocid="cta.secondary_button"
-              >
-                <Mail className="w-5 h-5" />
-                Get in Touch
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+              <h2 className="text-3xl font-bold text-foreground mb-4">
+                Ready to See Beyond?
+              </h2>
+              <p className="text-foreground/70 mb-8 text-lg">
+                Be among the first to explore Lunara — your all-in-one space for
+                creativity, community, and connection.
+              </p>
+              <div className="flex flex-wrap gap-4 justify-center">
+                <Button
+                  className="glass-button text-white font-semibold px-10 py-4 h-auto rounded-full text-lg hover:brightness-110 shadow-hero transition-transform hover:scale-[1.03]"
+                  onClick={() => navigate({ to: "/login" })}
+                  data-ocid="cta.primary_button"
+                >
+                  <Sparkles className="w-5 h-5 mr-2" />
+                  Start Your Journey
+                </Button>
+                <Link
+                  to="/login"
+                  className="inline-flex items-center gap-2 px-10 py-4 rounded-full font-semibold text-white glass-outline hover:bg-white/12 transition-all text-lg"
+                  data-ocid="cta.secondary_button"
+                >
+                  <Users className="w-5 h-5" />
+                  Get in Touch
+                </Link>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+      )}
     </div>
   );
 }

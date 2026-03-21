@@ -1,7 +1,8 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Link } from "@tanstack/react-router";
+import { useAuth } from "@/hooks/useAuth";
+import { Link, useNavigate } from "@tanstack/react-router";
 import {
   ArrowRight,
   Code2,
@@ -34,9 +35,9 @@ const founders = [
     supporter: null,
   },
   {
-    name: "Abhi",
-    role: "COO",
-    initials: "Ab",
+    name: "HJ",
+    role: "President",
+    initials: "HJ",
     tagline: "The one who made it run.",
     icon: Code2,
     zoneColor: "bg-lunara-devden",
@@ -44,8 +45,18 @@ const founders = [
     supporter: null,
   },
   {
+    name: "Norma",
+    role: "COO",
+    initials: "N",
+    tagline: "The one who keeps the vision clear.",
+    icon: Users,
+    zoneColor: "bg-lunara-artistic",
+    instagram: null,
+    supporter: null,
+  },
+  {
     name: "Luther",
-    role: "CTO",
+    role: "COO",
     initials: "L",
     tagline: "The one who keeps it all together.",
     icon: Wrench,
@@ -59,7 +70,7 @@ const milestones = [
   {
     year: "Day One",
     title: "The Spark",
-    desc: "Arthur had an idea — build something creative, something alive. He reached out to Abhi and they started small: just a minigame, no big team, no fancy setup. Just two people, ambition, and late-night energy.",
+    desc: "Arthur had an idea — build something creative, something alive. He reached out to HJ and they started small: just a minigame, no big team, no fancy setup. Just two people, ambition, and late-night energy.",
   },
   {
     year: "The Name",
@@ -125,7 +136,6 @@ const pricingPlans = [
       "Exclusive VIP chatrooms",
       "Early event registration",
       "Priority support",
-      "Ad-free experience",
     ],
     highlight: true,
   },
@@ -188,9 +198,18 @@ const zones = [
     href: "/marketplace" as const,
     bg: "gradient-hero",
   },
+  {
+    icon: MessageSquare,
+    label: "LunaChat",
+    sub: "WhatsApp-style DMs, group chats, and status updates.",
+    href: "/lunachat" as const,
+    bg: "gradient-hero",
+  },
 ];
 
 export default function About() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   return (
     <div>
       {/* ── Hero ── */}
@@ -214,7 +233,7 @@ export default function About() {
             <div className="relative">
               <div className="absolute inset-0 rounded-full bg-accent/30 blur-2xl scale-150" />
               <img
-                src="/assets/uploads/Untitled-design-2--1.png"
+                src="/assets/lunara-logo.png"
                 alt="Lunara"
                 className="relative w-24 h-24 rounded-full object-cover ring-4 ring-white/20 shadow-2xl"
               />
@@ -280,7 +299,7 @@ export default function About() {
               <p>
                 It started the way most things worth building do — not with a
                 plan, but with a feeling. Arthur had an idea. Something
-                creative, something alive. He reached out to Abhi.
+                creative, something alive. He reached out to HJ.
               </p>
               <p>
                 They started small. Just a minigame. No big team, no fancy
@@ -389,7 +408,7 @@ export default function About() {
               What We&apos;re Building
             </h2>
             <p className="text-white/50 mt-2 text-lg">
-              Eight zones. One universe.{" "}
+              Seven zones. One universe.{" "}
               <span className="text-accent font-semibold">
                 One app. Every vibe.
               </span>
@@ -428,7 +447,7 @@ export default function About() {
 
       {/* ── Founders ── */}
       <section className="py-20 glass-section">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <Badge className="glass-card/80 text-foreground border-white/10 mb-4">
               The Founders
@@ -437,17 +456,17 @@ export default function About() {
               The Minds Behind the Moon
             </h2>
             <p className="text-white/50 mt-2">
-              Three different gifts. One shared vision.
+              Four different gifts. One shared vision.
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {founders.map((founder, i) => (
               <motion.div
                 key={founder.name}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.15 }}
+                transition={{ delay: i * 0.12 }}
                 className="glass-card rounded-3xl p-8 shadow-card text-center"
                 data-ocid={`founders.item.${i + 1}`}
               >
@@ -647,7 +666,7 @@ export default function About() {
       >
         <div className="max-w-3xl mx-auto px-4 text-center">
           <img
-            src="/assets/uploads/Untitled-design-2--1.png"
+            src="/assets/lunara-logo.png"
             alt="Lunara"
             className="w-16 h-16 rounded-full mx-auto mb-4 ring-2 ring-white/20"
           />
@@ -663,25 +682,16 @@ export default function About() {
             finds their home.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Button
-              className="bg-accent text-accent-foreground font-semibold px-8 py-3 h-auto rounded-full hover:bg-accent/90"
-              onClick={() => {
-                const subject = encodeURIComponent(
-                  "Member Registration - Lunara",
-                );
-                const body = encodeURIComponent(
-                  "I want to become a member of Lunara.",
-                );
-                window.open(
-                  `mailto:katariavianyt45@gmail.com?subject=${subject}&body=${body}`,
-                  "_blank",
-                );
-              }}
-              data-ocid="about.primary_button"
-            >
-              <Users className="w-4 h-4 mr-2" />
-              Become a Member
-            </Button>
+            {!user && (
+              <Button
+                className="bg-accent text-accent-foreground font-semibold px-8 py-3 h-auto rounded-full hover:bg-accent/90"
+                onClick={() => navigate({ to: "/login" })}
+                data-ocid="about.primary_button"
+              >
+                <Users className="w-4 h-4 mr-2" />
+                Become a Member
+              </Button>
+            )}
             <Button
               asChild
               variant="outline"

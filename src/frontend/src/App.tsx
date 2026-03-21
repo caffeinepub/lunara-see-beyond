@@ -9,11 +9,13 @@ import {
 import { useEffect } from "react";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import RulesPopup from "./components/RulesPopup";
 import About from "./pages/About";
 import Artistic from "./pages/Artistic";
 import DevDen from "./pages/DevDen";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import LunaChat from "./pages/LunaChat";
 import LunarArcadia from "./pages/LunarArcadia";
 import Marketplace from "./pages/Marketplace";
 import Soundscape from "./pages/Soundscape";
@@ -53,6 +55,7 @@ const rootRoute = createRootRoute({
         <Outlet />
       </main>
       <Footer />
+      <RulesPopup />
     </div>
   ),
 });
@@ -102,6 +105,11 @@ const loginRoute = createRoute({
   path: "/login",
   component: Login,
 });
+const lunaChatRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: "/lunachat",
+  component: LunaChat,
+});
 
 const routeTree = rootRoute.addChildren([
   homeRoute,
@@ -113,6 +121,7 @@ const routeTree = rootRoute.addChildren([
   marketplaceRoute,
   aboutRoute,
   loginRoute,
+  lunaChatRoute,
 ]);
 
 const router = createRouter({ routeTree });

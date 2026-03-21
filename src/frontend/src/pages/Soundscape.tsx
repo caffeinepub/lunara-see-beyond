@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import {
   ArrowRight,
   Bot,
+  Check,
   ExternalLink,
   Headphones,
   Heart,
@@ -14,12 +15,14 @@ import {
   Mic2,
   Music,
   Pause,
+  Pencil,
   Play,
   RotateCcw,
   Send,
   SkipBack,
   SkipForward,
   Star,
+  Trash2,
   Trophy,
   Users,
   Volume2,
@@ -64,252 +67,294 @@ const tameImpalaTracks: Track[] = [
     artist: "Tame Impala",
     duration: "5:18",
     spotifyUrl: "https://open.spotify.com/track/2RlgNHKcydI9sayD2Df2xp",
+    youtubeId: "4LpAGnNGbBc",
   },
   {
     title: "New Person, Same Old Mistakes",
     artist: "Tame Impala",
     duration: "6:03",
     spotifyUrl: "https://open.spotify.com/track/6wH8bsFJSEaWpSFoFnWFLP",
+    youtubeId: "7p3N3MrYTEc",
   },
   {
     title: "Elephant",
     artist: "Tame Impala",
     duration: "3:31",
     spotifyUrl: "https://open.spotify.com/track/4HLznoFMRFOoE0UuARQSoC",
+    youtubeId: "P_vXyMHCb3o",
   },
   {
     title: "Lost In Yesterday",
     artist: "Tame Impala",
     duration: "3:43",
     spotifyUrl: "https://open.spotify.com/track/5JCoSi02qi3jJeHdZXMmR8",
+    youtubeId: "g3AqSy5ZUFA",
   },
   {
     title: "Breathe Deeper",
     artist: "Tame Impala",
     duration: "5:47",
     spotifyUrl: "https://open.spotify.com/track/7fNHUboAlsyoXfXnOb3Ro7",
+    youtubeId: "ACSVZ8Tn9Ko",
   },
   {
     title: "Is It True",
     artist: "Tame Impala",
     duration: "3:45",
     spotifyUrl: "https://open.spotify.com/track/3OwdyOsJPkEkqlSEz87BFh",
+    youtubeId: "6BuHVNBnwOE",
   },
   {
     title: "It Might Be Time",
     artist: "Tame Impala",
     duration: "4:16",
     spotifyUrl: "https://open.spotify.com/track/0lSWGMzaLi4bBIJTgPrq5u",
+    youtubeId: "7qrAXk9FRTg",
   },
   {
     title: "Borderline",
     artist: "Tame Impala",
     duration: "3:53",
     spotifyUrl: "https://open.spotify.com/track/3Xc3TCo2tQFjFBFaqFE7V3",
+    youtubeId: "CQM8M0AaEsI",
   },
   {
     title: "On Track",
     artist: "Tame Impala",
     duration: "4:13",
     spotifyUrl: "https://open.spotify.com/track/6h4X5BaIgzrFRLJIzO3h5m",
+    youtubeId: "3ZDaEJPHJfE",
   },
   {
     title: "One More Year",
     artist: "Tame Impala",
     duration: "4:26",
     spotifyUrl: "https://open.spotify.com/track/4vBzXxlEjXXZt5w6a4r4q5",
+    youtubeId: "jdR0eBIFMus",
   },
   {
     title: "Posthumous Forgiveness",
     artist: "Tame Impala",
     duration: "5:21",
     spotifyUrl: "https://open.spotify.com/track/4nCGhvh4YFpFLNHTHBiLTr",
+    youtubeId: "yVAYnIaP5rk",
   },
   {
     title: "Patience",
     artist: "Tame Impala",
     duration: "5:10",
     spotifyUrl: "https://open.spotify.com/track/2BTZIqlo8icHNmBtJPmPeP",
+    youtubeId: "djqJNVKuRPs",
   },
   {
     title: "Apocalypse Dreams",
     artist: "Tame Impala",
     duration: "5:67",
     spotifyUrl: "https://open.spotify.com/track/5nAFGiKFqpJn7bKoqZhBGT",
+    youtubeId: "siwIMXlYJDI",
   },
   {
     title: "Mind Mischief",
     artist: "Tame Impala",
     duration: "4:53",
     spotifyUrl: "https://open.spotify.com/track/3UMLQzSFiRZeJcmRg2cyFQ",
+    youtubeId: "IiNNn5oJQko",
   },
   {
     title: "Why Won't They Talk to Me?",
     artist: "Tame Impala",
     duration: "3:59",
     spotifyUrl: "https://open.spotify.com/track/4vl9fkDpIzAqb96NxhXMGJ",
+    youtubeId: "d-Z5BpF23qM",
   },
   {
     title: "Music to Walk Home By",
     artist: "Tame Impala",
     duration: "4:57",
     spotifyUrl: "https://open.spotify.com/track/3loPWrKHXKCdGWnYnpTJhp",
+    youtubeId: "JhBL1gTyHJ4",
   },
   {
     title: "Keep On Lying",
     artist: "Tame Impala",
     duration: "6:43",
     spotifyUrl: "https://open.spotify.com/track/5mEHRCdYsJgjXuN2mJMfRg",
+    youtubeId: "GVJlJTnLBsc",
   },
   {
     title: "Endors Toi",
     artist: "Tame Impala",
     duration: "4:07",
     spotifyUrl: "https://open.spotify.com/track/5O2LNZW4CJlBxHiU0iFuKe",
+    youtubeId: "BPSFEBg-nho",
   },
   {
     title: "Solitude Is Bliss",
     artist: "Tame Impala",
     duration: "4:05",
     spotifyUrl: "https://open.spotify.com/track/0vAUZFrPoiN4CZ4PNmaSij",
+    youtubeId: "aJHRRJkDYy0",
   },
   {
     title: "Be Above It",
     artist: "Tame Impala",
     duration: "3:30",
     spotifyUrl: "https://open.spotify.com/track/1L5qKrHt4g6HkAaW8FQLEW",
+    youtubeId: "tWvY2Ee2VMg",
   },
   {
     title: "Lucidity",
     artist: "Tame Impala",
     duration: "4:48",
     spotifyUrl: "https://open.spotify.com/track/0YnUzD1H31E4LPIPiCsKY3",
+    youtubeId: "7i0Uq6e0hHw",
   },
   {
     title: "Half Full Glass of Wine",
     artist: "Tame Impala",
     duration: "3:24",
     spotifyUrl: "https://open.spotify.com/track/4c0Ku4sSwdNj2Vc5R4DPQB",
+    youtubeId: "qT7K2i1j7xo",
   },
   {
     title: "Yes I'm Changing",
     artist: "Tame Impala",
     duration: "4:24",
     spotifyUrl: "https://open.spotify.com/track/2gNfxysfBRfl9Lvi9T3v6R",
+    youtubeId: "lFX6d0x0Yrs",
   },
   {
     title: "Past Life",
     artist: "Tame Impala",
     duration: "3:47",
     spotifyUrl: "https://open.spotify.com/track/7JChKX9BbLx3gGaGFBzf9s",
+    youtubeId: "JlUm7mAKXKw",
   },
   {
     title: "Reality in Motion",
     artist: "Tame Impala",
     duration: "4:12",
     spotifyUrl: "https://open.spotify.com/track/6jtFCFyX0gVQbGQNvbAIqt",
+    youtubeId: "b0TnXA2nKBo",
   },
   {
     title: "The Moment",
     artist: "Tame Impala",
     duration: "4:00",
     spotifyUrl: "https://open.spotify.com/track/0Eo7ggUgNJQLCpb4O8o1B4",
+    youtubeId: "iF4Bc-7nRn4",
   },
   {
     title: "Love / Paranoia",
     artist: "Tame Impala",
     duration: "2:57",
     spotifyUrl: "https://open.spotify.com/track/2sMvkALFzE1JidKgCJxXkk",
+    youtubeId: "q6W3A4BCFDA",
   },
   {
     title: "'Cause I'm a Man",
     artist: "Tame Impala",
     duration: "3:33",
     spotifyUrl: "https://open.spotify.com/track/6XVz1VJxKuIqbR9i1xzLGS",
+    youtubeId: "gZeQuGZgIMc",
   },
   {
     title: "Gossip",
     artist: "Tame Impala",
     duration: "3:44",
     spotifyUrl: "https://open.spotify.com/track/1j3hLlEIUUVvwBl1FZ8rFQ",
+    youtubeId: "Uo4TF7SGLMM",
   },
   {
     title: "No Choice",
     artist: "Tame Impala",
     duration: "3:20",
     spotifyUrl: "https://open.spotify.com/track/6gV0uFJSh9qJmAvlMPG6O3",
+    youtubeId: "5bCcfkSABKs",
   },
   {
     title: "Alter Ego",
     artist: "Tame Impala",
     duration: "4:50",
     spotifyUrl: "https://open.spotify.com/track/5ZgfvEpvNRhSz5OkbqcDmv",
+    youtubeId: "lsWXUmJCiH8",
   },
   {
     title: "Runway, Houses, City, Clouds",
     artist: "Tame Impala",
     duration: "5:31",
     spotifyUrl: "https://open.spotify.com/track/1AuGfJkuLBgrdIi8y5R3kk",
+    youtubeId: "BZ2_1GtoFpY",
   },
   {
     title: "Nothing That Has Happened So Far",
     artist: "Tame Impala",
     duration: "6:29",
     spotifyUrl: "https://open.spotify.com/track/0UkjMuNjIlQmkIDc6BFYCS",
+    youtubeId: "YuIE-xzA81k",
   },
   {
     title: "Sun's Coming Up",
     artist: "Tame Impala",
     duration: "3:16",
     spotifyUrl: "https://open.spotify.com/track/6Jzq2PtBrEH6p9MFsqmrAl",
+    youtubeId: "r-eoiMFk-Ls",
   },
   {
     title: "Led Zeppelin",
     artist: "Tame Impala",
     duration: "2:16",
     spotifyUrl: "https://open.spotify.com/track/4X9e2DxW9OQ9KXv2SdS0ZM",
+    youtubeId: "L9YGkWN_S3M",
   },
   {
     title: "Disciples",
     artist: "Tame Impala",
     duration: "2:13",
     spotifyUrl: "https://open.spotify.com/track/5GrC0wCXBxZzxNq0SKUGv0",
+    youtubeId: "C1ib7wrA0Zo",
   },
   {
     title: "Cause I'm a Man (Reprise)",
     artist: "Tame Impala",
     duration: "1:47",
     spotifyUrl: "https://open.spotify.com/track/2Q9mf9vQ4l1h2dD4t6XHVP",
+    youtubeId: "gZeQuGZgIMc",
   },
   {
     title: "Nangs",
     artist: "Tame Impala",
     duration: "1:46",
     spotifyUrl: "https://open.spotify.com/track/5fNFBJoJEEEPOAbNRRhGDI",
+    youtubeId: "rUCAbCMKQoI",
   },
   {
     title: "The Bold Arrow of Time",
     artist: "Tame Impala",
     duration: "3:04",
     spotifyUrl: "https://open.spotify.com/track/1oi7cDHTHXVJt2cAT0x6bD",
+    youtubeId: "oW7DCBQ3R2o",
   },
   {
     title: "Desire Be Desire Go",
     artist: "Tame Impala",
     duration: "3:27",
     spotifyUrl: "https://open.spotify.com/track/5FKOC0GUDcQJdOxZ6WIy7E",
+    youtubeId: "3yf6qh6NWnQ",
   },
   {
     title: "I Don't Really Mind",
     artist: "Tame Impala",
     duration: "3:48",
     spotifyUrl: "https://open.spotify.com/track/2lS0sLNDrDHxP7hpnxOiLO",
+    youtubeId: "dXjlDFaS7AM",
   },
   {
     title: "Wander",
     artist: "Tame Impala",
     duration: "2:44",
     spotifyUrl: "https://open.spotify.com/track/4dWJXRhJ8D2N5YUlPtBNiF",
+    youtubeId: "iqvjNIhJBSs",
   },
 ];
 
@@ -317,7 +362,7 @@ const drakeTracks: Track[] = [
   {
     title: "God's Plan",
     artist: "Drake",
-    youtubeId: "xpVfcIGjX8I",
+    youtubeId: "xpVfcZ0ZcFM",
     duration: "3:18",
     spotifyUrl: "https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4",
   },
@@ -333,78 +378,91 @@ const drakeTracks: Track[] = [
     artist: "Drake",
     duration: "2:54",
     spotifyUrl: "https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4",
+    youtubeId: "iuP8KnJDHFc",
   },
   {
     title: "In My Feelings",
     artist: "Drake",
     duration: "3:37",
     spotifyUrl: "https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4",
+    youtubeId: "DRS_PpOrUZ4",
   },
   {
     title: "Passionfruit",
     artist: "Drake",
     duration: "4:44",
     spotifyUrl: "https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4",
+    youtubeId: "3QSNm5kUhOA",
   },
   {
     title: "Hold On We're Going Home",
     artist: "Drake",
     duration: "3:47",
     spotifyUrl: "https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4",
+    youtubeId: "C17ANHy_EHk",
   },
   {
     title: "Started From the Bottom",
     artist: "Drake",
     duration: "3:09",
     spotifyUrl: "https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4",
+    youtubeId: "RubFoFYIFdI",
   },
   {
     title: "Best I Ever Had",
     artist: "Drake",
     duration: "4:16",
     spotifyUrl: "https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4",
+    youtubeId: "A0giTbD6VXc",
   },
   {
     title: "Take Care",
     artist: "Drake",
     duration: "4:36",
     spotifyUrl: "https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4",
+    youtubeId: "MZd9Huf7WEE",
   },
   {
     title: "Controlla",
     artist: "Drake",
     duration: "3:33",
     spotifyUrl: "https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4",
+    youtubeId: "6kAiUgTxBjg",
   },
   {
     title: "Nice For What",
     artist: "Drake",
     duration: "3:30",
     spotifyUrl: "https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4",
+    youtubeId: "U9BU5CVkyOo",
   },
   {
     title: "Toosie Slide",
     artist: "Drake",
     duration: "4:04",
     spotifyUrl: "https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4",
+    youtubeId: "xWggTb45brM",
   },
   {
     title: "Rich Flex",
     artist: "Drake",
     duration: "3:08",
     spotifyUrl: "https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4",
+    youtubeId: "wWBmvH5UG0w",
   },
   {
     title: "Jimmy Cooks",
     artist: "Drake",
     duration: "3:40",
     spotifyUrl: "https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4",
+    youtubeId: "DWkEYFqJqRo",
   },
   {
     title: "Texts Go Green",
     artist: "Drake",
     duration: "3:17",
     spotifyUrl: "https://open.spotify.com/artist/3TVXtAsR1Inumwj472S9r4",
+    youtubeId: "xS22y5gY-gc",
   },
 ];
 
@@ -428,78 +486,91 @@ const pinkFloydTracks: Track[] = [
     artist: "Pink Floyd",
     duration: "3:59",
     spotifyUrl: "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9",
+    youtubeId: "YR5ApYxkU-U",
   },
   {
     title: "Time",
     artist: "Pink Floyd",
     duration: "6:53",
     spotifyUrl: "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9",
+    youtubeId: "JwYX52BP2Sk",
   },
   {
     title: "Money",
     artist: "Pink Floyd",
     duration: "6:23",
     spotifyUrl: "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9",
+    youtubeId: "cpbbuaIA_Bg",
   },
   {
     title: "Hey You",
     artist: "Pink Floyd",
     duration: "4:40",
     spotifyUrl: "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9",
+    youtubeId: "9DKXxsRLCDc",
   },
   {
     title: "Us and Them",
     artist: "Pink Floyd",
     duration: "7:49",
     spotifyUrl: "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9",
+    youtubeId: "LMH2sYDeORY",
   },
   {
     title: "Shine On You Crazy Diamond",
     artist: "Pink Floyd",
     duration: "13:30",
     spotifyUrl: "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9",
+    youtubeId: "54W8kktFE_o",
   },
   {
     title: "Brain Damage",
     artist: "Pink Floyd",
     duration: "3:49",
     spotifyUrl: "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9",
+    youtubeId: "b3eXjCYpPFA",
   },
   {
     title: "The Great Gig in the Sky",
     artist: "Pink Floyd",
     duration: "4:44",
     spotifyUrl: "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9",
+    youtubeId: "k9ynIXcBAsQ",
   },
   {
     title: "Breathe",
     artist: "Pink Floyd",
     duration: "2:50",
     spotifyUrl: "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9",
+    youtubeId: "vBSAZbNEMkA",
   },
   {
     title: "Dogs",
     artist: "Pink Floyd",
     duration: "17:05",
     spotifyUrl: "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9",
+    youtubeId: "SuCGDEHgKgM",
   },
   {
     title: "Pigs",
     artist: "Pink Floyd",
     duration: "11:28",
     spotifyUrl: "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9",
+    youtubeId: "pHIL4gANVvE",
   },
   {
     title: "Run Like Hell",
     artist: "Pink Floyd",
     duration: "4:20",
     spotifyUrl: "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9",
+    youtubeId: "mO7bRSbCpP4",
   },
   {
     title: "Learning to Fly",
     artist: "Pink Floyd",
     duration: "4:53",
     spotifyUrl: "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9",
+    youtubeId: "_8mZoSMHfxs",
   },
 ];
 
@@ -523,78 +594,91 @@ const michaelJacksonTracks: Track[] = [
     artist: "Michael Jackson",
     duration: "4:18",
     spotifyUrl: "https://open.spotify.com/artist/3fMbdgg4jU18AjLCKBhRSm",
+    youtubeId: "oRdxUFDoQe0",
   },
   {
     title: "Smooth Criminal",
     artist: "Michael Jackson",
     duration: "4:17",
     spotifyUrl: "https://open.spotify.com/artist/3fMbdgg4jU18AjLCKBhRSm",
+    youtubeId: "h_D3VFfhvs4",
   },
   {
     title: "Man in the Mirror",
     artist: "Michael Jackson",
     duration: "5:18",
     spotifyUrl: "https://open.spotify.com/artist/3fMbdgg4jU18AjLCKBhRSm",
+    youtubeId: "PivWY9wn5ps",
   },
   {
     title: "Black or White",
     artist: "Michael Jackson",
     duration: "4:16",
     spotifyUrl: "https://open.spotify.com/artist/3fMbdgg4jU18AjLCKBhRSm",
+    youtubeId: "F2AitTPI5U0",
   },
   {
     title: "Don't Stop 'Til You Get Enough",
     artist: "Michael Jackson",
     duration: "6:04",
     spotifyUrl: "https://open.spotify.com/artist/3fMbdgg4jU18AjLCKBhRSm",
+    youtubeId: "yURRmWtbTbo",
   },
   {
     title: "PYT",
     artist: "Michael Jackson",
     duration: "3:58",
     spotifyUrl: "https://open.spotify.com/artist/3fMbdgg4jU18AjLCKBhRSm",
+    youtubeId: "PpRxsEbRKzg",
   },
   {
     title: "Rock With You",
     artist: "Michael Jackson",
     duration: "3:40",
     spotifyUrl: "https://open.spotify.com/artist/3fMbdgg4jU18AjLCKBhRSm",
+    youtubeId: "5X4n0aboVUs",
   },
   {
     title: "Bad",
     artist: "Michael Jackson",
     duration: "4:07",
     spotifyUrl: "https://open.spotify.com/artist/3fMbdgg4jU18AjLCKBhRSm",
+    youtubeId: "dsUXAEzaC3Q",
   },
   {
     title: "Human Nature",
     artist: "Michael Jackson",
     duration: "4:06",
     spotifyUrl: "https://open.spotify.com/artist/3fMbdgg4jU18AjLCKBhRSm",
+    youtubeId: "AT6jMn9BhE0",
   },
   {
     title: "Wanna Be Startin' Somethin'",
     artist: "Michael Jackson",
     duration: "6:02",
     spotifyUrl: "https://open.spotify.com/artist/3fMbdgg4jU18AjLCKBhRSm",
+    youtubeId: "A-8KA_fUMqQ",
   },
   {
     title: "Earth Song",
     artist: "Michael Jackson",
     duration: "6:46",
     spotifyUrl: "https://open.spotify.com/artist/3fMbdgg4jU18AjLCKBhRSm",
+    youtubeId: "XAi3VTSdTxU",
   },
   {
     title: "You Are Not Alone",
     artist: "Michael Jackson",
     duration: "5:39",
     spotifyUrl: "https://open.spotify.com/artist/3fMbdgg4jU18AjLCKBhRSm",
+    youtubeId: "xU6DtfXmRJ8",
   },
   {
     title: "Remember the Time",
     artist: "Michael Jackson",
     duration: "3:59",
     spotifyUrl: "https://open.spotify.com/artist/3fMbdgg4jU18AjLCKBhRSm",
+    youtubeId: "LeiFF0jDlqA",
   },
 ];
 
@@ -611,66 +695,77 @@ const au5Tracks: Track[] = [
     artist: "Au5",
     duration: "4:48",
     spotifyUrl: "https://open.spotify.com/artist/5yqndF4ibFUEBxFAj8X0XD",
+    youtubeId: "hZd5eFDuDI0",
   },
   {
     title: "A New Morning",
     artist: "Au5",
     duration: "5:33",
     spotifyUrl: "https://open.spotify.com/artist/5yqndF4ibFUEBxFAj8X0XD",
+    youtubeId: "VwJfFE8MRYQ",
   },
   {
     title: "Closer",
     artist: "Au5",
     duration: "4:22",
     spotifyUrl: "https://open.spotify.com/artist/5yqndF4ibFUEBxFAj8X0XD",
+    youtubeId: "hEuWm4glgOM",
   },
   {
     title: "Proximity",
     artist: "Au5",
     duration: "5:01",
     spotifyUrl: "https://open.spotify.com/artist/5yqndF4ibFUEBxFAj8X0XD",
+    youtubeId: "qvP7R7p9jto",
   },
   {
     title: "Tidal Wave",
     artist: "Au5",
     duration: "4:55",
     spotifyUrl: "https://open.spotify.com/artist/5yqndF4ibFUEBxFAj8X0XD",
+    youtubeId: "IqaLByoQVVc",
   },
   {
     title: "Kaleidoscope",
     artist: "Au5",
     duration: "5:17",
     spotifyUrl: "https://open.spotify.com/artist/5yqndF4ibFUEBxFAj8X0XD",
+    youtubeId: "Lnn3jKY5t24",
   },
   {
     title: "Stars Align",
     artist: "Au5",
     duration: "4:44",
     spotifyUrl: "https://open.spotify.com/artist/5yqndF4ibFUEBxFAj8X0XD",
+    youtubeId: "8Q8aFj2kNIE",
   },
   {
     title: "Reflection",
     artist: "Au5",
     duration: "5:08",
     spotifyUrl: "https://open.spotify.com/artist/5yqndF4ibFUEBxFAj8X0XD",
+    youtubeId: "y5FNqVl2ZSY",
   },
   {
     title: "Paper Skies",
     artist: "Au5",
     duration: "4:37",
     spotifyUrl: "https://open.spotify.com/artist/5yqndF4ibFUEBxFAj8X0XD",
+    youtubeId: "f7oGtYg7OFo",
   },
   {
     title: "Reach",
     artist: "Au5",
     duration: "4:59",
     spotifyUrl: "https://open.spotify.com/artist/5yqndF4ibFUEBxFAj8X0XD",
+    youtubeId: "ZFaW-xyFT5g",
   },
   {
     title: "Without You",
     artist: "Au5",
     duration: "5:24",
     spotifyUrl: "https://open.spotify.com/artist/5yqndF4ibFUEBxFAj8X0XD",
+    youtubeId: "sSPbStVfqh0",
   },
 ];
 
@@ -694,60 +789,70 @@ const sabrinaCarpenterTracks: Track[] = [
     artist: "Sabrina Carpenter",
     duration: "2:58",
     spotifyUrl: "https://open.spotify.com/artist/74KM79TiuVKeVCqs8QtB0B",
+    youtubeId: "cWCMFHb2MJo",
   },
   {
     title: "Feather",
     artist: "Sabrina Carpenter",
     duration: "2:59",
     spotifyUrl: "https://open.spotify.com/artist/74KM79TiuVKeVCqs8QtB0B",
+    youtubeId: "H_8TBzJjm4A",
   },
   {
     title: "Bad for Business",
     artist: "Sabrina Carpenter",
     duration: "2:52",
     spotifyUrl: "https://open.spotify.com/artist/74KM79TiuVKeVCqs8QtB0B",
+    youtubeId: "HlW-t2DVkeA",
   },
   {
     title: "because i liked a boy",
     artist: "Sabrina Carpenter",
     duration: "2:41",
     spotifyUrl: "https://open.spotify.com/artist/74KM79TiuVKeVCqs8QtB0B",
+    youtubeId: "z2qMv_4vViA",
   },
   {
     title: "Skin",
     artist: "Sabrina Carpenter",
     duration: "3:01",
     spotifyUrl: "https://open.spotify.com/artist/74KM79TiuVKeVCqs8QtB0B",
+    youtubeId: "RqFf5wITLDM",
   },
   {
     title: "emails i can't send",
     artist: "Sabrina Carpenter",
     duration: "3:26",
     spotifyUrl: "https://open.spotify.com/artist/74KM79TiuVKeVCqs8QtB0B",
+    youtubeId: "rF7oXFQmPbw",
   },
   {
     title: "Read My Mind",
     artist: "Sabrina Carpenter",
     duration: "3:15",
     spotifyUrl: "https://open.spotify.com/artist/74KM79TiuVKeVCqs8QtB0B",
+    youtubeId: "9F0q2jvETdY",
   },
   {
     title: "Fast Times",
     artist: "Sabrina Carpenter",
     duration: "3:11",
     spotifyUrl: "https://open.spotify.com/artist/74KM79TiuVKeVCqs8QtB0B",
+    youtubeId: "c6-hHH0UXdE",
   },
   {
     title: "Vicious",
     artist: "Sabrina Carpenter",
     duration: "2:48",
     spotifyUrl: "https://open.spotify.com/artist/74KM79TiuVKeVCqs8QtB0B",
+    youtubeId: "nthvtulOGrc",
   },
   {
     title: "Coincidence",
     artist: "Sabrina Carpenter",
     duration: "3:22",
     spotifyUrl: "https://open.spotify.com/artist/74KM79TiuVKeVCqs8QtB0B",
+    youtubeId: "l7yBxRpqJAM",
   },
 ];
 
@@ -771,60 +876,70 @@ const duaLipaTracks: Track[] = [
     artist: "Dua Lipa",
     duration: "3:29",
     spotifyUrl: "https://open.spotify.com/artist/6M2wZ9GZgrQXHCFfjv46we",
+    youtubeId: "k2qgadSvNru",
   },
   {
     title: "Physical",
     artist: "Dua Lipa",
     duration: "3:13",
     spotifyUrl: "https://open.spotify.com/artist/6M2wZ9GZgrQXHCFfjv46we",
+    youtubeId: "9HDEHj2yzew",
   },
   {
     title: "One Kiss",
     artist: "Dua Lipa",
     duration: "3:34",
     spotifyUrl: "https://open.spotify.com/artist/6M2wZ9GZgrQXHCFfjv46we",
+    youtubeId: "DkeiKbqa02g",
   },
   {
     title: "Break My Heart",
     artist: "Dua Lipa",
     duration: "3:41",
     spotifyUrl: "https://open.spotify.com/artist/6M2wZ9GZgrQXHCFfjv46we",
+    youtubeId: "Nj2U6rhnucI",
   },
   {
     title: "IDGAF",
     artist: "Dua Lipa",
     duration: "3:33",
     spotifyUrl: "https://open.spotify.com/artist/6M2wZ9GZgrQXHCFfjv46we",
+    youtubeId: "V9tTaHMO4m8",
   },
   {
     title: "Hotter than Hell",
     artist: "Dua Lipa",
     duration: "3:31",
     spotifyUrl: "https://open.spotify.com/artist/6M2wZ9GZgrQXHCFfjv46we",
+    youtubeId: "kV9YNCoL3KI",
   },
   {
     title: "Be the One",
     artist: "Dua Lipa",
     duration: "3:43",
     spotifyUrl: "https://open.spotify.com/artist/6M2wZ9GZgrQXHCFfjv46we",
+    youtubeId: "_bdVTPNh7cg",
   },
   {
     title: "Hallucinate",
     artist: "Dua Lipa",
     duration: "3:28",
     spotifyUrl: "https://open.spotify.com/artist/6M2wZ9GZgrQXHCFfjv46we",
+    youtubeId: "jT5HWnW6ha0",
   },
   {
     title: "Love Again",
     artist: "Dua Lipa",
     duration: "4:31",
     spotifyUrl: "https://open.spotify.com/artist/6M2wZ9GZgrQXHCFfjv46we",
+    youtubeId: "AOeNGCEzYI8",
   },
   {
     title: "Training Season",
     artist: "Dua Lipa",
     duration: "3:05",
     spotifyUrl: "https://open.spotify.com/artist/6M2wZ9GZgrQXHCFfjv46we",
+    youtubeId: "AYJHh8kMSmk",
   },
 ];
 
@@ -841,54 +956,63 @@ const tateMcRaeTracks: Track[] = [
     artist: "Tate McRae",
     duration: "2:11",
     spotifyUrl: "https://open.spotify.com/artist/45dkTj5sMRSjrmBSBeiHym",
+    youtubeId: "TZIJLOtHvh8",
   },
   {
     title: "she's all i wanna be",
     artist: "Tate McRae",
     duration: "2:29",
     spotifyUrl: "https://open.spotify.com/artist/45dkTj5sMRSjrmBSBeiHym",
+    youtubeId: "FDO_uu9flgc",
   },
   {
     title: "2 hands",
     artist: "Tate McRae",
     duration: "2:57",
     spotifyUrl: "https://open.spotify.com/artist/45dkTj5sMRSjrmBSBeiHym",
+    youtubeId: "mvPTILMRBKg",
   },
   {
     title: "chaotic",
     artist: "Tate McRae",
     duration: "2:40",
     spotifyUrl: "https://open.spotify.com/artist/45dkTj5sMRSjrmBSBeiHym",
+    youtubeId: "8iGEyTiVWuU",
   },
   {
     title: "stupid",
     artist: "Tate McRae",
     duration: "2:58",
     spotifyUrl: "https://open.spotify.com/artist/45dkTj5sMRSjrmBSBeiHym",
+    youtubeId: "WYc-nYV-oac",
   },
   {
     title: "working",
     artist: "Tate McRae",
     duration: "3:06",
     spotifyUrl: "https://open.spotify.com/artist/45dkTj5sMRSjrmBSBeiHym",
+    youtubeId: "p_OBbLqMYnY",
   },
   {
     title: "boy stopped calling",
     artist: "Tate McRae",
     duration: "2:53",
     spotifyUrl: "https://open.spotify.com/artist/45dkTj5sMRSjrmBSBeiHym",
+    youtubeId: "r5RHePHKuSs",
   },
   {
     title: "what would you do?",
     artist: "Tate McRae",
     duration: "3:18",
     spotifyUrl: "https://open.spotify.com/artist/45dkTj5sMRSjrmBSBeiHym",
+    youtubeId: "xmFEMFRxazU",
   },
   {
     title: "2WEI",
     artist: "Tate McRae",
     duration: "2:45",
     spotifyUrl: "https://open.spotify.com/artist/45dkTj5sMRSjrmBSBeiHym",
+    youtubeId: "6j0c7xPDMkY",
   },
   {
     title: "\u201894",
@@ -901,6 +1025,532 @@ const tateMcRaeTracks: Track[] = [
     artist: "Tate McRae",
     duration: "2:52",
     spotifyUrl: "https://open.spotify.com/artist/45dkTj5sMRSjrmBSBeiHym",
+    youtubeId: "jqUkXHJNnR0",
+  },
+];
+
+const sherylCrowTracks: Track[] = [
+  {
+    title: "All I Wanna Do",
+    artist: "Sheryl Crow",
+    duration: "4:33",
+    youtubeId: "QKMm2s4wJO4",
+  },
+  {
+    title: "If It Makes You Happy",
+    artist: "Sheryl Crow",
+    duration: "4:33",
+    youtubeId: "PbFt1L0TIi4",
+  },
+  {
+    title: "Strong Enough",
+    artist: "Sheryl Crow",
+    duration: "3:10",
+    youtubeId: "O0_jYFBKUjo",
+  },
+  {
+    title: "Everyday Is a Winding Road",
+    artist: "Sheryl Crow",
+    duration: "3:47",
+    youtubeId: "xUBWM3PNRpI",
+  },
+  {
+    title: "My Favorite Mistake",
+    artist: "Sheryl Crow",
+    duration: "4:04",
+    youtubeId: "n1bX8gAj5KU",
+  },
+  {
+    title: "Soak Up the Sun",
+    artist: "Sheryl Crow",
+    duration: "4:48",
+    youtubeId: "_mzUIe7Lm6E",
+  },
+  {
+    title: "The First Cut Is the Deepest",
+    artist: "Sheryl Crow",
+    duration: "3:52",
+    youtubeId: "HECdM07A5Vw",
+  },
+  {
+    title: "Run Baby Run",
+    artist: "Sheryl Crow",
+    duration: "4:15",
+    youtubeId: "f-01GaZqM7s",
+  },
+  {
+    title: "Leaving Las Vegas",
+    artist: "Sheryl Crow",
+    duration: "5:45",
+    youtubeId: "l3_aHX5YIXM",
+  },
+  {
+    title: "Hard to Make a Stand",
+    artist: "Sheryl Crow",
+    duration: "4:14",
+    youtubeId: "Z6ksaLY0DMA",
+  },
+  {
+    title: "Home",
+    artist: "Sheryl Crow",
+    duration: "3:08",
+    youtubeId: "1VQQHNDFlbQ",
+  },
+  {
+    title: "Are You Strong Enough",
+    artist: "Sheryl Crow",
+    duration: "4:04",
+    youtubeId: "r8wWmUVBzgM",
+  },
+];
+
+const theWeekndTracks: Track[] = [
+  {
+    title: "Blinding Lights",
+    artist: "The Weeknd",
+    duration: "3:22",
+    youtubeId: "4NRXx6pOFa0",
+  },
+  {
+    title: "Save Your Tears",
+    artist: "The Weeknd",
+    duration: "3:35",
+    youtubeId: "LIIDh-qI9oI",
+  },
+  {
+    title: "Starboy",
+    artist: "The Weeknd",
+    duration: "3:50",
+    youtubeId: "34Na4j8AVgA",
+  },
+  {
+    title: "Can't Feel My Face",
+    artist: "The Weeknd",
+    duration: "3:35",
+    youtubeId: "KEI4qSrkPAs",
+  },
+  {
+    title: "The Hills",
+    artist: "The Weeknd",
+    duration: "3:55",
+    youtubeId: "yzTuBuRdAyA",
+  },
+  {
+    title: "After Hours",
+    artist: "The Weeknd",
+    duration: "6:01",
+    youtubeId: "SkHBHSiCa9E",
+  },
+  {
+    title: "Heartless",
+    artist: "The Weeknd",
+    duration: "3:18",
+    youtubeId: "1W-mRPXTNEo",
+  },
+  {
+    title: "Die For You",
+    artist: "The Weeknd",
+    duration: "4:20",
+    youtubeId: "mGTe_uN8HlI",
+  },
+  {
+    title: "Call Out My Name",
+    artist: "The Weeknd",
+    duration: "3:47",
+    youtubeId: "P9KTLiZ2bF0",
+  },
+  {
+    title: "Often",
+    artist: "The Weeknd",
+    duration: "4:08",
+    youtubeId: "0G3_kG5FFfQ",
+  },
+  {
+    title: "In Your Eyes",
+    artist: "The Weeknd",
+    duration: "3:57",
+    youtubeId: "dqRZDebPIGs",
+  },
+  {
+    title: "Earned It",
+    artist: "The Weeknd",
+    duration: "4:03",
+    youtubeId: "waU75jdUnYw",
+  },
+];
+
+const billieEilishTracks: Track[] = [
+  {
+    title: "bad guy",
+    artist: "Billie Eilish",
+    duration: "3:14",
+    youtubeId: "DyDfgMOUjCI",
+  },
+  {
+    title: "Happier Than Ever",
+    artist: "Billie Eilish",
+    duration: "4:58",
+    youtubeId: "5GJWxDKyk3A",
+  },
+  {
+    title: "lovely",
+    artist: "Billie Eilish",
+    duration: "3:20",
+    youtubeId: "AkQzh51Aav8",
+  },
+  {
+    title: "when the party's over",
+    artist: "Billie Eilish",
+    duration: "3:16",
+    youtubeId: "pbMwTqkKSps",
+  },
+  {
+    title: "ocean eyes",
+    artist: "Billie Eilish",
+    duration: "3:21",
+    youtubeId: "viimfQi_pUw",
+  },
+  {
+    title: "Therefore I Am",
+    artist: "Billie Eilish",
+    duration: "2:54",
+    youtubeId: "RUCo-QBaJO0",
+  },
+  {
+    title: "Bellyache",
+    artist: "Billie Eilish",
+    duration: "2:43",
+    youtubeId: "TKBqnNnYV50",
+  },
+  {
+    title: "everything i wanted",
+    artist: "Billie Eilish",
+    duration: "4:05",
+    youtubeId: "EgBJmlPo8Xk",
+  },
+  {
+    title: "No Time To Die",
+    artist: "Billie Eilish",
+    duration: "4:04",
+    youtubeId: "GB_S2qFh5lU",
+  },
+  {
+    title: "Your Power",
+    artist: "Billie Eilish",
+    duration: "4:03",
+    youtubeId: "HQmmM_qwG8k",
+  },
+  {
+    title: "Skinny",
+    artist: "Billie Eilish",
+    duration: "3:32",
+    youtubeId: "dK2bSuP-lGs",
+  },
+  {
+    title: "What Was I Made For",
+    artist: "Billie Eilish",
+    duration: "3:42",
+    youtubeId: "xEeFrLSkMm8",
+  },
+];
+
+const edSheeranTracks: Track[] = [
+  {
+    title: "Shape of You",
+    artist: "Ed Sheeran",
+    duration: "3:53",
+    youtubeId: "JGwWNGJdvx8",
+  },
+  {
+    title: "Perfect",
+    artist: "Ed Sheeran",
+    duration: "4:23",
+    youtubeId: "2Vv-BfVoq4g",
+  },
+  {
+    title: "Thinking Out Loud",
+    artist: "Ed Sheeran",
+    duration: "4:41",
+    youtubeId: "lp-EO5I60KA",
+  },
+  {
+    title: "Photograph",
+    artist: "Ed Sheeran",
+    duration: "4:19",
+    youtubeId: "nSDgHBxUbVQ",
+  },
+  {
+    title: "Castle on the Hill",
+    artist: "Ed Sheeran",
+    duration: "4:21",
+    youtubeId: "K0ibBPhiaG0",
+  },
+  {
+    title: "Shivers",
+    artist: "Ed Sheeran",
+    duration: "3:27",
+    youtubeId: "Kt8AFKFax2k",
+  },
+  {
+    title: "Bad Habits",
+    artist: "Ed Sheeran",
+    duration: "3:51",
+    youtubeId: "orJSJGHjBLI",
+  },
+  {
+    title: "Galway Girl",
+    artist: "Ed Sheeran",
+    duration: "2:50",
+    youtubeId: "QddPDKhbC3s",
+  },
+  {
+    title: "Happier",
+    artist: "Ed Sheeran",
+    duration: "3:27",
+    youtubeId: "eFLFEz8i3sg",
+  },
+  {
+    title: "Don't",
+    artist: "Ed Sheeran",
+    duration: "3:40",
+    youtubeId: "D01NqOJ_fyY",
+  },
+  {
+    title: "Lego House",
+    artist: "Ed Sheeran",
+    duration: "3:04",
+    youtubeId: "c4BLVznuWnU",
+  },
+  {
+    title: "Give Me Love",
+    artist: "Ed Sheeran",
+    duration: "5:06",
+    youtubeId: "MgZtUxPZNyw",
+  },
+];
+
+const taylorSwiftTracks: Track[] = [
+  {
+    title: "Anti-Hero",
+    artist: "Taylor Swift",
+    duration: "3:20",
+    youtubeId: "b1kbLwvqugk",
+  },
+  {
+    title: "Shake It Off",
+    artist: "Taylor Swift",
+    duration: "3:39",
+    youtubeId: "nfWlot6h_JM",
+  },
+  {
+    title: "Blank Space",
+    artist: "Taylor Swift",
+    duration: "3:51",
+    youtubeId: "e-ORhEE9VVg",
+  },
+  {
+    title: "Love Story",
+    artist: "Taylor Swift",
+    duration: "3:55",
+    youtubeId: "8xg3vE8Ie_E",
+  },
+  {
+    title: "You Belong With Me",
+    artist: "Taylor Swift",
+    duration: "3:51",
+    youtubeId: "VuNIsY6JdUw",
+  },
+  {
+    title: "Cruel Summer",
+    artist: "Taylor Swift",
+    duration: "2:58",
+    youtubeId: "ic8j13piAhQ",
+  },
+  {
+    title: "Style",
+    artist: "Taylor Swift",
+    duration: "3:51",
+    youtubeId: "HFGOBsJ2Pck",
+  },
+  {
+    title: "cardigan",
+    artist: "Taylor Swift",
+    duration: "3:59",
+    youtubeId: "K-a8s8OLBSE",
+  },
+  {
+    title: "All Too Well",
+    artist: "Taylor Swift",
+    duration: "5:28",
+    youtubeId: "tollGa3S6bc",
+  },
+  {
+    title: "22",
+    artist: "Taylor Swift",
+    duration: "3:52",
+    youtubeId: "AgFeZr5ptV8",
+  },
+  {
+    title: "Wildest Dreams",
+    artist: "Taylor Swift",
+    duration: "3:40",
+    youtubeId: "IdneKLhsWOQ",
+  },
+  {
+    title: "Delicate",
+    artist: "Taylor Swift",
+    duration: "3:52",
+    youtubeId: "tCXGJQYZ9JA",
+  },
+];
+
+const coldplayTracks: Track[] = [
+  {
+    title: "Yellow",
+    artist: "Coldplay",
+    duration: "4:29",
+    youtubeId: "yKNxeF4KMsY",
+  },
+  {
+    title: "The Scientist",
+    artist: "Coldplay",
+    duration: "5:09",
+    youtubeId: "RB-RcX5DS5A",
+  },
+  {
+    title: "Fix You",
+    artist: "Coldplay",
+    duration: "4:55",
+    youtubeId: "k4V3Mo61fJM",
+  },
+  {
+    title: "A Sky Full of Stars",
+    artist: "Coldplay",
+    duration: "4:27",
+    youtubeId: "VPRjCeoBqrI",
+  },
+  {
+    title: "Viva la Vida",
+    artist: "Coldplay",
+    duration: "4:01",
+    youtubeId: "dvgZkm1xWPE",
+  },
+  {
+    title: "Clocks",
+    artist: "Coldplay",
+    duration: "5:07",
+    youtubeId: "d020hcWA_Ww",
+  },
+  {
+    title: "Speed of Sound",
+    artist: "Coldplay",
+    duration: "4:48",
+    youtubeId: "LFGLL6f6UfQ",
+  },
+  {
+    title: "Paradise",
+    artist: "Coldplay",
+    duration: "4:38",
+    youtubeId: "1G4isv_Fylg",
+  },
+  {
+    title: "Sparks",
+    artist: "Coldplay",
+    duration: "3:47",
+    youtubeId: "YvWTBhqEdBc",
+  },
+  {
+    title: "Trouble",
+    artist: "Coldplay",
+    duration: "4:30",
+    youtubeId: "9S1UGMEoiLc",
+  },
+  {
+    title: "In My Place",
+    artist: "Coldplay",
+    duration: "3:57",
+    youtubeId: "hEp7AuXxuQk",
+  },
+  {
+    title: "My Universe",
+    artist: "Coldplay",
+    duration: "3:58",
+    youtubeId: "nOABniHyeY0",
+  },
+];
+
+const arianaGrandeTracks: Track[] = [
+  {
+    title: "thank u, next",
+    artist: "Ariana Grande",
+    duration: "3:27",
+    youtubeId: "gl1aHhXnN1k",
+  },
+  {
+    title: "7 rings",
+    artist: "Ariana Grande",
+    duration: "2:58",
+    youtubeId: "QYh6mYIJG2Y",
+  },
+  {
+    title: "no tears left to cry",
+    artist: "Ariana Grande",
+    duration: "3:26",
+    youtubeId: "ffxKSjfjcuc",
+  },
+  {
+    title: "positions",
+    artist: "Ariana Grande",
+    duration: "2:52",
+    youtubeId: "tcYodQoapMg",
+  },
+  {
+    title: "God is a woman",
+    artist: "Ariana Grande",
+    duration: "3:18",
+    youtubeId: "kHLHSlExFis",
+  },
+  {
+    title: "Problem",
+    artist: "Ariana Grande",
+    duration: "3:33",
+    youtubeId: "iS1g8SpkdjY",
+  },
+  {
+    title: "Side to Side",
+    artist: "Ariana Grande",
+    duration: "3:23",
+    youtubeId: "SXiSVQZLje8",
+  },
+  {
+    title: "Into You",
+    artist: "Ariana Grande",
+    duration: "4:03",
+    youtubeId: "9CgCrSMGqKs",
+  },
+  {
+    title: "One Last Time",
+    artist: "Ariana Grande",
+    duration: "3:21",
+    youtubeId: "2FPiYH4KLHY",
+  },
+  {
+    title: "Break Free",
+    artist: "Ariana Grande",
+    duration: "3:49",
+    youtubeId: "fdq1OV-XelU",
+  },
+  {
+    title: "breathin",
+    artist: "Ariana Grande",
+    duration: "3:32",
+    youtubeId: "tFsMnWd5Kgc",
+  },
+  {
+    title: "Dangerous Woman",
+    artist: "Ariana Grande",
+    duration: "3:55",
+    youtubeId: "apPsJn5w6Bo",
   },
 ];
 
@@ -992,6 +1642,76 @@ const featuredArtists = [
     trackCount: 12,
     spotifyUrl: "https://open.spotify.com/artist/45dkTj5sMRSjrmBSBeiHym",
     isExternal: true,
+  },
+  {
+    name: "Sheryl Crow",
+    genre: "Rock / Country",
+    initials: "SC",
+    listeners: "8.2M",
+    latest: "Evolution",
+    tags: ["Rock", "Country", "Classic"],
+    trackCount: 12,
+    isExternal: false,
+  },
+  {
+    name: "The Weeknd",
+    genre: "R&B / Pop",
+    initials: "TW",
+    listeners: "62.3M",
+    latest: "After Hours",
+    tags: ["R&B", "Pop", "Dark Pop"],
+    trackCount: 12,
+    isExternal: false,
+  },
+  {
+    name: "Billie Eilish",
+    genre: "Alt-Pop / Dark Pop",
+    initials: "BE",
+    listeners: "55.1M",
+    latest: "Hit Me Hard and Soft",
+    tags: ["Alt-Pop", "Indie", "Dark"],
+    trackCount: 12,
+    isExternal: false,
+  },
+  {
+    name: "Ed Sheeran",
+    genre: "Pop / Folk",
+    initials: "ES",
+    listeners: "68.4M",
+    latest: "Subtract",
+    tags: ["Pop", "Folk", "Acoustic"],
+    trackCount: 12,
+    isExternal: false,
+  },
+  {
+    name: "Taylor Swift",
+    genre: "Pop / Country",
+    initials: "TS",
+    listeners: "82.1M",
+    latest: "The Tortured Poets Department",
+    tags: ["Pop", "Country", "Indie"],
+    trackCount: 12,
+    isExternal: false,
+  },
+  {
+    name: "Coldplay",
+    genre: "Alternative Rock / Pop",
+    initials: "CP",
+    listeners: "43.7M",
+    latest: "Moon Music",
+    tags: ["Rock", "Alternative", "Pop"],
+    trackCount: 12,
+    isExternal: false,
+  },
+  {
+    name: "Ariana Grande",
+    genre: "Pop / R&B",
+    initials: "AG",
+    listeners: "71.8M",
+    latest: "Eternal Sunshine",
+    tags: ["Pop", "R&B", "Dance"],
+    trackCount: 12,
+    isExternal: false,
   },
 ];
 
@@ -1128,6 +1848,18 @@ function formatSeconds(s: number): string {
   return `${m}:${sec.toString().padStart(2, "0")}`;
 }
 
+// Load YouTube IFrame API once globally
+let ytApiLoaded = false;
+function loadYouTubeAPI() {
+  if (ytApiLoaded) return;
+  ytApiLoaded = true;
+  if (!(window as any).YT || !(window as any).YT.Player) {
+    const tag = document.createElement("script");
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(tag);
+  }
+}
+
 function AudioPlayer({
   track,
   onClose,
@@ -1137,13 +1869,90 @@ function AudioPlayer({
 }) {
   const [playing, setPlaying] = useState(true);
   const [currentSeconds, setCurrentSeconds] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [effectiveDuration, setEffectiveDuration] = useState(() =>
+    parseDurationToSeconds(track.duration),
+  );
   const [volume, setVolume] = useState(75);
+  const [ytReady, setYtReady] = useState(
+    () => !!(window as any).YT && !!(window as any).YT.Player,
+  );
+  const ytPlayerRef = useRef<any>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
+  // stable unique id for YT player container
+  const playerContainerId = useRef(
+    `yt-player-${Math.random().toString(36).substr(2, 9)}`,
+  ).current;
 
-  const trackKey = track.title + track.artist;
-  // biome-ignore lint/correctness/useExhaustiveDependencies: trackKey identifies track changes
+  // Load YT API
+  // eslint-disable-next-line
   useEffect(() => {
+    loadYouTubeAPI();
+    const prev = (window as any).onYouTubeIframeAPIReady;
+    (window as any).onYouTubeIframeAPIReady = () => {
+      setYtReady(true);
+      if (prev) prev();
+    };
+    // poll in case API already loaded between render and effect
+    const poll = setInterval(() => {
+      if ((window as any).YT?.Player) {
+        setYtReady(true);
+        clearInterval(poll);
+      }
+    }, 200);
+    return () => clearInterval(poll);
+  }, []);
+
+  const trackKey = `${track.title}::${track.artist}::${track.youtubeId ?? track.audioSrc ?? ""}`;
+
+  // Init / reinit YT player when API ready or track changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: trackKey + ytReady are the deps
+  useEffect(() => {
+    if (!track.youtubeId) return;
+    if (!ytReady) return;
+
+    setCurrentSeconds(0);
+    setEffectiveDuration(parseDurationToSeconds(track.duration));
+    setPlaying(true);
+
+    if (
+      ytPlayerRef.current &&
+      typeof ytPlayerRef.current.loadVideoById === "function"
+    ) {
+      try {
+        ytPlayerRef.current.loadVideoById(track.youtubeId);
+        ytPlayerRef.current.setVolume(volume);
+      } catch {}
+    } else {
+      // Destroy stale player if any
+      try {
+        ytPlayerRef.current?.destroy();
+      } catch {}
+      ytPlayerRef.current = new (window as any).YT.Player(playerContainerId, {
+        videoId: track.youtubeId,
+        playerVars: {
+          autoplay: 1,
+          controls: 0,
+          disablekb: 1,
+          rel: 0,
+          modestbranding: 1,
+          origin: window.location.origin,
+        },
+        events: {
+          onReady: (e: any) => {
+            try {
+              e.target.setVolume(volume);
+              e.target.playVideo();
+            } catch {}
+          },
+        },
+      });
+    }
+  }, [trackKey, ytReady]);
+
+  // Reset for non-youtube tracks (uploaded audio)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: trackKey is the dep
+  useEffect(() => {
+    if (track.youtubeId) return;
     setCurrentSeconds(0);
     setPlaying(true);
     if (audioRef.current && track.audioSrc) {
@@ -1152,48 +1961,75 @@ function AudioPlayer({
     }
   }, [trackKey]);
 
+  // Sync play/pause for YT
   useEffect(() => {
-    if (!audioRef.current) return;
-    if (playing) {
-      audioRef.current.play().catch(() => {});
-    } else {
-      audioRef.current.pause();
-    }
-  }, [playing]);
+    if (!ytPlayerRef.current || !track.youtubeId) return;
+    try {
+      if (playing) ytPlayerRef.current.playVideo();
+      else ytPlayerRef.current.pauseVideo();
+    } catch {}
+  }, [playing, track.youtubeId]);
 
+  // Sync play/pause for HTML audio
   useEffect(() => {
-    if (!audioRef.current) return;
-    audioRef.current.volume = volume / 100;
+    if (!audioRef.current || track.youtubeId) return;
+    if (playing) audioRef.current.play().catch(() => {});
+    else audioRef.current.pause();
+  }, [playing, track.youtubeId]);
+
+  // Volume sync
+  useEffect(() => {
+    try {
+      ytPlayerRef.current?.setVolume(volume);
+    } catch {}
+    if (audioRef.current) audioRef.current.volume = volume / 100;
   }, [volume]);
 
+  // Timer polling for YT
+  useEffect(() => {
+    if (!track.youtubeId) return;
+    const interval = setInterval(() => {
+      if (!ytPlayerRef.current) return;
+      try {
+        const cur = ytPlayerRef.current.getCurrentTime?.() ?? 0;
+        const dur = ytPlayerRef.current.getDuration?.() ?? 0;
+        setCurrentSeconds(Math.floor(cur));
+        if (dur > 0) setEffectiveDuration(Math.floor(dur));
+      } catch {}
+    }, 500);
+    return () => clearInterval(interval);
+  }, [track.youtubeId]);
+
+  // HTML audio handlers
   const handleTimeUpdate = () => {
-    if (audioRef.current) {
+    if (audioRef.current)
       setCurrentSeconds(Math.floor(audioRef.current.currentTime));
-    }
   };
-
   const handleLoadedMetadata = () => {
-    if (audioRef.current) {
-      setDuration(Math.floor(audioRef.current.duration));
-    }
+    if (audioRef.current)
+      setEffectiveDuration(Math.floor(audioRef.current.duration));
   };
-
   const handleEnded = () => {
     setPlaying(false);
     setCurrentSeconds(0);
   };
 
-  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!audioRef.current) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const ratio = (e.clientX - rect.left) / rect.width;
-    audioRef.current.currentTime = ratio * (audioRef.current.duration || 0);
-  };
-
-  const effectiveDuration =
-    duration > 0 ? duration : parseDurationToSeconds(track.duration);
   const progress =
     effectiveDuration > 0 ? (currentSeconds / effectiveDuration) * 100 : 0;
+
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const ratio = (e.clientX - rect.left) / rect.width;
+    const seekTo = ratio * effectiveDuration;
+    setCurrentSeconds(Math.floor(seekTo));
+    if (track.youtubeId) {
+      try {
+        ytPlayerRef.current?.seekTo(seekTo, true);
+      } catch {}
+    } else if (audioRef.current) {
+      audioRef.current.currentTime = seekTo;
+    }
+  };
 
   return (
     <motion.div
@@ -1203,6 +2039,23 @@ function AudioPlayer({
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className="fixed bottom-0 left-0 right-0 z-40 glass-card px-4 py-3"
     >
+      {/* Hidden YT player container — audio plays through this */}
+      {track.youtubeId && (
+        <div
+          id={playerContainerId}
+          style={{
+            position: "absolute",
+            width: "1px",
+            height: "1px",
+            opacity: 0,
+            pointerEvents: "none",
+            overflow: "hidden",
+            top: 0,
+            left: 0,
+          }}
+        />
+      )}
+      {/* HTML audio for uploaded tracks */}
       {track.audioSrc && !track.youtubeId && (
         <audio
           ref={audioRef}
@@ -1216,18 +2069,6 @@ function AudioPlayer({
         >
           <track default kind="captions" srcLang="en" src="" label="English" />
         </audio>
-      )}
-      {track.youtubeId && (
-        <div className="fixed bottom-16 left-0 right-0 z-40 max-w-2xl mx-auto px-4 pb-2">
-          <iframe
-            src={`https://www.youtube.com/embed/${track.youtubeId}?autoplay=1&rel=0`}
-            allow="autoplay; encrypted-media"
-            allowFullScreen
-            className="w-full rounded-xl"
-            style={{ height: "200px", border: "none" }}
-            title={track.title}
-          />
-        </div>
       )}
       <div className="max-w-7xl mx-auto flex items-center gap-4">
         {/* Track info */}
@@ -1250,75 +2091,67 @@ function AudioPlayer({
         </div>
 
         {/* Controls */}
-        {track.audioSrc ? (
-          <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                className="text-white/50 hover:text-foreground transition-colors"
-              >
-                <SkipBack className="w-4 h-4" />
-              </button>
-              <button
-                type="button"
-                onClick={() => setPlaying((p) => !p)}
-                className="w-9 h-9 rounded-full bg-accent flex items-center justify-center text-accent-foreground hover:bg-accent/80 transition-colors"
-                data-ocid="player.toggle"
-              >
-                {playing ? (
-                  <Pause className="w-4 h-4" />
-                ) : (
-                  <Play className="w-4 h-4" />
-                )}
-              </button>
-              <button
-                type="button"
-                className="text-white/50 hover:text-foreground transition-colors"
-              >
-                <SkipForward className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="flex items-center gap-2 w-56">
-              <span className="text-xs text-white/50 w-8">
-                {formatSeconds(currentSeconds)}
-              </span>
-              <div
-                className="flex-1 h-1.5 bg-white/20 rounded-full cursor-pointer relative overflow-hidden"
-                onClick={handleProgressClick}
-                onKeyDown={() => {}}
-                role="slider"
-                aria-valuenow={progress}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                tabIndex={0}
-              >
-                <div
-                  className="absolute left-0 top-0 h-full bg-accent rounded-full transition-all"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-              <span className="text-xs text-white/50 w-8">
-                {track.duration}
-              </span>
-            </div>
+        <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              className="text-white/50 hover:text-foreground transition-colors"
+            >
+              <SkipBack className="w-4 h-4" />
+            </button>
+            <button
+              type="button"
+              onClick={() => setPlaying((p) => !p)}
+              className="w-9 h-9 rounded-full bg-accent flex items-center justify-center text-accent-foreground hover:bg-accent/80 transition-colors"
+              data-ocid="player.toggle"
+            >
+              {playing ? (
+                <Pause className="w-4 h-4" />
+              ) : (
+                <Play className="w-4 h-4" />
+              )}
+            </button>
+            <button
+              type="button"
+              className="text-white/50 hover:text-foreground transition-colors"
+            >
+              <SkipForward className="w-4 h-4" />
+            </button>
           </div>
-        ) : track.youtubeId ? null : (
-          <div className="text-sm text-white/40">Preview not available</div>
-        )}
+          <div className="flex items-center gap-2 w-56">
+            <span className="text-xs text-white/50 w-8">
+              {formatSeconds(currentSeconds)}
+            </span>
+            <div
+              className="flex-1 h-1.5 bg-white/20 rounded-full cursor-pointer relative overflow-hidden"
+              onClick={handleSeek}
+              onKeyDown={() => {}}
+              role="slider"
+              aria-valuenow={progress}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              tabIndex={0}
+            >
+              <div
+                className="absolute left-0 top-0 h-full bg-accent rounded-full transition-all"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            <span className="text-xs text-white/50 w-8">
+              {formatSeconds(effectiveDuration)}
+            </span>
+          </div>
+        </div>
 
         {/* Volume + close */}
         <div className="hidden md:flex items-center gap-2 flex-1 justify-end">
-          {track.audioSrc && (
-            <>
-              <Volume2 className="w-4 h-4 text-white/50" />
-              <Slider
-                value={[volume]}
-                onValueChange={(v) => setVolume(v[0])}
-                max={100}
-                className="w-24"
-              />
-            </>
-          )}
+          <Volume2 className="w-4 h-4 text-white/50" />
+          <Slider
+            value={[volume]}
+            onValueChange={(v) => setVolume(v[0])}
+            max={100}
+            className="w-24"
+          />
           <button
             type="button"
             onClick={onClose}
@@ -1941,11 +2774,34 @@ function MusicianLounge() {
     }
   });
   const [msgInput, setMsgInput] = useState("");
-  const bottomRef = useRef<HTMLDivElement>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editText, setEditText] = useState("");
+
+  const deleteMsg = (id: string) => {
+    const updated = messages.filter((m) => m.id !== id);
+    setMessages(updated);
+    localStorage.setItem("lunara_musician_chat", JSON.stringify(updated));
+  };
+
+  const confirmEdit = () => {
+    if (!editingId || !editText.trim()) {
+      setEditingId(null);
+      return;
+    }
+    const updated = messages.map((m) =>
+      m.id === editingId ? { ...m, text: editText.trim() } : m,
+    );
+    setMessages(updated);
+    localStorage.setItem("lunara_musician_chat", JSON.stringify(updated));
+    setEditingId(null);
+    setEditText("");
+  };
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: scroll on message change
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (containerRef.current)
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
   }, [messages]);
 
   const handleSetName = (e: React.FormEvent) => {
@@ -2013,7 +2869,9 @@ function MusicianLounge() {
         </span>
       </div>
       <div
+        ref={containerRef}
         className="max-h-96 overflow-y-auto p-4 space-y-3"
+        style={{ minHeight: 0, maxHeight: "calc(100vh - 320px)" }}
         data-ocid="musician_chat.panel"
       >
         {messages.length === 0 ? (
@@ -2026,8 +2884,10 @@ function MusicianLounge() {
         ) : (
           messages.map((msg) => {
             const initials = msg.username.slice(0, 2).toUpperCase();
+            const isOwn = msg.username === username;
+            const isEditing = editingId === msg.id;
             return (
-              <div key={msg.id} className="flex items-start gap-3">
+              <div key={msg.id} className="group flex items-start gap-3">
                 <div className="w-8 h-8 rounded-full bg-accent/25 flex items-center justify-center text-accent text-xs font-bold shrink-0">
                   {initials}
                 </div>
@@ -2039,16 +2899,66 @@ function MusicianLounge() {
                     <span className="text-xs text-white/30">
                       {timeAgo(msg.timestamp)}
                     </span>
+                    {isOwn && !isEditing && (
+                      <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity ml-1">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEditingId(msg.id);
+                            setEditText(msg.text);
+                          }}
+                          className="p-1 rounded-lg bg-white/10 hover:bg-accent/30 text-white/40 hover:text-white transition-colors"
+                          title="Edit"
+                        >
+                          <Pencil className="w-3 h-3" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => deleteMsg(msg.id)}
+                          className="p-1 rounded-lg bg-white/10 hover:bg-red-500/40 text-white/40 hover:text-red-300 transition-colors"
+                          title="Delete"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                        </button>
+                      </div>
+                    )}
                   </div>
-                  <p className="text-sm text-white/80 break-words">
-                    {msg.text}
-                  </p>
+                  {isEditing ? (
+                    <div className="flex items-center gap-1 mt-1">
+                      <input
+                        value={editText}
+                        onChange={(e) => setEditText(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") confirmEdit();
+                          if (e.key === "Escape") setEditingId(null);
+                        }}
+                        className="flex-1 bg-white/15 border border-accent/50 rounded-xl px-3 py-1.5 text-sm text-white outline-none min-w-0"
+                      />
+                      <button
+                        type="button"
+                        onClick={confirmEdit}
+                        className="p-1 rounded-lg bg-accent/40 hover:bg-accent/60 text-white transition-colors"
+                      >
+                        <Check className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setEditingId(null)}
+                        className="p-1 rounded-lg bg-white/10 hover:bg-white/20 text-white/60 transition-colors"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  ) : (
+                    <p className="text-sm text-white/80 break-words">
+                      {msg.text}
+                    </p>
+                  )}
                 </div>
               </div>
             );
           })
         )}
-        <div ref={bottomRef} />
       </div>
       <form
         onSubmit={handleSend}
@@ -2076,19 +2986,33 @@ function MusicianLounge() {
 }
 
 const GLOBAL_LISTEN_DATA = [
-  { name: "Tame Impala", seconds: 48600, initials: "TI" },
-  { name: "Pink Floyd", seconds: 43200, initials: "PF" },
-  { name: "Drake", seconds: 39600, initials: "DR" },
-  { name: "Michael Jackson", seconds: 36000, initials: "MJ" },
-  { name: "Dua Lipa", seconds: 32400, initials: "DL" },
-  { name: "Au5", seconds: 28800, initials: "A5" },
-  { name: "Sabrina Carpenter", seconds: 25200, initials: "SC" },
-  { name: "Sheryl Crow", seconds: 21600, initials: "SC" },
-  { name: "Tate McRae", seconds: 18000, initials: "TM" },
+  { name: "Taylor Swift", seconds: 96000, initials: "TS" },
+  { name: "Ed Sheeran", seconds: 88200, initials: "ES" },
+  { name: "Ariana Grande", seconds: 82800, initials: "AG" },
+  { name: "The Weeknd", seconds: 79200, initials: "TW" },
+  { name: "Drake", seconds: 72000, initials: "DR" },
+  { name: "Tame Impala", seconds: 65400, initials: "TI" },
+  { name: "Coldplay", seconds: 61200, initials: "CP" },
+  { name: "Billie Eilish", seconds: 57600, initials: "BE" },
+  { name: "Dua Lipa", seconds: 54000, initials: "DL" },
+  { name: "Pink Floyd", seconds: 50400, initials: "PF" },
+  { name: "Michael Jackson", seconds: 46800, initials: "MJ" },
+  { name: "Sabrina Carpenter", seconds: 43200, initials: "SC" },
+  { name: "Au5", seconds: 36000, initials: "A5" },
+  { name: "Tate McRae", seconds: 32400, initials: "TM" },
+  { name: "Sheryl Crow", seconds: 28800, initials: "SH" },
 ];
 
 export default function Soundscape() {
   const [nowPlaying, setNowPlaying] = useState<Track | null>(null);
+  const [betaDismissed, setBetaDismissed] = useState(
+    () => localStorage.getItem("soundscape_beta_seen") === "1",
+  );
+
+  const dismissBeta = () => {
+    localStorage.setItem("soundscape_beta_seen", "1");
+    setBetaDismissed(true);
+  };
 
   // Scroll to top when page loads
   useEffect(() => {
@@ -2107,6 +3031,13 @@ export default function Soundscape() {
     "Sabrina Carpenter": sabrinaCarpenterTracks,
     "Dua Lipa": duaLipaTracks,
     "Tate McRae": tateMcRaeTracks,
+    "Sheryl Crow": sherylCrowTracks,
+    "The Weeknd": theWeekndTracks,
+    "Billie Eilish": billieEilishTracks,
+    "Ed Sheeran": edSheeranTracks,
+    "Taylor Swift": taylorSwiftTracks,
+    Coldplay: coldplayTracks,
+    "Ariana Grande": arianaGrandeTracks,
   };
 
   const listenStartRef = useRef<number | null>(null);
@@ -2189,11 +3120,55 @@ export default function Soundscape() {
   };
 
   const playTrack = (track: Track) => {
-    setNowPlaying(track);
+    // If the track already has youtubeId or audioSrc, use it directly
+    if (track.youtubeId || track.audioSrc) {
+      setNowPlaying(track);
+      return;
+    }
+    // Otherwise look up the full track object (with youtubeId) from artist track arrays
+    const allTracks = Object.values(allArtistTracks).flat();
+    const found = allTracks.find(
+      (t) =>
+        t.title.toLowerCase() === track.title.toLowerCase() &&
+        t.artist.toLowerCase() === track.artist.toLowerCase(),
+    );
+    setNowPlaying(found ?? track);
   };
 
   return (
     <div className={nowPlaying ? "pb-24" : ""}>
+      {/* Beta Notice Banner */}
+      {!betaDismissed && (
+        <div
+          className="mx-4 mt-4 sm:mx-6 lg:mx-8"
+          style={{ maxWidth: "48rem", margin: "1rem auto 0" }}
+        >
+          <div
+            className="flex items-start gap-3 px-4 py-3 rounded-2xl"
+            style={{
+              background: "rgba(107,0,173,0.25)",
+              border: "1px solid rgba(180,100,255,0.35)",
+              backdropFilter: "blur(16px)",
+            }}
+          >
+            <span className="text-lg leading-none mt-0.5">🧪</span>
+            <p className="flex-1 text-sm text-white/80 leading-snug">
+              <span className="font-semibold text-white">Beta feature</span> —
+              Soundscape is still in beta and might not work exactly as
+              expected.
+            </p>
+            <button
+              type="button"
+              onClick={dismissBeta}
+              className="shrink-0 text-white/40 hover:text-white transition-colors mt-0.5"
+              aria-label="Dismiss"
+              data-ocid="soundscape.close_button"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
       {/* Hero */}
       <section className="gradient-soundscape min-h-[60vh] flex items-center relative overflow-hidden">
         <div className="absolute inset-0 bg-black/30" />

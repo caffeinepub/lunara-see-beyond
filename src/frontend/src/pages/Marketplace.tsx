@@ -1,3 +1,4 @@
+import { LoginGate } from "@/components/LoginGate";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/hooks/useAuth";
 import { Mail, MessageCircle, Plus, ShoppingBag, Tag } from "lucide-react";
 import { useState } from "react";
 
@@ -79,6 +81,7 @@ const EMOJIS_BY_CATEGORY: Record<Exclude<Category, "All">, string> = {
 };
 
 export default function Marketplace() {
+  const { user } = useAuth();
   const [listings, setListings] = useState<Listing[]>([]);
   const [activeCategory, setActiveCategory] = useState<Category>("All");
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -157,16 +160,24 @@ export default function Marketplace() {
             risk.
           </div>
 
+          {!user && (
+            <LoginGate
+              message="Sign in to add products"
+              subtext="Create an account or log in to list items for sale in MoonMart."
+            />
+          )}
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger asChild>
-              <Button
-                className="glass-button text-white rounded-full px-8 py-3 text-base font-semibold hover:brightness-125 transition-all"
-                data-ocid="marketplace.open_modal_button"
-              >
-                <Plus className="w-5 h-5 mr-2" />
-                List an Item
-              </Button>
-            </DialogTrigger>
+            {user && (
+              <DialogTrigger asChild>
+                <Button
+                  className="glass-button text-white rounded-full px-8 py-3 text-base font-semibold hover:brightness-125 transition-all"
+                  data-ocid="marketplace.open_modal_button"
+                >
+                  <Plus className="w-5 h-5 mr-2" />
+                  List an Item
+                </Button>
+              </DialogTrigger>
+            )}
             <DialogContent
               className="glass-card border-white/15 text-foreground max-w-md"
               data-ocid="marketplace.dialog"

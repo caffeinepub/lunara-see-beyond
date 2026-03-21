@@ -31,12 +31,14 @@ export default function Login() {
     | "forgot-otp"
     | "forgot-newpass";
 
-  const [step, setStep] = useState<Step>("profile");
+  // Start directly on login — skip the profile picker step
+  const [step, setStep] = useState<Step>("login");
 
   // Login form
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loginError, setLoginError] = useState("");
+  const [rememberMe, setRememberMe] = useState(true);
 
   // Register form
   const [regName, setRegName] = useState("");
@@ -85,7 +87,7 @@ export default function Login() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError("");
-    const ok = auth.login(loginEmail, loginPassword);
+    const ok = auth.login(loginEmail, loginPassword, rememberMe);
     if (!ok) {
       setLoginError("Invalid email or password.");
     } else {
@@ -185,7 +187,7 @@ export default function Login() {
         }}
       >
         <img
-          src="/assets/uploads/Untitled-design-2--1.png"
+          src="/assets/lunara-logo.png"
           alt="Lunara"
           className="w-full h-full object-cover"
         />
@@ -211,71 +213,6 @@ export default function Login() {
       <div className="fixed bottom-1/4 right-1/4 w-64 h-64 rounded-full bg-purple-500/15 blur-3xl pointer-events-none" />
 
       <AnimatePresence mode="wait">
-        {/* ── Profile picker ── */}
-        {step === "profile" && (
-          <motion.div
-            key="profile"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.35 }}
-            className="flex flex-col items-center gap-8 w-full max-w-xs text-center"
-          >
-            <div>
-              <h1 className="text-3xl font-bold text-white mb-1">Lunara</h1>
-              <p className="text-white/40 text-sm">See Beyond the Ordinary</p>
-            </div>
-            <button
-              type="button"
-              onClick={() => setStep("login")}
-              className="group flex flex-col items-center gap-3 focus:outline-none"
-            >
-              <div className="relative">
-                <div className="absolute inset-0 rounded-full bg-violet-500/40 blur-2xl scale-125 group-hover:bg-violet-400/50 transition-all" />
-                <div
-                  className="relative w-28 h-28 rounded-full ring-2 ring-white/20 group-hover:ring-white/50 transition-all overflow-hidden shadow-2xl"
-                  style={{
-                    background: "rgba(255,255,255,0.08)",
-                    backdropFilter: "blur(20px)",
-                  }}
-                >
-                  <img
-                    src="/assets/uploads/Untitled-design-2--1.png"
-                    alt="Lunara"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-              <span className="text-white/80 text-sm font-medium group-hover:text-white transition-colors">
-                Sign in to Lunara
-              </span>
-            </button>
-            <div className="flex flex-col gap-3 w-full">
-              <Button
-                onClick={() => setStep("login")}
-                className={purpleBtn}
-                style={purpleBtnStyle}
-                data-ocid="login.submit_button"
-              >
-                Sign In
-              </Button>
-              <Button
-                onClick={() => setStep("register")}
-                variant="outline"
-                className="w-full h-11 rounded-full font-semibold border-white/20 text-white/70 hover:text-white hover:border-white/40 bg-white/5 hover:bg-white/10 transition-all"
-              >
-                Create Account
-              </Button>
-            </div>
-            <Link
-              to="/"
-              className="text-white/30 hover:text-white/60 text-sm transition-colors"
-            >
-              ← Back to home
-            </Link>
-          </motion.div>
-        )}
-
         {/* ── Sign In ── */}
         {step === "login" && (
           <motion.div
@@ -314,6 +251,17 @@ export default function Login() {
                 style={INPUT_STYLE}
                 data-ocid="login.input"
               />
+              {/* Remember Me */}
+              <label className="flex items-center gap-2 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-4 h-4 rounded accent-violet-500 cursor-pointer"
+                  data-ocid="login.checkbox"
+                />
+                <span className="text-white/60 text-xs">Remember me</span>
+              </label>
               {loginError && (
                 <p
                   className="text-red-400 text-sm text-center"
@@ -356,7 +304,12 @@ export default function Login() {
             >
               Create a new account
             </button>
-            {backBtn("profile")}
+            <Link
+              to="/"
+              className="text-white/30 hover:text-white/60 text-sm transition-colors"
+            >
+              ← Back to home
+            </Link>
           </motion.div>
         )}
 
@@ -447,7 +400,7 @@ export default function Login() {
             >
               Already have an account? Sign in
             </button>
-            {backBtn("profile")}
+            {backBtn("login")}
           </motion.div>
         )}
 

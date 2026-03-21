@@ -1470,21 +1470,25 @@ function RoastBattle() {
   const [roasts, setRoasts] = useState<RoastMessage[]>(INITIAL_ROASTS);
   const [input, setInput] = useState("");
   const endRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const fire = () => {
     const text = input.trim();
     if (!text) return;
     setRoasts((prev) => [...prev, { user: "You", text, side: "right" }]);
     setInput("");
-    setTimeout(
-      () => endRef.current?.scrollIntoView({ behavior: "smooth" }),
-      50,
-    );
+    setTimeout(() => {
+      if (containerRef.current)
+        containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }, 50);
   };
 
   return (
     <div className="space-y-4">
-      <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
+      <div
+        ref={containerRef}
+        className="space-y-3 max-h-72 overflow-y-auto pr-1"
+      >
         {roasts.map((r, i) => (
           <div
             key={`${r.user}-${i}`}

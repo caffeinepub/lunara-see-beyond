@@ -12,34 +12,44 @@ const STORAGE_KEY = "lunara_user";
 export function useAuth() {
   const [user, setUser] = useState<LunaraUser | null>(() => {
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
+      const raw =
+        localStorage.getItem(STORAGE_KEY) ??
+        sessionStorage.getItem(STORAGE_KEY);
       return raw ? JSON.parse(raw) : null;
     } catch {
       return null;
     }
   });
 
-  const login = useCallback((email: string, password: string): boolean => {
-    if (!email || !password) return false;
-    try {
-      const stored = localStorage.getItem("lunara_users_db");
-      const usersDb: Record<string, { name: string; password: string }> = stored
-        ? JSON.parse(stored)
-        : {};
-      const userData = usersDb[email.toLowerCase()];
-      if (!userData || userData.password !== password) return false;
-      const u: LunaraUser = {
-        name: userData.name,
-        email: email.toLowerCase(),
-        isAdmin: ADMIN_EMAILS.includes(email.toLowerCase()),
-      };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(u));
-      setUser(u);
-      return true;
-    } catch {
-      return false;
-    }
-  }, []);
+  const login = useCallback(
+    (email: string, password: string, rememberMe = true): boolean => {
+      if (!email || !password) return false;
+      try {
+        const stored = localStorage.getItem("lunara_users_db");
+        const usersDb: Record<string, { name: string; password: string }> =
+          stored ? JSON.parse(stored) : {};
+        const userData = usersDb[email.toLowerCase()];
+        if (!userData || userData.password !== password) return false;
+        const u: LunaraUser = {
+          name: userData.name,
+          email: email.toLowerCase(),
+          isAdmin: ADMIN_EMAILS.includes(email.toLowerCase()),
+        };
+        if (rememberMe) {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(u));
+          sessionStorage.removeItem(STORAGE_KEY);
+        } else {
+          sessionStorage.setItem(STORAGE_KEY, JSON.stringify(u));
+          localStorage.removeItem(STORAGE_KEY);
+        }
+        setUser(u);
+        return true;
+      } catch {
+        return false;
+      }
+    },
+    [],
+  );
 
   const register = useCallback(
     (name: string, email: string, password: string): boolean => {
@@ -68,6 +78,7 @@ export function useAuth() {
 
   const logout = useCallback(() => {
     localStorage.removeItem(STORAGE_KEY);
+    sessionStorage.removeItem(STORAGE_KEY);
     setUser(null);
   }, []);
 

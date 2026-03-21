@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { SiDiscord, SiGithub, SiInstagram, SiX } from "react-icons/si";
+import { SiDiscord, SiInstagram } from "react-icons/si";
 
 const footerLinks = [
   { label: "Home", href: "/" as const },
@@ -16,9 +16,7 @@ const socialLinks = [
     href: "https://www.instagram.com/lunaratoday?igsh=aTQxcnEwd3U0dzR0",
     label: "Instagram",
   },
-  { icon: SiX, href: "#", label: "X (Twitter)" },
   { icon: SiDiscord, href: "https://discord.gg/X7xuEdE3D6", label: "Discord" },
-  { icon: SiGithub, href: "#", label: "GitHub" },
 ];
 
 export default function Footer() {
@@ -56,8 +54,8 @@ export default function Footer() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  target={href !== "#" ? "_blank" : undefined}
-                  rel={href !== "#" ? "noopener noreferrer" : undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-8 h-8 flex items-center justify-center rounded-full glass hover:bg-accent/30 hover:border-accent/40 transition-all text-white/50 hover:text-white"
                 >
                   <Icon className="w-4 h-4" />
@@ -71,7 +69,7 @@ export default function Footer() {
               <div className="relative">
                 <div className="absolute inset-0 rounded-full bg-accent/30 blur-md" />
                 <img
-                  src="/assets/uploads/Untitled-design-2--1.png"
+                  src="/assets/lunara-logo.png"
                   alt="Lunara"
                   className="relative w-9 h-9 object-cover rounded-full ring-2 ring-white/15"
                 />

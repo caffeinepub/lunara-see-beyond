@@ -103,6 +103,7 @@ export enum Zone {
     devden = "devden"
 }
 export interface backendInterface {
+    _initializeAccessControlWithSecret(secret: string): Promise<void>;
     addPost(title: string, content: string, zone: Zone, author: string): Promise<void>;
     getAllPosts(): Promise<Array<Post>>;
 }
@@ -136,6 +137,9 @@ export class Backend implements backendInterface {
             const result = await this.actor.getAllPosts();
             return from_candid_vec_n3(this._uploadFile, this._downloadFile, result);
         }
+    }
+    async _initializeAccessControlWithSecret(_secret: string): Promise<void> {
+        // no-op: access control initialization handled by Caffeine platform
     }
 }
 function from_candid_Post_n4(_uploadFile: (file: ExternalBlob) => Promise<Uint8Array>, _downloadFile: (file: Uint8Array) => Promise<ExternalBlob>, value: _Post): Post {
