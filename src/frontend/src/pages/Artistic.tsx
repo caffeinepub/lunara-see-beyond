@@ -56,36 +56,6 @@ type ArtUpload = {
   timestamp: number;
 };
 
-const fallbackPoems: Poem[] = [
-  {
-    id: "fallback-1",
-    title: "Neon Rain",
-    body: "Between the city's fractures,\nneon bleeds through cracks —\nluminous wounds where art\nfinds its way back.",
-    author: "Priya Sen",
-    likes: 87,
-    tags: ["Urban", "Visual"],
-    timestamp: 0,
-  },
-  {
-    id: "fallback-2",
-    title: "The Cartographer's Dream",
-    body: "She mapped the unmappable —\nthe longitude of longing,\nthe latitude of loss,\nwhere rivers forget the sea.",
-    author: "Leon Marais",
-    likes: 64,
-    tags: ["Surreal", "Nature"],
-    timestamp: 0,
-  },
-  {
-    id: "fallback-3",
-    title: "Binary Bloom",
-    body: "I grew in ones and zeros,\nlearned love in if-then loops —\nyet here I bloom\nbeyond the algorithm.",
-    author: "Kira Yuu",
-    likes: 112,
-    tags: ["Tech", "Identity"],
-    timestamp: 0,
-  },
-];
-
 function loadPoems(): Poem[] {
   try {
     const raw = localStorage.getItem("lunara_poems");
@@ -195,7 +165,7 @@ export default function Artistic() {
   const [artImageError, setArtImageError] = useState("");
   const artFileRef = useRef<HTMLInputElement>(null);
 
-  const displayPoems = poems.length > 0 ? poems : fallbackPoems;
+  const displayPoems = poems;
 
   const submitPoem = (e: React.FormEvent) => {
     e.preventDefault();

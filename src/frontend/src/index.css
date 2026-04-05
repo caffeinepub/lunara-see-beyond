@@ -713,3 +713,419 @@
 .light-mode section [class*="text-white"] {
   color: #1a0035 !important;
 }
+
+/* ── Always-visible text in white/light input boxes ─────────────────────── */
+input:not([type="range"]):not([type="checkbox"]):not([type="radio"]),
+textarea,
+select {
+  color: #111111 !important;
+  caret-color: #6a0dad;
+}
+input:not([type="range"]):not([type="checkbox"]):not(
+    [type="radio"]
+  )::placeholder,
+textarea::placeholder {
+  color: rgba(50, 50, 50, 0.5) !important;
+}
+
+/* Override for dark-glass inputs (bg-white/10) — keep white text there */
+input[class*="text-white"],
+textarea[class*="text-white"] {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+input[class*="text-white"]::placeholder,
+textarea[class*="text-white"]::placeholder {
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* ── Login Page: scoped styles (dark base, adaptive in light mode) ── */
+.lunara-login-page {
+  background: linear-gradient(160deg, #0d001f 0%, #24003d 50%, #4b0082 100%);
+  min-height: 100vh;
+}
+
+.lunara-login-card {
+  background: rgba(255, 255, 255, 0.07);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+.lunara-login-heading {
+  color: #ffffff;
+}
+
+.lunara-login-sub {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.lunara-login-muted {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.lunara-login-back-btn {
+  color: rgba(255, 255, 255, 0.35);
+}
+.lunara-login-back-btn:hover {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.lunara-divider {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Light Mode: Login page overrides ── */
+.light-mode .lunara-login-page {
+  background: linear-gradient(160deg, #f0e8ff 0%, #e8d8ff 50%, #ddc8ff 100%);
+}
+
+.light-mode .lunara-login-card {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(106, 13, 173, 0.18);
+  box-shadow: 0 20px 60px rgba(106, 13, 173, 0.12);
+}
+
+.light-mode .lunara-login-heading {
+  color: #1a0035 !important;
+}
+
+.light-mode .lunara-login-sub {
+  color: rgba(26, 0, 53, 0.7) !important;
+}
+
+.light-mode .lunara-login-muted {
+  color: rgba(26, 0, 53, 0.55) !important;
+}
+
+.light-mode .lunara-login-back-btn {
+  color: rgba(26, 0, 53, 0.5) !important;
+}
+.light-mode .lunara-login-back-btn:hover {
+  color: rgba(26, 0, 53, 0.8) !important;
+}
+
+.light-mode .lunara-divider {
+  background: rgba(106, 13, 173, 0.15);
+}
+
+/* ── Light Mode: gradient sections (Soundscape etc.) ── */
+/* Dark gradient sections need light backgrounds so text (forced dark) is readable */
+.light-mode .gradient-soundscape {
+  background: linear-gradient(135deg, #e8d8ff 0%, #d4b8ff 100%);
+}
+
+.light-mode .gradient-devden {
+  background: linear-gradient(135deg, #e0d0ff 0%, #cbb0ff 100%);
+}
+
+.light-mode .gradient-artistic {
+  background: linear-gradient(135deg, #f0d8ff 0%, #ddb8ff 100%);
+}
+
+.light-mode .gradient-hero {
+  background: linear-gradient(160deg, #f0e8ff 0%, #e0d0ff 55%, #d0b8ff 100%);
+}
+
+/* ── Light Mode: ensure text inside gradient sections is readable ── */
+.light-mode .gradient-soundscape *,
+.light-mode .gradient-devden *,
+.light-mode .gradient-artistic * {
+  --light-mode-text: #1a0035;
+}
+
+/* Headings and paragraphs inside gradient sections */
+.light-mode .gradient-soundscape h1,
+.light-mode .gradient-soundscape h2,
+.light-mode .gradient-soundscape h3,
+.light-mode .gradient-soundscape h4,
+.light-mode .gradient-devden h1,
+.light-mode .gradient-devden h2,
+.light-mode .gradient-devden h3,
+.light-mode .gradient-artistic h1,
+.light-mode .gradient-artistic h2,
+.light-mode .gradient-artistic h3 {
+  color: #1a0035 !important;
+}
+
+.light-mode .gradient-soundscape p,
+.light-mode .gradient-soundscape span,
+.light-mode .gradient-devden p,
+.light-mode .gradient-devden span,
+.light-mode .gradient-artistic p,
+.light-mode .gradient-artistic span {
+  color: rgba(26, 0, 53, 0.8) !important;
+}
+
+/* ── Strengthen white opacity variants in light mode (fully opaque) ── */
+/* These were previously semi-transparent — now fully solid for readability */
+.light-mode .text-white\/10,
+.light-mode .text-white\/20,
+.light-mode .text-white\/25,
+.light-mode .text-white\/30,
+.light-mode .text-white\/40 {
+  color: rgba(26, 0, 53, 0.65) !important;
+  opacity: 1 !important;
+}
+
+.light-mode .text-white\/45,
+.light-mode .text-white\/50,
+.light-mode .text-white\/55,
+.light-mode .text-white\/60 {
+  color: rgba(26, 0, 53, 0.75) !important;
+  opacity: 1 !important;
+}
+
+.light-mode .text-white\/70,
+.light-mode .text-white\/75,
+.light-mode .text-white\/80 {
+  color: rgba(26, 0, 53, 0.85) !important;
+  opacity: 1 !important;
+}
+
+.light-mode .text-white\/90,
+.light-mode .text-white\/95 {
+  color: #1a0035 !important;
+  opacity: 1 !important;
+}
+
+/* ── Catch-all for any [class*="text-white/"] pattern ── */
+.light-mode [class*="text-white\/"] {
+  color: #1a0035 !important;
+  opacity: 1 !important;
+}
+
+/* ── Ensure h tags with text-white are caught by specificity ── */
+.light-mode h1[class*="text-white"],
+.light-mode h2[class*="text-white"],
+.light-mode h3[class*="text-white"],
+.light-mode h4[class*="text-white"],
+.light-mode h5[class*="text-white"],
+.light-mode h6[class*="text-white"] {
+  color: #1a0035 !important;
+  opacity: 1 !important;
+}
+
+/* ── Paragraphs with text-white ── */
+.light-mode p[class*="text-white"] {
+  color: rgba(26, 0, 53, 0.8) !important;
+  opacity: 1 !important;
+}
+
+/* ── Spans/badges with text-white ── */
+.light-mode span[class*="text-white"],
+.light-mode label[class*="text-white"] {
+  color: #1a0035 !important;
+  opacity: 1 !important;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   LIGHT MODE — HARDENED READABILITY PATCH
+   Applied last so these rules win the specificity cascade.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* 1. Body base color with !important so no component can override it */
+.light-mode body,
+.light-mode {
+  color: #1a0035 !important;
+}
+
+/* 2. Raise glass-card opacity so gradient bleed-through is blocked */
+.light-mode .glass-card {
+  background: rgba(255, 255, 255, 0.88) !important;
+  backdrop-filter: blur(32px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(200%) !important;
+  color: #1a0035 !important;
+}
+.light-mode .glass-card:hover {
+  background: rgba(255, 255, 255, 0.94) !important;
+}
+
+/* Ensure all text inside glass-cards is dark */
+.light-mode .glass-card *,
+.light-mode .glass-card p,
+.light-mode .glass-card span,
+.light-mode .glass-card h1,
+.light-mode .glass-card h2,
+.light-mode .glass-card h3,
+.light-mode .glass-card h4,
+.light-mode .glass-card li,
+.light-mode .glass-card label,
+.light-mode .glass-card a {
+  color: #1a0035 !important;
+}
+
+/* 3. Tighten muted-foreground — was too faint (0.42) → now 0.35 minimum */
+.light-mode .text-muted-foreground,
+.light-mode [class*="text-muted"] {
+  color: #3a006f !important;
+}
+
+/* 4. Section descriptions outside card borders */
+/* Soundscape zone description */
+.light-mode .soundscape-description,
+.light-mode [class*="soundscape"] p,
+.light-mode [class*="soundscape"] span,
+.light-mode [class*="soundscape"] .description,
+.light-mode [class*="zone-description"],
+.light-mode [class*="zone-intro"],
+.light-mode .zone-tagline,
+.light-mode .zone-description {
+  color: #1a0035 !important;
+}
+
+/* Pixel Hands / artistic zone description */
+.light-mode [class*="pixel"] p,
+.light-mode [class*="pixel"] span,
+.light-mode [class*="artistic"] p,
+.light-mode [class*="artistic"] span,
+.light-mode [class*="pixel-hands"] p,
+.light-mode [class*="pixel-hands"] span {
+  color: #1a0035 !important;
+}
+
+/* 5. Paragraph and standalone description text outside any card */
+.light-mode main p,
+.light-mode main > p,
+.light-mode article p,
+.light-mode [role="main"] p,
+.light-mode .description,
+.light-mode .subtitle,
+.light-mode .intro-text,
+.light-mode .hero-description,
+.light-mode .section-description {
+  color: #1a0035 !important;
+}
+
+/* 6. Nuclear catch-all — runs last, highest specificity */
+.light-mode * {
+  --tw-text-opacity: 1;
+}
+
+/* Any element whose class contains a light/white color token */
+.light-mode [class*="text-white"],
+.light-mode [class*="text-gray-1"],
+.light-mode [class*="text-gray-2"],
+.light-mode [class*="text-gray-3"],
+.light-mode [class*="text-gray-4"],
+.light-mode [class*="text-slate-1"],
+.light-mode [class*="text-slate-2"],
+.light-mode [class*="text-slate-3"],
+.light-mode [class*="text-slate-4"],
+.light-mode [class*="text-purple-1"],
+.light-mode [class*="text-purple-2"],
+.light-mode [class*="text-purple-3"] {
+  color: #1a0035 !important;
+}
+
+/* Inline style overrides (covers any remaining white hex variants) */
+.light-mode [style*="color: white"],
+.light-mode [style*="color:white"],
+.light-mode [style*="color: #fff"],
+.light-mode [style*="color:#fff"],
+.light-mode [style*="color: #ffffff"],
+.light-mode [style*="color:#ffffff"],
+.light-mode [style*="color: rgb(255"],
+.light-mode [style*="color:rgb(255"] {
+  color: #1a0035 !important;
+}
+
+/* 7. Ensure all direct children of sections/main get dark text */
+.light-mode section > *,
+.light-mode section > div > p,
+.light-mode section > div > span,
+.light-mode main > section p,
+.light-mode main > div > p {
+  color: #1a0035;
+}
+
+/* 8. Fix any remaining opacity-based purple tokens that are too light */
+.light-mode [class*="text-purple-1"],
+.light-mode [class*="text-purple-2"],
+.light-mode [class*="text-purple-3"],
+.light-mode .text-purple-100,
+.light-mode .text-purple-200,
+.light-mode .text-purple-300 {
+  color: #3a006f !important;
+}
+
+/* 9. Ensure div-level text containers inherit correctly */
+.light-mode div[class*="text-white"],
+.light-mode div[class*="text-gray"],
+.light-mode div[class*="text-slate"] {
+  color: #1a0035 !important;
+}
+
+/* ── Dark sections always keep white text even in light mode ── */
+.light-mode .dark-section h1,
+.light-mode .dark-section h2,
+.light-mode .dark-section h3,
+.light-mode .dark-section h4,
+.light-mode .dark-section h5,
+.light-mode .dark-section h6 {
+  color: #ffffff !important;
+}
+
+.light-mode .dark-section p,
+.light-mode .dark-section span,
+.light-mode .dark-section li,
+.light-mode .dark-section label {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.light-mode .dark-section .text-white {
+  color: #ffffff !important;
+}
+
+.light-mode .dark-section .text-white\/80 {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.light-mode .dark-section .text-white\/70 {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.light-mode .dark-section .text-white\/60 {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.light-mode .dark-section .text-white\/50 {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+/* ── Additional dark-section text protection in light mode ── */
+/* Elements with dark gradient inline styles should keep white text */
+.light-mode [style*="linear-gradient(160deg, #0D001F"],
+.light-mode [style*="linear-gradient(160deg, #0d001f"],
+.light-mode [style*="linear-gradient(135deg, #0D001F"],
+.light-mode [style*="linear-gradient(135deg, #0d001f"] {
+  color: white;
+}
+
+.light-mode [style*="linear-gradient(160deg, #0D001F"] h1,
+.light-mode [style*="linear-gradient(160deg, #0d001f"] h1,
+.light-mode [style*="linear-gradient(160deg, #0D001F"] h2,
+.light-mode [style*="linear-gradient(160deg, #0d001f"] h2,
+.light-mode [style*="linear-gradient(160deg, #0D001F"] p,
+.light-mode [style*="linear-gradient(160deg, #0d001f"] p,
+.light-mode [style*="linear-gradient(160deg, #0D001F"] span,
+.light-mode [style*="linear-gradient(160deg, #0d001f"] span,
+.light-mode [style*="linear-gradient(135deg, #0D001F"] h1,
+.light-mode [style*="linear-gradient(135deg, #0d001f"] h1,
+.light-mode [style*="linear-gradient(135deg, #0D001F"] h2,
+.light-mode [style*="linear-gradient(135deg, #0d001f"] h2,
+.light-mode [style*="linear-gradient(135deg, #0D001F"] p,
+.light-mode [style*="linear-gradient(135deg, #0d001f"] p,
+.light-mode [style*="linear-gradient(135deg, #0D001F"] span,
+.light-mode [style*="linear-gradient(135deg, #0d001f"] span {
+  color: inherit !important;
+}
+
+/* dark-section: all text-white/* variants should remain white */
+.light-mode .dark-section [class*="text-white"] {
+  color: white !important;
+}
+
+.light-mode .dark-section [class*="text-white\/"] {
+  color: rgba(255, 255, 255, var(--tw-text-opacity, 1)) !important;
+}

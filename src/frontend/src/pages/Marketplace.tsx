@@ -21,7 +21,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/hooks/useAuth";
 import { Mail, MessageCircle, Plus, ShoppingBag, Tag } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Category =
   | "All"
@@ -72,6 +72,20 @@ function contactAction(contact: string) {
 
 let nextId = 1;
 
+function loadListings(): Listing[] {
+  try {
+    const stored = localStorage.getItem("lunara_marketplace_listings");
+    if (stored) {
+      const parsed: Listing[] = JSON.parse(stored);
+      if (parsed.length > 0) {
+        nextId = Math.max(...parsed.map((l) => l.id)) + 1;
+      }
+      return parsed;
+    }
+  } catch {}
+  return [];
+}
+
 const EMOJIS_BY_CATEGORY: Record<Exclude<Category, "All">, string> = {
   Electronics: "💻",
   Books: "📖",
@@ -82,8 +96,16 @@ const EMOJIS_BY_CATEGORY: Record<Exclude<Category, "All">, string> = {
 
 export default function Marketplace() {
   const { user } = useAuth();
-  const [listings, setListings] = useState<Listing[]>([]);
+  const [listings, setListings] = useState<Listing[]>(loadListings);
   const [activeCategory, setActiveCategory] = useState<Category>("All");
+
+  // Persist listings to localStorage
+  useEffect(() => {
+    localStorage.setItem(
+      "lunara_marketplace_listings",
+      JSON.stringify(listings),
+    );
+  }, [listings]);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const [form, setForm] = useState({
@@ -134,7 +156,7 @@ export default function Marketplace() {
       }}
     >
       {/* Hero */}
-      <section className="relative pt-20 pb-12 px-4 text-center overflow-hidden">
+      <section className="relative pt-20 pb-12 px-4 text-center overflow-hidden dark-section">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-10 left-1/4 w-72 h-72 rounded-full bg-purple-700/20 blur-3xl" />
           <div className="absolute bottom-0 right-1/4 w-96 h-48 rounded-full bg-violet-600/15 blur-3xl" />

@@ -182,6 +182,107 @@ const WYR_PAIRS = [
   ["Have no internet for a year", "Have no music for a year"],
   ["Live in 1920s", "Live in 2120s"],
   ["Be the funniest person in the room", "Be the smartest person in the room"],
+  ["Fight one horse-sized duck", "Fight 100 duck-sized horses"],
+  ["Eat only pizza for a year", "Eat only sushi for a year"],
+  ["Have fingers as long as your legs", "Legs as short as your fingers"],
+  ["Never use social media again", "Never watch TV/movies again"],
+  ["Always speak in rhymes", "Always sing instead of talk"],
+  ["Have a pet dragon", "Have a pet unicorn"],
+  ["Be able to breathe underwater", "Never need to breathe at all"],
+  ["Live without your phone for a month", "Live without shoes for a month"],
+  ["Always know when someone is lying", "Always get away with lying"],
+  ["Have unlimited money but no friends", "Be broke but have amazing friends"],
+  ["Be 3 feet tall", "Be 10 feet tall"],
+  [
+    "Eat a spoonful of hot sauce every day",
+    "Eat a spoonful of wasabi every week",
+  ],
+  ["Have the power to stop time", "Have the power to travel through time"],
+  ["Win an Olympic gold medal", "Win a Nobel Prize"],
+  ["Only be able to whisper", "Only be able to shout"],
+  [
+    "Have a photographic memory",
+    "Have the ability to forget anything on command",
+  ],
+  ["Be stuck on a deserted island alone", "Be stuck with someone you hate"],
+  ["Know exactly how you'll die", "Know exactly when you'll die"],
+  [
+    "Have unlimited pizza but it's always slightly cold",
+    "Have perfect pizza but only once a year",
+  ],
+  [
+    "Be able to teleport anywhere",
+    "Be able to time travel 10 years forward/back",
+  ],
+  [
+    "Live in a world with no problems but no challenges",
+    "Live in a chaotic world full of adventure",
+  ],
+  [
+    "Have a rewind button for just conversations",
+    "Have an undo button for just actions",
+  ],
+  ["Always feel too hot", "Always feel too cold"],
+  ["Be able to run at 100mph", "Be able to jump 100 feet high"],
+  [
+    "Find true love but lose all your money",
+    "Be rich but never find true love",
+  ],
+  [
+    "Have the ability to speak to the dead",
+    "Have the ability to see the future",
+  ],
+  [
+    "Never be able to eat your favourite food again",
+    "Only be able to eat your favourite food forever",
+  ],
+  [
+    "Be a superhero with no secret identity",
+    "Be a villain who always gets away",
+  ],
+  ["Live in a treehouse", "Live in an underground bunker"],
+  ["Be the world's best gamer", "Be the world's best chef"],
+  ["Have a pause button for life", "Have a fast-forward button for life"],
+  ["Have free WiFi everywhere forever", "Have free food everywhere forever"],
+  ["Always arrive 2 hours early", "Always arrive 2 hours late"],
+  ["Have a tail like a monkey", "Have ears like a rabbit"],
+  ["Only wear one outfit forever", "Wear a different costume every day"],
+  ["Never feel pain", "Never feel sadness"],
+  ["Be trapped in a video game you love", "Be trapped in a book you love"],
+  ["Have the voice of an angel", "Have the dance moves of a legend"],
+  ["Be 10 years older", "Be 10 years younger"],
+  [
+    "Only eat breakfast foods for every meal",
+    "Only eat dinner foods for every meal",
+  ],
+  ["Have a clone of yourself", "Have a robot version of yourself"],
+  [
+    "Know the answer to every question",
+    "Know the outcome of every decision before making it",
+  ],
+  ["Be allergic to your favourite food", "Be allergic to sunlight"],
+  ["Have unlimited battery on all devices", "Never get sick again"],
+  ["Live in Harry Potter universe", "Live in the Marvel universe"],
+  ["Forget how the internet works", "Forget how money works"],
+  [
+    "Have everyone always agree with you",
+    "Always be in a debate with everyone",
+  ],
+  [
+    "Have a job you love that pays badly",
+    "Have a job you hate that pays amazingly",
+  ],
+  [
+    "Be famous for something embarrassing",
+    "Be unknown for something incredible",
+  ],
+  ["Have 1,000 mosquito bites", "Have 1 paper cut every day for a year"],
+  ["Meet your future self", "Meet your past self from 10 years ago"],
+  ["Only be able to text, never call", "Only be able to call, never text"],
+  [
+    "Be the last person on Earth",
+    "Be surrounded by people but completely invisible to them",
+  ],
 ];
 const WYR_REACTIONS = [
   "Bold choice!",
@@ -1103,41 +1204,45 @@ function CarRacing() {
 
   return (
     <div className="flex flex-col items-center gap-3">
-      <div className="relative">
-        <canvas
-          ref={canvasRef}
-          width={CANVAS_W}
-          height={CANVAS_H}
-          className="rounded-2xl cursor-pointer select-none"
-          style={{ touchAction: "none" }}
-          data-ocid="racing.canvas_target"
-        />
-        {/* Game Over overlay */}
-        {phase === "over" && (
-          <div
-            className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl"
-            style={{ background: "rgba(5,0,20,0.82)" }}
-            data-ocid="racing.modal"
-          >
-            <p className="text-4xl mb-2">💥</p>
-            <p className="text-white font-bold text-2xl mb-1">Game Over</p>
-            <p className="text-white/60 text-sm mb-1">
-              Score:{" "}
-              <span className="text-accent font-bold text-base">
-                {finalScore}
-              </span>
-            </p>
-            <p className="text-yellow-400 text-sm mb-5">🏆 Best: {finalBest}</p>
-            <Button
-              onClick={handleRestart}
-              className="bg-accent text-accent-foreground rounded-full px-8 h-10 font-semibold hover:bg-accent/90"
-              data-ocid="racing.primary_button"
+      <div className="overflow-x-auto w-full flex justify-center">
+        <div className="relative">
+          <canvas
+            ref={canvasRef}
+            width={CANVAS_W}
+            height={CANVAS_H}
+            className="rounded-2xl cursor-pointer select-none"
+            style={{ touchAction: "none" }}
+            data-ocid="racing.canvas_target"
+          />
+          {/* Game Over overlay */}
+          {phase === "over" && (
+            <div
+              className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl"
+              style={{ background: "rgba(5,0,20,0.82)" }}
+              data-ocid="racing.modal"
             >
-              <RefreshCw className="w-4 h-4 mr-2" />
-              Play Again
-            </Button>
-          </div>
-        )}
+              <p className="text-4xl mb-2">💥</p>
+              <p className="text-white font-bold text-2xl mb-1">Game Over</p>
+              <p className="text-white/60 text-sm mb-1">
+                Score:{" "}
+                <span className="text-accent font-bold text-base">
+                  {finalScore}
+                </span>
+              </p>
+              <p className="text-yellow-400 text-sm mb-5">
+                🏆 Best: {finalBest}
+              </p>
+              <Button
+                onClick={handleRestart}
+                className="bg-accent text-accent-foreground rounded-full px-8 h-10 font-semibold hover:bg-accent/90"
+                data-ocid="racing.primary_button"
+              >
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Play Again
+              </Button>
+            </div>
+          )}
+        </div>
       </div>
       <p className="text-white/40 text-xs text-center">
         ← → Arrow keys or A / D to steer &nbsp;·&nbsp; Tap left/right side to
@@ -1197,19 +1302,12 @@ const GAMES = [
 ];
 
 // ── Leaderboard ───────────────────────────────────────────────
-const GLOBAL_ARCADE_DATA = [
-  { rank: 1, username: "LunarLegend", topGame: "Ludo", seconds: 72000 },
-  { rank: 2, username: "NightRacer", topGame: "Car Racing", seconds: 64800 },
-  { rank: 3, username: "CricketAce", topGame: "Hand Cricket", seconds: 57600 },
-  {
-    rank: 4,
-    username: "DareDevil99",
-    topGame: "Truth or Dare",
-    seconds: 50400,
-  },
-  { rank: 5, username: "GridMaster", topGame: "Tic-Tac-Toe", seconds: 43200 },
-  { rank: 6, username: "SurferX", topGame: "Would You Rather", seconds: 36000 },
-];
+const GLOBAL_ARCADE_DATA: {
+  rank: number;
+  username: string;
+  topGame: string;
+  seconds: number;
+}[] = [];
 
 function Leaderboard({
   playtime,
@@ -1322,7 +1420,7 @@ function Leaderboard({
                   className={`glass-card rounded-2xl border p-4 flex items-center gap-4 ${
                     i === 0 && game.seconds > 0
                       ? "border-accent/40"
-                      : "border-white/08"
+                      : "border-white/[0.08]"
                   }`}
                   data-ocid={`leaderboard.item.${i + 1}`}
                 >
@@ -1371,6 +1469,15 @@ function Leaderboard({
               </p>
             )}
           </div>
+        ) : GLOBAL_ARCADE_DATA.length === 0 ? (
+          <div className="text-center py-8" data-ocid="leaderboard.empty_state">
+            <p className="text-white/40 text-sm">
+              Be the first on the leaderboard!
+            </p>
+            <p className="text-white/25 text-xs mt-1">
+              Play any game to appear here.
+            </p>
+          </div>
         ) : (
           <div className="space-y-3">
             {GLOBAL_ARCADE_DATA.map((player, i) => {
@@ -1393,7 +1500,7 @@ function Leaderboard({
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.06 }}
                   className={`glass-card rounded-2xl border p-4 flex items-center gap-4 ${
-                    i === 0 ? "border-accent/40" : "border-white/08"
+                    i === 0 ? "border-accent/40" : "border-white/[0.08]"
                   }`}
                   data-ocid={`leaderboard.item.${i + 1}`}
                 >

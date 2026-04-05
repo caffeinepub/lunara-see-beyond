@@ -126,7 +126,22 @@ const initialRooms: ChatRoom[] = [
 
 function Chatrooms() {
   const { user } = useAuth();
-  const [rooms, setRooms] = useState<ChatRoom[]>(initialRooms);
+  const [rooms, setRooms] = useState<ChatRoom[]>(() => {
+    try {
+      const saved = initialRooms.map((room) => {
+        const key = `lunara_devden_chat_${room.id}`;
+        const stored = localStorage.getItem(key);
+        if (stored) {
+          const msgs = JSON.parse(stored) as ChatMessage[];
+          return { ...room, messages: msgs };
+        }
+        return room;
+      });
+      return saved;
+    } catch {
+      return initialRooms;
+    }
+  });
   const [activeRoomId, setActiveRoomId] = useState("doubts");
   const [translatedMessages, setTranslatedMessages] = useState<
     Record<string, string>
@@ -135,6 +150,16 @@ function Chatrooms() {
   const [editingIdx, setEditingIdx] = useState<number | null>(null);
   const [editText, setEditText] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Persist messages to localStorage
+  useEffect(() => {
+    for (const room of rooms) {
+      try {
+        const key = `lunara_devden_chat_${room.id}`;
+        localStorage.setItem(key, JSON.stringify(room.messages.slice(-100)));
+      } catch {}
+    }
+  }, [rooms]);
 
   const deleteMsg = (idx: number) => {
     setRooms((prev) =>
@@ -531,7 +556,7 @@ export default function DevDen() {
               creative tech minds in the community. Aloxide powers the
               innovation engine.
             </p>
-            <div className="flex gap-4">
+            <div className="flex flex-wrap gap-4">
               <Button
                 className="bg-accent text-accent-foreground font-semibold px-6 h-11 rounded-full hover:bg-accent/90"
                 onClick={() =>

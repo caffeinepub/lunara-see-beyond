@@ -12,6 +12,7 @@ import {
   Headphones,
   Heart,
   Link2,
+  ListPlus,
   Mic2,
   Music,
   Pause,
@@ -30,6 +31,7 @@ import {
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { useAudioPlayer } from "../contexts/AudioContext";
 
 type Track = {
   title: string;
@@ -472,14 +474,14 @@ const pinkFloydTracks: Track[] = [
     artist: "Pink Floyd",
     duration: "6:23",
     spotifyUrl: "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9",
-    youtubeId: "_FrOQC-zEog",
+    youtubeId: "vJAqNSHX6Rs",
   },
   {
     title: "Wish You Were Here",
     artist: "Pink Floyd",
     duration: "5:40",
     spotifyUrl: "https://open.spotify.com/artist/0k17h0D3J5VfsdmQ1iZtE9",
-    youtubeId: "IXdNnw99-Ic",
+    youtubeId: "6mqEB4JFCfY",
   },
   {
     title: "Another Brick in the Wall",
@@ -1836,336 +1838,6 @@ const communityPlaylists: CommunityPlaylist[] = [
   },
 ];
 
-function parseDurationToSeconds(duration: string): number {
-  const parts = duration.split(":");
-  if (parts.length !== 2) return 180;
-  return Number.parseInt(parts[0], 10) * 60 + Number.parseInt(parts[1], 10);
-}
-
-function formatSeconds(s: number): string {
-  const m = Math.floor(s / 60);
-  const sec = s % 60;
-  return `${m}:${sec.toString().padStart(2, "0")}`;
-}
-
-// Load YouTube IFrame API once globally
-let ytApiLoaded = false;
-function loadYouTubeAPI() {
-  if (ytApiLoaded) return;
-  ytApiLoaded = true;
-  if (!(window as any).YT || !(window as any).YT.Player) {
-    const tag = document.createElement("script");
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.head.appendChild(tag);
-  }
-}
-
-function AudioPlayer({
-  track,
-  onClose,
-}: {
-  track: Track;
-  onClose: () => void;
-}) {
-  const [playing, setPlaying] = useState(true);
-  const [currentSeconds, setCurrentSeconds] = useState(0);
-  const [effectiveDuration, setEffectiveDuration] = useState(() =>
-    parseDurationToSeconds(track.duration),
-  );
-  const [volume, setVolume] = useState(75);
-  const [ytReady, setYtReady] = useState(
-    () => !!(window as any).YT && !!(window as any).YT.Player,
-  );
-  const ytPlayerRef = useRef<any>(null);
-  const audioRef = useRef<HTMLAudioElement>(null);
-  // stable unique id for YT player container
-  const playerContainerId = useRef(
-    `yt-player-${Math.random().toString(36).substr(2, 9)}`,
-  ).current;
-
-  // Load YT API
-  // eslint-disable-next-line
-  useEffect(() => {
-    loadYouTubeAPI();
-    const prev = (window as any).onYouTubeIframeAPIReady;
-    (window as any).onYouTubeIframeAPIReady = () => {
-      setYtReady(true);
-      if (prev) prev();
-    };
-    // poll in case API already loaded between render and effect
-    const poll = setInterval(() => {
-      if ((window as any).YT?.Player) {
-        setYtReady(true);
-        clearInterval(poll);
-      }
-    }, 200);
-    return () => clearInterval(poll);
-  }, []);
-
-  const trackKey = `${track.title}::${track.artist}::${track.youtubeId ?? track.audioSrc ?? ""}`;
-
-  // Init / reinit YT player when API ready or track changes
-  // biome-ignore lint/correctness/useExhaustiveDependencies: trackKey + ytReady are the deps
-  useEffect(() => {
-    if (!track.youtubeId) return;
-    if (!ytReady) return;
-
-    setCurrentSeconds(0);
-    setEffectiveDuration(parseDurationToSeconds(track.duration));
-    setPlaying(true);
-
-    if (
-      ytPlayerRef.current &&
-      typeof ytPlayerRef.current.loadVideoById === "function"
-    ) {
-      try {
-        ytPlayerRef.current.loadVideoById(track.youtubeId);
-        ytPlayerRef.current.setVolume(volume);
-      } catch {}
-    } else {
-      // Destroy stale player if any
-      try {
-        ytPlayerRef.current?.destroy();
-      } catch {}
-      ytPlayerRef.current = new (window as any).YT.Player(playerContainerId, {
-        videoId: track.youtubeId,
-        playerVars: {
-          autoplay: 1,
-          controls: 0,
-          disablekb: 1,
-          rel: 0,
-          modestbranding: 1,
-          origin: window.location.origin,
-        },
-        events: {
-          onReady: (e: any) => {
-            try {
-              e.target.setVolume(volume);
-              e.target.playVideo();
-            } catch {}
-          },
-        },
-      });
-    }
-  }, [trackKey, ytReady]);
-
-  // Reset for non-youtube tracks (uploaded audio)
-  // biome-ignore lint/correctness/useExhaustiveDependencies: trackKey is the dep
-  useEffect(() => {
-    if (track.youtubeId) return;
-    setCurrentSeconds(0);
-    setPlaying(true);
-    if (audioRef.current && track.audioSrc) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play().catch(() => {});
-    }
-  }, [trackKey]);
-
-  // Sync play/pause for YT
-  useEffect(() => {
-    if (!ytPlayerRef.current || !track.youtubeId) return;
-    try {
-      if (playing) ytPlayerRef.current.playVideo();
-      else ytPlayerRef.current.pauseVideo();
-    } catch {}
-  }, [playing, track.youtubeId]);
-
-  // Sync play/pause for HTML audio
-  useEffect(() => {
-    if (!audioRef.current || track.youtubeId) return;
-    if (playing) audioRef.current.play().catch(() => {});
-    else audioRef.current.pause();
-  }, [playing, track.youtubeId]);
-
-  // Volume sync
-  useEffect(() => {
-    try {
-      ytPlayerRef.current?.setVolume(volume);
-    } catch {}
-    if (audioRef.current) audioRef.current.volume = volume / 100;
-  }, [volume]);
-
-  // Timer polling for YT
-  useEffect(() => {
-    if (!track.youtubeId) return;
-    const interval = setInterval(() => {
-      if (!ytPlayerRef.current) return;
-      try {
-        const cur = ytPlayerRef.current.getCurrentTime?.() ?? 0;
-        const dur = ytPlayerRef.current.getDuration?.() ?? 0;
-        setCurrentSeconds(Math.floor(cur));
-        if (dur > 0) setEffectiveDuration(Math.floor(dur));
-      } catch {}
-    }, 500);
-    return () => clearInterval(interval);
-  }, [track.youtubeId]);
-
-  // HTML audio handlers
-  const handleTimeUpdate = () => {
-    if (audioRef.current)
-      setCurrentSeconds(Math.floor(audioRef.current.currentTime));
-  };
-  const handleLoadedMetadata = () => {
-    if (audioRef.current)
-      setEffectiveDuration(Math.floor(audioRef.current.duration));
-  };
-  const handleEnded = () => {
-    setPlaying(false);
-    setCurrentSeconds(0);
-  };
-
-  const progress =
-    effectiveDuration > 0 ? (currentSeconds / effectiveDuration) * 100 : 0;
-
-  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const ratio = (e.clientX - rect.left) / rect.width;
-    const seekTo = ratio * effectiveDuration;
-    setCurrentSeconds(Math.floor(seekTo));
-    if (track.youtubeId) {
-      try {
-        ytPlayerRef.current?.seekTo(seekTo, true);
-      } catch {}
-    } else if (audioRef.current) {
-      audioRef.current.currentTime = seekTo;
-    }
-  };
-
-  return (
-    <motion.div
-      initial={{ y: 80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      exit={{ y: 80, opacity: 0 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="fixed bottom-0 left-0 right-0 z-40 glass-card px-4 py-3"
-    >
-      {/* Hidden YT player container — audio plays through this */}
-      {track.youtubeId && (
-        <div
-          id={playerContainerId}
-          style={{
-            position: "absolute",
-            width: "1px",
-            height: "1px",
-            opacity: 0,
-            pointerEvents: "none",
-            overflow: "hidden",
-            top: 0,
-            left: 0,
-          }}
-        />
-      )}
-      {/* HTML audio for uploaded tracks */}
-      {track.audioSrc && !track.youtubeId && (
-        <audio
-          ref={audioRef}
-          src={track.audioSrc}
-          autoPlay
-          onTimeUpdate={handleTimeUpdate}
-          onLoadedMetadata={handleLoadedMetadata}
-          onEnded={handleEnded}
-          aria-label={track.title}
-          style={{ display: "none" }}
-        >
-          <track default kind="captions" srcLang="en" src="" label="English" />
-        </audio>
-      )}
-      <div className="max-w-7xl mx-auto flex items-center gap-4">
-        {/* Track info */}
-        <div className="flex items-center gap-3 min-w-0 flex-1">
-          <div className="w-10 h-10 rounded-full gradient-soundscape flex items-center justify-center shrink-0">
-            <Music className="w-5 h-5 text-white" />
-          </div>
-          <div className="min-w-0">
-            <p className="font-semibold text-foreground text-sm truncate">
-              {track.title}
-            </p>
-            <p className="text-white/50 text-xs truncate">{track.artist}</p>
-          </div>
-          <button
-            type="button"
-            className="text-white/50 hover:text-red-400 transition-colors ml-2"
-          >
-            <Heart className="w-4 h-4" />
-          </button>
-        </div>
-
-        {/* Controls */}
-        <div className="flex flex-col items-center gap-1.5 flex-shrink-0">
-          <div className="flex items-center gap-3">
-            <button
-              type="button"
-              className="text-white/50 hover:text-foreground transition-colors"
-            >
-              <SkipBack className="w-4 h-4" />
-            </button>
-            <button
-              type="button"
-              onClick={() => setPlaying((p) => !p)}
-              className="w-9 h-9 rounded-full bg-accent flex items-center justify-center text-accent-foreground hover:bg-accent/80 transition-colors"
-              data-ocid="player.toggle"
-            >
-              {playing ? (
-                <Pause className="w-4 h-4" />
-              ) : (
-                <Play className="w-4 h-4" />
-              )}
-            </button>
-            <button
-              type="button"
-              className="text-white/50 hover:text-foreground transition-colors"
-            >
-              <SkipForward className="w-4 h-4" />
-            </button>
-          </div>
-          <div className="flex items-center gap-2 w-56">
-            <span className="text-xs text-white/50 w-8">
-              {formatSeconds(currentSeconds)}
-            </span>
-            <div
-              className="flex-1 h-1.5 bg-white/20 rounded-full cursor-pointer relative overflow-hidden"
-              onClick={handleSeek}
-              onKeyDown={() => {}}
-              role="slider"
-              aria-valuenow={progress}
-              aria-valuemin={0}
-              aria-valuemax={100}
-              tabIndex={0}
-            >
-              <div
-                className="absolute left-0 top-0 h-full bg-accent rounded-full transition-all"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
-            <span className="text-xs text-white/50 w-8">
-              {formatSeconds(effectiveDuration)}
-            </span>
-          </div>
-        </div>
-
-        {/* Volume + close */}
-        <div className="hidden md:flex items-center gap-2 flex-1 justify-end">
-          <Volume2 className="w-4 h-4 text-white/50" />
-          <Slider
-            value={[volume]}
-            onValueChange={(v) => setVolume(v[0])}
-            max={100}
-            className="w-24"
-          />
-          <button
-            type="button"
-            onClick={onClose}
-            className="ml-3 text-white/50 hover:text-foreground text-xs px-2 py-1 rounded hover:bg-white/10 transition-colors"
-            data-ocid="player.close_button"
-          >
-            ✕
-          </button>
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
 // ──── Music Bot ────────────────────────────────────────────────────────────────
 
 type ParsedLink = {
@@ -3003,8 +2675,80 @@ const GLOBAL_LISTEN_DATA = [
   { name: "Sheryl Crow", seconds: 28800, initials: "SH" },
 ];
 
+function CreatePlaylistButton({
+  createPlaylist,
+}: { createPlaylist: (name: string) => void }) {
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
+  return (
+    <>
+      <Button
+        onClick={() => setOpen(true)}
+        className="bg-accent text-accent-foreground font-semibold rounded-full hover:bg-accent/90"
+        data-ocid="soundscape.create_playlist_button"
+      >
+        <ListPlus className="w-4 h-4 mr-2" />
+        Create Playlist
+      </Button>
+      {open && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="glass-card rounded-2xl border border-white/10 p-6 w-80 shadow-2xl">
+            <h3 className="text-lg font-bold text-foreground mb-4">
+              New Playlist
+            </h3>
+            <input
+              type="text"
+              className="w-full rounded-xl bg-white/10 border border-white/20 px-4 py-2.5 text-foreground placeholder-white/40 text-sm mb-4 outline-none focus:border-accent/60"
+              placeholder="Playlist name..."
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && name.trim()) {
+                  createPlaylist(name.trim());
+                  setName("");
+                  setOpen(false);
+                }
+              }}
+              data-ocid="soundscape.playlist_name_input"
+            />
+            <div className="flex gap-3">
+              <Button
+                className="flex-1 bg-accent text-accent-foreground rounded-full hover:bg-accent/90"
+                disabled={!name.trim()}
+                onClick={() => {
+                  createPlaylist(name.trim());
+                  setName("");
+                  setOpen(false);
+                }}
+                data-ocid="soundscape.create_playlist_confirm_button"
+              >
+                Create
+              </Button>
+              <Button
+                variant="outline"
+                className="flex-1 border-white/20 text-white rounded-full hover:bg-white/10"
+                onClick={() => setOpen(false)}
+                data-ocid="soundscape.create_playlist_cancel_button"
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
 export default function Soundscape() {
-  const [nowPlaying, setNowPlaying] = useState<Track | null>(null);
+  const {
+    nowPlaying,
+    setNowPlaying,
+    favorites,
+    toggleFavorite,
+    playlists,
+    createPlaylist,
+  } = useAudioPlayer();
   const [betaDismissed, setBetaDismissed] = useState(
     () => localStorage.getItem("soundscape_beta_seen") === "1",
   );
@@ -3719,6 +3463,158 @@ export default function Soundscape() {
         </div>
       </section>
 
+      {/* Favorites */}
+      <section id="favorites" className="py-16 bg-background">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
+              <Heart className="w-5 h-5 text-red-400" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-foreground">Favorites</h2>
+              <p className="text-white/50 text-sm">
+                Tracks you&apos;ve hearted
+              </p>
+            </div>
+          </div>
+          {favorites.length === 0 ? (
+            <div
+              className="glass-card rounded-2xl border border-white/10 p-12 text-center"
+              data-ocid="soundscape.favorites_empty_state"
+            >
+              <Heart className="w-12 h-12 text-white/20 mx-auto mb-4" />
+              <p className="text-white/50">
+                No favorites yet. Hit the ♥ on any track to save it here.
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+              {favorites.map((track, ti) => (
+                <div
+                  key={`fav-${track.title}-${track.artist}`}
+                  className={`flex items-center gap-3 rounded-xl px-3 py-2.5 cursor-pointer transition-colors group ${
+                    nowPlaying?.title === track.title &&
+                    nowPlaying?.artist === track.artist
+                      ? "bg-accent/20 border border-accent/30"
+                      : "hover:bg-white/10 border border-transparent"
+                  }`}
+                  onClick={() => playTrack(track)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") playTrack(track);
+                  }}
+                  data-ocid={`soundscape.favorites.item.${ti + 1}`}
+                >
+                  <div className="w-7 h-7 rounded-full glass-section flex items-center justify-center shrink-0">
+                    <Play className="w-3 h-3 text-white/50 group-hover:text-accent" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-foreground text-xs font-medium truncate">
+                      {track.title}
+                    </p>
+                    <p className="text-white/50 text-xs truncate">
+                      {track.artist}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFavorite(track);
+                    }}
+                    className="text-red-400 hover:text-red-300 transition-colors"
+                    data-ocid={`soundscape.favorites.delete_button.${ti + 1}`}
+                  >
+                    <Heart className="w-4 h-4 fill-current" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* My Playlists */}
+      <section id="my-playlists" className="py-16 glass-section">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center">
+                <ListPlus className="w-5 h-5 text-accent" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-foreground">
+                  My Playlists
+                </h2>
+                <p className="text-white/50 text-sm">
+                  Your personal collections
+                </p>
+              </div>
+            </div>
+            <CreatePlaylistButton createPlaylist={createPlaylist} />
+          </div>
+          {playlists.length === 0 ? (
+            <div
+              className="glass-card rounded-2xl border border-white/10 p-12 text-center"
+              data-ocid="soundscape.playlists_empty_state"
+            >
+              <ListPlus className="w-12 h-12 text-white/20 mx-auto mb-4" />
+              <p className="text-white/50">
+                No playlists yet. Create one and add tracks.
+              </p>
+            </div>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {playlists.map((pl, pi) => (
+                <div
+                  key={pl.name}
+                  className="glass-card rounded-2xl border border-white/10 p-5"
+                  data-ocid={`soundscape.my_playlists.item.${pi + 1}`}
+                >
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-full gradient-soundscape flex items-center justify-center text-xl shrink-0">
+                      🎵
+                    </div>
+                    <div>
+                      <p className="font-semibold text-foreground text-sm">
+                        {pl.name}
+                      </p>
+                      <p className="text-white/50 text-xs">
+                        {pl.tracks.length} tracks
+                      </p>
+                    </div>
+                  </div>
+                  {pl.tracks.length === 0 ? (
+                    <p className="text-white/30 text-xs text-center py-3">
+                      No tracks yet — add from any track&apos;s ♥ player.
+                    </p>
+                  ) : (
+                    <div className="space-y-1">
+                      {pl.tracks.map((track, ti) => (
+                        <button
+                          type="button"
+                          key={`${pl.name}-${track.title}-${ti}`}
+                          className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/08 transition-colors cursor-pointer group w-full text-left"
+                          onClick={() => playTrack(track)}
+                          data-ocid={`soundscape.my_playlists.item.${pi + 1}`}
+                        >
+                          <Play className="w-3 h-3 text-white/30 group-hover:text-accent shrink-0" />
+                          <span className="flex-1 text-xs text-foreground truncate">
+                            {track.title}
+                          </span>
+                          <span className="text-xs text-white/40 shrink-0">
+                            {track.artist}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-16 gradient-soundscape">
         <div className="max-w-3xl mx-auto px-4 text-center">
@@ -3744,13 +3640,6 @@ export default function Soundscape() {
           </Button>
         </div>
       </section>
-
-      {/* Floating audio player */}
-      <AnimatePresence>
-        {nowPlaying && (
-          <AudioPlayer track={nowPlaying} onClose={() => setNowPlaying(null)} />
-        )}
-      </AnimatePresence>
     </div>
   );
 }

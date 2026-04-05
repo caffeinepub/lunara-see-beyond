@@ -170,12 +170,37 @@ const initialChatRooms: ChatRoom[] = [
 
 function Chatrooms() {
   const { user } = useAuth();
-  const [rooms, setRooms] = useState<ChatRoom[]>(initialChatRooms);
+  const [rooms, setRooms] = useState<ChatRoom[]>(() => {
+    try {
+      const saved = initialChatRooms.map((room) => {
+        const key = `lunara_wildgang_chat_${room.id}`;
+        const stored = localStorage.getItem(key);
+        if (stored) {
+          const msgs = JSON.parse(stored) as ChatMessage[];
+          return { ...room, messages: msgs };
+        }
+        return room;
+      });
+      return saved;
+    } catch {
+      return initialChatRooms;
+    }
+  });
   const [activeRoomId, setActiveRoomId] = useState("lunar-lounge");
   const [input, setInput] = useState("");
   const [editingIdx, setEditingIdx] = useState<number | null>(null);
   const [editText, setEditText] = useState("");
   const containerRef = useRef<HTMLDivElement>(null);
+
+  // Persist messages to localStorage
+  useEffect(() => {
+    for (const room of rooms) {
+      try {
+        const key = `lunara_wildgang_chat_${room.id}`;
+        localStorage.setItem(key, JSON.stringify(room.messages.slice(-100)));
+      } catch {}
+    }
+  }, [rooms]);
 
   const deleteMsg = (idx: number) => {
     setRooms((prev) =>
@@ -246,7 +271,7 @@ function Chatrooms() {
             Pick your vibe and join the conversation
           </p>
         </div>
-        <div className="flex flex-col md:flex-row gap-4 glass-card rounded-3xl border border-white/10 overflow-hidden min-h-[520px]">
+        <div className="flex flex-col md:flex-row gap-4 glass-card rounded-3xl border border-white/10 overflow-hidden min-h-0 md:min-h-[520px]">
           {/* Sidebar */}
           <aside className="md:w-60 shrink-0 border-b md:border-b-0 md:border-r border-white/10 p-4 flex flex-col gap-2">
             {rooms.map((room) => (

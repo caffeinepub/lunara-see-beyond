@@ -170,7 +170,7 @@ export default function Login() {
     <button
       type="button"
       onClick={() => setStep(target)}
-      className="text-white/30 hover:text-white/60 text-sm transition-colors"
+      className="lunara-login-back-btn text-sm transition-colors"
     >
       ← Back
     </button>
@@ -202,13 +202,7 @@ export default function Login() {
   };
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center px-4"
-      style={{
-        background:
-          "linear-gradient(160deg, #0D001F 0%, #24003D 50%, #4B0082 100%)",
-      }}
-    >
+    <div className="lunara-login-page min-h-screen flex items-center justify-center px-4">
       <div className="fixed top-1/4 left-1/4 w-96 h-96 rounded-full bg-violet-700/20 blur-3xl pointer-events-none" />
       <div className="fixed bottom-1/4 right-1/4 w-64 h-64 rounded-full bg-purple-500/15 blur-3xl pointer-events-none" />
 
@@ -221,12 +215,14 @@ export default function Login() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.35 }}
-            className="flex flex-col items-center gap-6 w-full max-w-xs"
+            className="lunara-login-card flex flex-col items-center gap-6 w-full max-w-xs p-8 rounded-3xl"
           >
             {logoCircle("sm")}
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-white">Welcome back</h2>
-              <p className="text-white/40 text-sm mt-1">
+              <h2 className="text-2xl font-bold lunara-login-heading">
+                Welcome back
+              </h2>
+              <p className="lunara-login-sub text-sm mt-1">
                 Sign in to your Lunara account
               </p>
             </div>
@@ -260,7 +256,7 @@ export default function Login() {
                   className="w-4 h-4 rounded accent-violet-500 cursor-pointer"
                   data-ocid="login.checkbox"
                 />
-                <span className="text-white/60 text-xs">Remember me</span>
+                <span className="lunara-login-muted text-xs">Remember me</span>
               </label>
               {loginError && (
                 <p
@@ -293,9 +289,9 @@ export default function Login() {
               </Button>
             </form>
             <div className="flex items-center gap-3 w-full">
-              <div className="flex-1 h-px bg-white/10" />
-              <span className="text-white/30 text-xs">or</span>
-              <div className="flex-1 h-px bg-white/10" />
+              <div className="flex-1 h-px lunara-divider" />
+              <span className="lunara-login-muted text-xs">or</span>
+              <div className="flex-1 h-px lunara-divider" />
             </div>
             <button
               type="button"
@@ -306,7 +302,7 @@ export default function Login() {
             </button>
             <Link
               to="/"
-              className="text-white/30 hover:text-white/60 text-sm transition-colors"
+              className="lunara-login-back-btn text-sm transition-colors"
             >
               ← Back to home
             </Link>
@@ -321,7 +317,7 @@ export default function Login() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.35 }}
-            className="flex flex-col items-center gap-6 w-full max-w-xs"
+            className="lunara-login-card flex flex-col items-center gap-6 w-full max-w-xs p-8 rounded-3xl"
           >
             <div className="relative">
               <div className="absolute inset-0 rounded-full bg-violet-500/40 blur-2xl scale-125" />
@@ -336,8 +332,10 @@ export default function Login() {
               </div>
             </div>
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-white">Join Lunara</h2>
-              <p className="text-white/40 text-sm mt-1">
+              <h2 className="text-2xl font-bold lunara-login-heading">
+                Join Lunara
+              </h2>
+              <p className="lunara-login-sub text-sm mt-1">
                 Create your free account
               </p>
             </div>
@@ -389,9 +387,9 @@ export default function Login() {
               </Button>
             </form>
             <div className="flex items-center gap-3 w-full">
-              <div className="flex-1 h-px bg-white/10" />
-              <span className="text-white/30 text-xs">or</span>
-              <div className="flex-1 h-px bg-white/10" />
+              <div className="flex-1 h-px lunara-divider" />
+              <span className="lunara-login-muted text-xs">or</span>
+              <div className="flex-1 h-px lunara-divider" />
             </div>
             <button
               type="button"
@@ -412,12 +410,14 @@ export default function Login() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.35 }}
-            className="flex flex-col items-center gap-6 w-full max-w-xs"
+            className="lunara-login-card flex flex-col items-center gap-6 w-full max-w-xs p-8 rounded-3xl"
           >
             {logoCircle("sm")}
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-white">Reset Password</h2>
-              <p className="text-white/40 text-sm mt-1">
+              <h2 className="text-2xl font-bold lunara-login-heading">
+                Reset Password
+              </h2>
+              <p className="lunara-login-sub text-sm mt-1">
                 Enter your account email to get an OTP
               </p>
             </div>
@@ -460,12 +460,14 @@ export default function Login() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.35 }}
-            className="flex flex-col items-center gap-6 w-full max-w-xs"
+            className="lunara-login-card flex flex-col items-center gap-6 w-full max-w-xs p-8 rounded-3xl"
           >
             {logoCircle("sm")}
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-white">Enter OTP</h2>
-              <p className="text-white/40 text-sm mt-1">
+              <h2 className="text-2xl font-bold lunara-login-heading">
+                Enter OTP
+              </h2>
+              <p className="lunara-login-sub text-sm mt-1">
                 Use the code shown below to continue
               </p>
             </div>
@@ -478,11 +480,13 @@ export default function Login() {
                 border: "1px solid rgba(255,255,255,0.12)",
               }}
             >
-              <p className="text-white/50 text-xs mb-1">Your one-time code</p>
+              <p className="lunara-login-muted text-xs mb-1">
+                Your one-time code
+              </p>
               <p className="text-3xl font-bold tracking-[0.3em] text-violet-300">
                 {generatedOtp}
               </p>
-              <p className="text-white/30 text-xs mt-2">
+              <p className="lunara-login-muted text-xs mt-2">
                 {otpTimer > 0
                   ? `Expires in ${Math.floor(otpTimer / 60)}:${String(otpTimer % 60).padStart(2, "0")}`
                   : "OTP expired"}
@@ -532,20 +536,24 @@ export default function Login() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.35 }}
-            className="flex flex-col items-center gap-6 w-full max-w-xs"
+            className="lunara-login-card flex flex-col items-center gap-6 w-full max-w-xs p-8 rounded-3xl"
           >
             {logoCircle("sm")}
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-white">New Password</h2>
-              <p className="text-white/40 text-sm mt-1">
+              <h2 className="text-2xl font-bold lunara-login-heading">
+                New Password
+              </h2>
+              <p className="lunara-login-sub text-sm mt-1">
                 Set a new password for your account
               </p>
             </div>
             {newPassSuccess ? (
               <div className="text-center space-y-2">
                 <p className="text-3xl">✅</p>
-                <p className="text-white font-semibold">Password updated!</p>
-                <p className="text-white/40 text-sm">
+                <p className="lunara-login-heading font-semibold">
+                  Password updated!
+                </p>
+                <p className="lunara-login-sub text-sm">
                   Redirecting to sign in...
                 </p>
               </div>

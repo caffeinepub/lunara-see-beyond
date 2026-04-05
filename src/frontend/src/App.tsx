@@ -8,8 +8,10 @@ import {
 } from "@tanstack/react-router";
 import { useEffect } from "react";
 import Footer from "./components/Footer";
+import GlobalAudioPlayer from "./components/GlobalAudioPlayer";
 import Header from "./components/Header";
 import RulesPopup from "./components/RulesPopup";
+import { AudioProvider } from "./contexts/AudioContext";
 import About from "./pages/About";
 import Artistic from "./pages/Artistic";
 import DevDen from "./pages/DevDen";
@@ -36,8 +38,8 @@ const rootRoute = createRootRoute({
       <div className="text-6xl">🌙</div>
       <h1 className="text-3xl font-bold text-foreground">Page Not Found</h1>
       <p className="text-white/50 max-w-sm">
-        We couldn\'t find what you\'re looking for. The moon doesn\'t shine
-        there.
+        We couldn&apos;t find what you&apos;re looking for. The moon
+        doesn&apos;t shine there.
       </p>
       <a
         href="/"
@@ -48,15 +50,18 @@ const rootRoute = createRootRoute({
     </div>
   ),
   component: () => (
-    <div className="flex flex-col min-h-screen bg-background">
-      <ScrollToTop />
-      <Header />
-      <main className="flex-1">
-        <Outlet />
-      </main>
-      <Footer />
-      <RulesPopup />
-    </div>
+    <AudioProvider>
+      <div className="flex flex-col min-h-screen bg-background">
+        <ScrollToTop />
+        <Header />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <Footer />
+        <GlobalAudioPlayer />
+        <RulesPopup />
+      </div>
+    </AudioProvider>
   ),
 });
 

@@ -7,6 +7,9 @@ const footerLinks = [
   { label: "Pixel Hands", href: "/pixellens" as const },
   { label: "Wild Gang", href: "/wildgang" as const },
   { label: "Lunar Arcadia", href: "/lunar-arcadia" as const },
+  { label: "Aloxide", href: "/aloxide" as const },
+  { label: "MoonMart", href: "/marketplace" as const },
+  { label: "LunaChat", href: "/lunachat" as const },
   { label: "About", href: "/about" as const },
 ];
 

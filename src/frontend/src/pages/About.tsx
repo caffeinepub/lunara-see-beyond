@@ -64,6 +64,16 @@ const founders = [
     instagram: null,
     supporter: "Supporter",
   },
+  {
+    name: "Alex",
+    role: "Innovation Engineer",
+    initials: "AL",
+    tagline: "The one who pushes the boundaries.",
+    icon: Lightbulb,
+    zoneColor: "bg-lunara-devden",
+    instagram: null,
+    supporter: "Supporter",
+  },
 ];
 
 const milestones = [
@@ -214,7 +224,7 @@ export default function About() {
     <div>
       {/* ── Hero ── */}
       <section
-        className="min-h-[70vh] flex items-center justify-center relative overflow-hidden"
+        className="min-h-[70vh] flex items-center justify-center relative overflow-hidden dark-section"
         style={{
           background:
             "linear-gradient(160deg, #0D001F 0%, #24003D 55%, #4B0082 100%)",
@@ -456,7 +466,7 @@ export default function About() {
               The Minds Behind the Moon
             </h2>
             <p className="text-white/50 mt-2">
-              Four different gifts. One shared vision.
+              Five different gifts. One shared vision.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -536,7 +546,7 @@ export default function About() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className={`flex items-start gap-6 ${i % 2 === 0 ? "flex-row" : "flex-row-reverse"}`}
+                  className={`flex flex-col md:flex-row items-start gap-6 ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"}`}
                   data-ocid={`timeline.item.${i + 1}`}
                 >
                   <div
@@ -658,7 +668,7 @@ export default function About() {
 
       {/* ── Final CTA ── */}
       <section
-        className="py-20"
+        className="py-20 dark-section"
         style={{
           background:
             "linear-gradient(160deg, #0D001F 0%, #24003D 55%, #4B0082 100%)",

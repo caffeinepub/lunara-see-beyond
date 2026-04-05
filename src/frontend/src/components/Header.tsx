@@ -457,7 +457,9 @@ function SiteSearch({
         </div>
 
         <p className="text-white/25 text-xs text-center mt-3">
-          ↑↓ navigate · ↵ open · ESC close · Ctrl+K reopen
+          <span className="hidden md:inline">
+            ↑↓ navigate · ↵ open · ESC close · Ctrl+K reopen
+          </span>
         </p>
       </motion.div>
     </motion.div>
@@ -713,7 +715,7 @@ export default function Header() {
 
         {/* Mobile nav */}
         {mobileOpen && (
-          <div className="md:hidden border-t border-white/08 glass-strong px-4 pb-4 pt-2 space-y-1">
+          <div className="md:hidden border-t border-white/[0.08] glass-strong px-4 pb-4 pt-2 space-y-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -721,7 +723,7 @@ export default function Header() {
                 className={`block px-3 py-2 rounded-xl text-sm font-medium transition-all ${
                   isActive(link.href)
                     ? "text-white glass-pill"
-                    : "text-white/60 hover:text-white hover:bg-white/08"
+                    : "text-white/60 hover:text-white hover:bg-white/[0.08]"
                 }`}
                 onClick={() => setMobileOpen(false)}
                 data-ocid="header.link"

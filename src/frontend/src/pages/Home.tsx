@@ -165,7 +165,6 @@ const tickerItems = [
   { emoji: "👥", label: "Wild Gang", href: "/wildgang" as const },
   { emoji: "🎮", label: "Lunar Arcadia", href: "/lunar-arcadia" as const },
   { emoji: "🛒", label: "MoonMart", href: "/marketplace" as const },
-  { emoji: "🧠", label: "Study VCs", href: "/wildgang" as const },
   { emoji: "💻", label: "Aloxide", href: "/aloxide" as const },
   { emoji: "💬", label: "LunaChat", href: "/lunachat" as const },
 ];
@@ -178,7 +177,7 @@ export default function Home() {
     <div>
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section
-        className="min-h-[90vh] flex items-center relative overflow-hidden"
+        className="min-h-[90vh] flex items-center relative overflow-hidden dark-section"
         style={{
           background:
             "linear-gradient(160deg, #0D001F 0%, #24003D 55%, #4B0082 100%)",

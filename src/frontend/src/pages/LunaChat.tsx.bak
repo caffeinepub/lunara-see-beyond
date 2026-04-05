@@ -4,26 +4,16 @@ import {
   Check,
   CheckCheck,
   ChevronRight,
-  Grid,
   Mic,
   MicOff,
   Paperclip,
   Pencil,
-  Phone,
-  PhoneIncoming,
-  PhoneMissed,
-  PhoneOff,
-  PhoneOutgoing,
   Plus,
   Radio,
   Search,
   Send,
   Trash2,
   Users,
-  Video,
-  VideoOff,
-  Volume2,
-  VolumeX,
   X,
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -70,64 +60,19 @@ type ChatData = {
   groups: Group[];
 };
 
-// ─── Call types ──────────────────────────────────────────────────────────────
-
-type CallEntry = {
-  id: string;
-  peer: string;
-  type: "voice" | "video";
-  direction: "incoming" | "outgoing" | "missed";
-  timestamp: number;
-  duration?: number;
-};
-
-type ActiveCall = {
-  type: "voice" | "video";
-  peer: string;
-  direction: "outgoing" | "incoming";
-  status: "calling" | "ringing" | "connected" | "ended";
-  startTime?: number;
-};
-
 // ─── Storage helpers ─────────────────────────────────────────────────────────
 
-function loadCallHistory(username: string): CallEntry[] {
+function loadChats(): ChatData {
   try {
-    const raw = localStorage.getItem(`lunara_call_history_${username}`);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveCallHistory(username: string, history: CallEntry[]) {
-  localStorage.setItem(
-    `lunara_call_history_${username}`,
-    JSON.stringify(history),
-  );
-}
-
-function isAadhaarVerified(username: string): boolean {
-  return localStorage.getItem(`lunara_aadhaar_verified_${username}`) === "true";
-}
-
-function setAadhaarVerified(username: string) {
-  localStorage.setItem(`lunara_aadhaar_verified_${username}`, "true");
-}
-
-function loadChats(username?: string): ChatData {
-  try {
-    const key = username ? `lunara_chats_${username}` : "lunara_chats";
-    const raw = localStorage.getItem(key);
+    const raw = localStorage.getItem("lunara_chats");
     return raw ? JSON.parse(raw) : { dms: [], groups: [] };
   } catch {
     return { dms: [], groups: [] };
   }
 }
 
-function saveChats(data: ChatData, username?: string) {
-  const key = username ? `lunara_chats_${username}` : "lunara_chats";
-  localStorage.setItem(key, JSON.stringify(data));
+function saveChats(data: ChatData) {
+  localStorage.setItem("lunara_chats", JSON.stringify(data));
 }
 
 function loadStatuses(): Status[] {
@@ -444,8 +389,7 @@ function StatusRow({
 
 export default function LunaChat() {
   const { user } = useAuth();
-  const [chats, setChats] = useState<ChatData>(() => loadChats(user?.email));
-  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(true);
+  const [chats, setChats] = useState<ChatData>(loadChats);
   const [activeChatId, setActiveChatId] = useState<string | null>(null);
   const [activeChatType, setActiveChatType] = useState<"dm" | "group">("dm");
   const [messageText, setMessageText] = useState("");
@@ -476,43 +420,14 @@ export default function LunaChat() {
   const statusImageInputRef = useRef<HTMLInputElement>(null);
 
   // Members tab state
-  const [sidebarTab, setSidebarTab] = useState<
-    "messages" | "members" | "calls"
-  >("messages");
+  const [sidebarTab, setSidebarTab] = useState<"messages" | "members">(
+    "messages",
+  );
   const [memberSearch, setMemberSearch] = useState("");
   const [profileUser, setProfileUser] = useState<string | null>(null);
   const [friendRequests, setFriendRequests] = useState<Record<string, boolean>>(
     {},
   );
-
-  // Call state
-  const [activeCall, setActiveCall] = useState<ActiveCall | null>(null);
-  const [callTimer, setCallTimer] = useState(0);
-  const callTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const [isMuted, setIsMuted] = useState(false);
-  const [isSpeaker, setIsSpeaker] = useState(true);
-  const [isCameraOff, setIsCameraOff] = useState(false);
-  const localVideoRef = useRef<HTMLVideoElement>(null);
-  const remoteVideoRef = useRef<HTMLVideoElement>(null);
-  const peerConnectionRef = useRef<RTCPeerConnection | null>(null);
-  const localStreamRef = useRef<MediaStream | null>(null);
-  const [callHistory, setCallHistory] = useState<CallEntry[]>(() =>
-    user ? loadCallHistory(user.email) : [],
-  );
-
-  // Aadhaar modal
-  const [showAadhaarModal, setShowAadhaarModal] = useState(false);
-  const [aadhaarDob, setAadhaarDob] = useState("");
-  const [aadhaarFile, setAadhaarFile] = useState<File | null>(null);
-  const [aadhaarError, setAadhaarError] = useState("");
-  const aadhaarInputRef = useRef<HTMLInputElement>(null);
-  const [pendingVideoCallPeer, setPendingVideoCallPeer] = useState<
-    string | null
-  >(null);
-
-  // Dial pad
-  const [showDialPad, setShowDialPad] = useState(false);
-  const [dialNumber, setDialNumber] = useState("");
 
   const allUsers = getAllUsers().filter((u) => u !== user?.email);
 
@@ -553,158 +468,8 @@ export default function LunaChat() {
       if (mediaRecorderRef.current?.state === "recording") {
         mediaRecorderRef.current.stop();
       }
-      if (callTimerRef.current) clearInterval(callTimerRef.current);
-      if (localStreamRef.current) {
-        for (const track of localStreamRef.current.getTracks()) track.stop();
-      }
-      if (peerConnectionRef.current) peerConnectionRef.current.close();
     };
   }, []);
-
-  const formatCallDuration = (s: number) => {
-    const m = Math.floor(s / 60);
-    const sec = s % 60;
-    return `${m}:${sec.toString().padStart(2, "0")}`;
-  };
-
-  const formatRelativeTime = (ts: number) => {
-    const diff = Date.now() - ts;
-    const mins = Math.floor(diff / 60000);
-    const hrs = Math.floor(diff / 3600000);
-    const days = Math.floor(diff / 86400000);
-    if (mins < 1) return "Just now";
-    if (mins < 60) return `${mins}m ago`;
-    if (hrs < 24) return `${hrs}h ago`;
-    return `${days}d ago`;
-  };
-
-  const addCallToHistory = (entry: CallEntry) => {
-    if (!user) return;
-    const updated = [entry, ...callHistory].slice(0, 100);
-    setCallHistory(updated);
-    saveCallHistory(user.email, updated);
-  };
-
-  const startCallTimer = () => {
-    setCallTimer(0);
-    if (callTimerRef.current) clearInterval(callTimerRef.current);
-    callTimerRef.current = setInterval(() => {
-      setCallTimer((prev) => prev + 1);
-    }, 1000);
-  };
-
-  const stopCallTimer = () => {
-    if (callTimerRef.current) clearInterval(callTimerRef.current);
-    callTimerRef.current = null;
-  };
-
-  const cleanupCallMedia = () => {
-    if (localStreamRef.current) {
-      for (const track of localStreamRef.current.getTracks()) track.stop();
-      localStreamRef.current = null;
-    }
-    if (peerConnectionRef.current) {
-      peerConnectionRef.current.close();
-      peerConnectionRef.current = null;
-    }
-  };
-
-  const endCall = () => {
-    const duration = callTimer;
-    if (activeCall && user) {
-      addCallToHistory({
-        id: crypto.randomUUID(),
-        peer: activeCall.peer,
-        type: activeCall.type,
-        direction:
-          activeCall.status === "calling" ? "missed" : activeCall.direction,
-        timestamp: activeCall.startTime ?? Date.now(),
-        duration: activeCall.status === "connected" ? duration : undefined,
-      });
-    }
-    stopCallTimer();
-    cleanupCallMedia();
-    setActiveCall(null);
-    setCallTimer(0);
-    setIsMuted(false);
-    setIsSpeaker(true);
-    setIsCameraOff(false);
-  };
-
-  const initiateCall = async (peer: string, type: "voice" | "video") => {
-    if (!user) return;
-
-    // For video calls, check Aadhaar verification
-    if (type === "video" && !isAadhaarVerified(user.email)) {
-      setPendingVideoCallPeer(peer);
-      setShowAadhaarModal(true);
-      return;
-    }
-
-    setActiveCall({
-      type,
-      peer,
-      direction: "outgoing",
-      status: "calling",
-      startTime: Date.now(),
-    });
-
-    try {
-      const constraints =
-        type === "video"
-          ? { audio: true, video: true }
-          : { audio: true, video: false };
-      const stream = await navigator.mediaDevices
-        .getUserMedia(constraints)
-        .catch(() => null);
-      if (stream) {
-        localStreamRef.current = stream;
-        if (type === "video" && localVideoRef.current) {
-          localVideoRef.current.srcObject = stream;
-        }
-      }
-    } catch {
-      // Microphone not available, continue with simulated call
-    }
-
-    // Simulate auto-connect after 3 seconds (demo mode)
-    setTimeout(() => {
-      setActiveCall((prev) => {
-        if (!prev) return null;
-        startCallTimer();
-        return { ...prev, status: "connected" };
-      });
-    }, 3000);
-  };
-
-  const handleVerifyAadhaar = () => {
-    setAadhaarError("");
-    if (!aadhaarFile) {
-      setAadhaarError("Please upload your Aadhaar card image.");
-      return;
-    }
-    if (!aadhaarDob) {
-      setAadhaarError("Please enter your date of birth.");
-      return;
-    }
-    const dob = new Date(aadhaarDob);
-    const today = new Date();
-    let age = today.getFullYear() - dob.getFullYear();
-    const m = today.getMonth() - dob.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
-    if (age < 16) {
-      setAadhaarError("Video calls are only available for users 16 and above.");
-      return;
-    }
-    if (user) setAadhaarVerified(user.email);
-    setShowAadhaarModal(false);
-    setAadhaarDob("");
-    setAadhaarFile(null);
-    if (pendingVideoCallPeer) {
-      initiateCall(pendingVideoCallPeer, "video");
-      setPendingVideoCallPeer(null);
-    }
-  };
 
   if (!user) {
     return (
@@ -750,7 +515,7 @@ export default function LunaChat() {
       if (g) g.messages.push(msg);
     }
     setChats({ ...updated });
-    saveChats(updated, user?.email);
+    saveChats(updated);
     setTimeout(() => {
       if (containerRef.current)
         containerRef.current.scrollTop = containerRef.current.scrollHeight;
@@ -890,7 +655,7 @@ export default function LunaChat() {
     };
     const updated = { ...chats, dms: [...chats.dms, newDM] };
     setChats(updated);
-    saveChats(updated, user?.email);
+    saveChats(updated);
     setActiveChatId(newDM.id);
     setActiveChatType("dm");
     setShowNewDM(false);
@@ -906,7 +671,7 @@ export default function LunaChat() {
     };
     const updated = { ...chats, groups: [...chats.groups, newGroup] };
     setChats(updated);
-    saveChats(updated, user?.email);
+    saveChats(updated);
     setActiveChatId(newGroup.id);
     setActiveChatType("group");
     setShowNewGroup(false);
@@ -938,20 +703,11 @@ export default function LunaChat() {
   return (
     <div className="min-h-screen flex flex-col">
       {/* Page Header */}
-      <div className="py-8 px-4 text-center relative">
+      <div className="py-8 px-4 text-center">
         <h1 className="text-3xl font-bold text-white">💬 LunaChat</h1>
         <p className="text-white/50 mt-1 text-sm">
           Real-time messaging with the Lunara community
         </p>
-        <button
-          type="button"
-          onClick={() => setShowDialPad(true)}
-          className="absolute right-6 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center text-white/50 hover:text-purple-300 hover:bg-white/10 transition-all"
-          title="Dial Pad"
-          data-ocid="lunachat.button"
-        >
-          <Grid className="w-5 h-5" />
-        </button>
       </div>
 
       {/* Chat UI */}
@@ -962,7 +718,7 @@ export default function LunaChat() {
         >
           {/* ── Sidebar ─────────────────────────────────── */}
           <div
-            className={`${mobileSidebarOpen ? "flex" : "hidden"} md:flex w-full md:w-72 md:shrink-0 border-r border-white/10 flex-col`}
+            className="w-72 shrink-0 border-r border-white/10 flex flex-col"
             style={{ background: "rgba(13,0,31,0.5)" }}
           >
             {/* Status row */}
@@ -990,14 +746,6 @@ export default function LunaChat() {
                 data-ocid="lunachat.tab"
               >
                 <Users className="w-3 h-3" /> Members
-              </button>
-              <button
-                type="button"
-                onClick={() => setSidebarTab("calls")}
-                className={`flex-1 py-3 text-xs font-semibold transition-all flex items-center justify-center gap-1 ${sidebarTab === "calls" ? "text-purple-300 border-b-2 border-purple-400" : "text-white/40 hover:text-white/70"}`}
-                data-ocid="lunachat.tab"
-              >
-                <Phone className="w-3 h-3" /> Calls
               </button>
             </div>
 
@@ -1034,104 +782,7 @@ export default function LunaChat() {
             )}
 
             {/* DMs + Groups list — only when messages tab active */}
-            {sidebarTab === "calls" ? (
-              /* ── Calls panel ── */
-              <div className="flex-1 flex flex-col overflow-hidden">
-                <div className="p-3 border-b border-white/5">
-                  <p className="text-white/30 text-[10px] uppercase tracking-widest">
-                    Recent Calls
-                  </p>
-                </div>
-                <div className="flex-1 overflow-y-auto">
-                  {callHistory.length === 0 ? (
-                    <div
-                      className="p-6 text-center text-white/30 text-sm"
-                      data-ocid="lunachat.empty_state"
-                    >
-                      No call history yet.
-                    </div>
-                  ) : (
-                    callHistory.map((entry, idx) => {
-                      const name = getDisplayName(entry.peer);
-                      const isMissed = entry.direction === "missed";
-                      return (
-                        <div
-                          key={entry.id}
-                          className="flex items-center gap-3 px-4 py-3 border-b border-white/5 hover:bg-white/5 transition-all"
-                          data-ocid={`lunachat.item.${idx + 1}`}
-                        >
-                          <div className="w-9 h-9 rounded-full bg-purple-700 flex items-center justify-center text-white font-bold text-sm shrink-0">
-                            {name.charAt(0).toUpperCase()}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-white text-sm font-semibold truncate">
-                              {name}
-                            </p>
-                            <div className="flex items-center gap-1.5 mt-0.5">
-                              {isMissed ? (
-                                <PhoneMissed className="w-3 h-3 text-red-400 shrink-0" />
-                              ) : entry.direction === "incoming" ? (
-                                <PhoneIncoming className="w-3 h-3 text-green-400 shrink-0" />
-                              ) : (
-                                <PhoneOutgoing className="w-3 h-3 text-blue-400 shrink-0" />
-                              )}
-                              {entry.type === "video" ? (
-                                <Video className="w-3 h-3 text-white/40 shrink-0" />
-                              ) : (
-                                <Phone className="w-3 h-3 text-white/40 shrink-0" />
-                              )}
-                              <span
-                                className={`text-xs ${isMissed ? "text-red-400" : "text-white/40"}`}
-                              >
-                                {isMissed
-                                  ? "Missed"
-                                  : entry.direction === "incoming"
-                                    ? "Incoming"
-                                    : "Outgoing"}
-                              </span>
-                              {entry.duration !== undefined && (
-                                <span className="text-white/30 text-xs">
-                                  · {formatCallDuration(entry.duration)}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                          <div className="text-right shrink-0">
-                            <p className="text-white/30 text-[10px]">
-                              {formatRelativeTime(entry.timestamp)}
-                            </p>
-                            <div className="flex gap-1 mt-1 justify-end">
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  initiateCall(entry.peer, "voice")
-                                }
-                                className="p-1 rounded-full hover:bg-white/10 text-white/40 hover:text-green-400 transition-all"
-                                title="Voice call"
-                                data-ocid="lunachat.button"
-                              >
-                                <Phone className="w-3 h-3" />
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() =>
-                                  initiateCall(entry.peer, "video")
-                                }
-                                className="p-1 rounded-full hover:bg-white/10 text-white/40 hover:text-purple-400 transition-all"
-                                title="Video call"
-                                data-ocid="lunachat.button"
-                              >
-                                <Video className="w-3 h-3" />
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })
-                  )}
-                </div>
-              </div>
-            ) : sidebarTab === "members" ? (
+            {sidebarTab === "members" ? (
               /* ── Members panel ── */
               <div className="flex-1 flex flex-col overflow-hidden">
                 <div className="p-3 border-b border-white/10">
@@ -1229,7 +880,6 @@ export default function LunaChat() {
                       onClick={() => {
                         setActiveChatId(dm.id);
                         setActiveChatType("dm");
-                        setMobileSidebarOpen(false);
                         const updated = { ...chats };
                         const d = updated.dms.find((x) => x.id === dm.id);
                         if (d)
@@ -1237,7 +887,7 @@ export default function LunaChat() {
                             m.read = true;
                           }
                         setChats({ ...updated });
-                        saveChats(updated, user?.email);
+                        saveChats(updated);
                       }}
                       className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-all text-left border-b border-white/5 ${
                         activeChatId === dm.id ? "bg-white/10" : ""
@@ -1303,7 +953,6 @@ export default function LunaChat() {
                       onClick={() => {
                         setActiveChatId(g.id);
                         setActiveChatType("group");
-                        setMobileSidebarOpen(false);
                       }}
                       className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-all text-left border-b border-white/5 ${
                         activeChatId === g.id ? "bg-white/10" : ""
@@ -1343,9 +992,7 @@ export default function LunaChat() {
           </div>
 
           {/* ── Main chat area ───────────────────────────── */}
-          <div
-            className={`${!mobileSidebarOpen || !activeChatId ? "hidden md:flex" : "flex"} flex-1 flex-col min-w-0`}
-          >
+          <div className="flex-1 flex flex-col min-w-0">
             {!activeChat ? (
               <div className="flex-1 flex items-center justify-center text-center px-8">
                 <div>
@@ -1365,31 +1012,6 @@ export default function LunaChat() {
                   className="px-5 py-4 border-b border-white/10 flex items-center gap-3"
                   style={{ background: "rgba(75,0,130,0.2)" }}
                 >
-                  {/* Mobile back button */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMobileSidebarOpen(true);
-                      setActiveChatId(null);
-                    }}
-                    className="md:hidden w-9 h-9 rounded-full flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition-all shrink-0"
-                    data-ocid="lunachat.button"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                    >
-                      <path d="m15 18-6-6 6-6" />
-                    </svg>
-                  </button>
                   {activeChatType === "dm" ? (
                     <>
                       <div className="relative">
@@ -1436,46 +1058,13 @@ export default function LunaChat() {
                       </div>
                     </>
                   )}
-                  {/* Call buttons - only for DMs */}
-                  {activeChatType === "dm" && activeChat && (
-                    <div className="ml-auto flex items-center gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() =>
-                          initiateCall(
-                            getOtherParticipant(activeChat as DM),
-                            "voice",
-                          )
-                        }
-                        className="w-9 h-9 rounded-full flex items-center justify-center text-white/60 hover:text-green-400 hover:bg-green-400/10 transition-all"
-                        title="Voice call"
-                        data-ocid="lunachat.button"
-                      >
-                        <Phone className="w-4 h-4" />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() =>
-                          initiateCall(
-                            getOtherParticipant(activeChat as DM),
-                            "video",
-                          )
-                        }
-                        className="w-9 h-9 rounded-full flex items-center justify-center text-white/60 hover:text-purple-400 hover:bg-purple-400/10 transition-all"
-                        title="Video call"
-                        data-ocid="lunachat.button"
-                      >
-                        <Video className="w-4 h-4" />
-                      </button>
-                    </div>
-                  )}
                 </div>
 
                 {/* Messages */}
                 <div
                   ref={containerRef}
                   className="flex-1 overflow-y-auto p-4 space-y-3"
-                  style={{ minHeight: 0, maxHeight: "calc(100vh - 360px)" }}
+                  style={{ minHeight: 0, maxHeight: "calc(100vh - 280px)" }}
                 >
                   {activeChat.messages.length === 0 && (
                     <div className="text-center text-white/30 text-sm py-8">
@@ -1507,7 +1096,7 @@ export default function LunaChat() {
                           if (m) m.text = text;
                         }
                         setChats({ ...updated });
-                        saveChats(updated, user?.email);
+                        saveChats(updated);
                       }}
                       onDelete={(id) => {
                         const updated = { ...chats };
@@ -1527,7 +1116,7 @@ export default function LunaChat() {
                             g.messages = g.messages.filter((m) => m.id !== id);
                         }
                         setChats({ ...updated });
-                        saveChats(updated, user?.email);
+                        saveChats(updated);
                       }}
                     />
                   ))}
@@ -2141,534 +1730,6 @@ export default function LunaChat() {
               >
                 Close
               </button>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── Active Call Screen ──────────────────────── */}
-      <AnimatePresence>
-        {activeCall && (
-          <motion.div
-            key="call-screen"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex flex-col items-center justify-between"
-            style={{
-              background:
-                activeCall.type === "video"
-                  ? "rgba(0,0,0,0.97)"
-                  : "linear-gradient(180deg, #0d001f 0%, #24003d 50%, #1a0033 100%)",
-            }}
-          >
-            {/* Video backgrounds */}
-            {activeCall.type === "video" && (
-              <>
-                <video
-                  ref={remoteVideoRef}
-                  autoPlay
-                  playsInline
-                  muted={false}
-                  className="absolute inset-0 w-full h-full object-cover opacity-20"
-                />
-                <video
-                  ref={localVideoRef}
-                  autoPlay
-                  playsInline
-                  muted
-                  className={`absolute bottom-28 right-4 w-28 h-40 object-cover rounded-2xl border-2 border-white/30 z-10 transition-opacity ${isCameraOff ? "opacity-0" : "opacity-100"}`}
-                />
-              </>
-            )}
-
-            {/* Purple overlay gradient */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background:
-                  "radial-gradient(ellipse at top, rgba(106,13,173,0.3) 0%, transparent 70%)",
-              }}
-            />
-
-            {/* Top section */}
-            <div className="relative z-20 text-center pt-16 w-full px-6">
-              <p className="text-white/50 text-sm mb-4 tracking-wide uppercase">
-                {activeCall.type === "video" ? "Video Call" : "Voice Call"}
-              </p>
-              <div
-                className="w-24 h-24 rounded-full flex items-center justify-center text-white font-bold text-3xl mx-auto mb-4"
-                style={{
-                  background: "linear-gradient(135deg, #6A0DAD, #a855f7)",
-                  boxShadow: "0 0 40px rgba(168,85,247,0.5)",
-                }}
-              >
-                {getDisplayName(activeCall.peer).charAt(0).toUpperCase()}
-              </div>
-              <h2 className="text-white text-2xl font-bold mb-2">
-                {getDisplayName(activeCall.peer)}
-              </h2>
-              <p className="text-white/60 text-sm">
-                {activeCall.status === "calling" && "Calling..."}
-                {activeCall.status === "ringing" && "Ringing..."}
-                {activeCall.status === "connected" &&
-                  formatCallDuration(callTimer)}
-              </p>
-              {activeCall.status === "connected" && (
-                <p className="text-green-400 text-xs mt-1">Connected</p>
-              )}
-            </div>
-
-            {/* Bottom controls */}
-            <div className="relative z-20 pb-16 w-full px-8">
-              <div className="flex items-center justify-center gap-6 mb-8">
-                {/* Mute */}
-                <div className="flex flex-col items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setIsMuted((m) => !m)}
-                    className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${isMuted ? "bg-white/20 text-white" : "bg-white/10 text-white/70 hover:bg-white/20"}`}
-                    data-ocid="lunachat.toggle"
-                  >
-                    {isMuted ? (
-                      <MicOff className="w-6 h-6" />
-                    ) : (
-                      <Mic className="w-6 h-6" />
-                    )}
-                  </button>
-                  <span className="text-white/50 text-xs">
-                    {isMuted ? "Unmute" : "Mute"}
-                  </span>
-                </div>
-
-                {/* End call */}
-                <div className="flex flex-col items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={endCall}
-                    className="w-16 h-16 rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center text-white transition-all"
-                    style={{ boxShadow: "0 0 30px rgba(239,68,68,0.5)" }}
-                    data-ocid="lunachat.delete_button"
-                  >
-                    <PhoneOff className="w-7 h-7" />
-                  </button>
-                  <span className="text-white/50 text-xs">End</span>
-                </div>
-
-                {/* Speaker / Camera toggle */}
-                <div className="flex flex-col items-center gap-2">
-                  {activeCall.type === "video" ? (
-                    <>
-                      <button
-                        type="button"
-                        onClick={() => setIsCameraOff((c) => !c)}
-                        className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${isCameraOff ? "bg-white/20 text-white" : "bg-white/10 text-white/70 hover:bg-white/20"}`}
-                        data-ocid="lunachat.toggle"
-                      >
-                        {isCameraOff ? (
-                          <VideoOff className="w-6 h-6" />
-                        ) : (
-                          <Video className="w-6 h-6" />
-                        )}
-                      </button>
-                      <span className="text-white/50 text-xs">
-                        {isCameraOff ? "Camera Off" : "Camera On"}
-                      </span>
-                    </>
-                  ) : (
-                    <>
-                      <button
-                        type="button"
-                        onClick={() => setIsSpeaker((s) => !s)}
-                        className={`w-14 h-14 rounded-full flex items-center justify-center transition-all ${isSpeaker ? "bg-white/20 text-white" : "bg-white/10 text-white/70 hover:bg-white/20"}`}
-                        data-ocid="lunachat.toggle"
-                      >
-                        {isSpeaker ? (
-                          <Volume2 className="w-6 h-6" />
-                        ) : (
-                          <VolumeX className="w-6 h-6" />
-                        )}
-                      </button>
-                      <span className="text-white/50 text-xs">
-                        {isSpeaker ? "Speaker" : "Earpiece"}
-                      </span>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── Aadhaar Verification Modal ───────────────── */}
-      <AnimatePresence>
-        {showAadhaarModal && (
-          <motion.div
-            key="aadhaar-modal"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[90] flex items-center justify-center p-4"
-            style={{
-              background: "rgba(0,0,0,0.8)",
-              backdropFilter: "blur(12px)",
-            }}
-            onClick={(e) =>
-              e.target === e.currentTarget && setShowAadhaarModal(false)
-            }
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.9, opacity: 0 }}
-              transition={{ type: "spring", damping: 20, stiffness: 300 }}
-              className="w-full max-w-sm rounded-3xl overflow-hidden"
-              style={{
-                background: "rgba(13,0,31,0.98)",
-                border: "1px solid rgba(139,92,246,0.35)",
-                boxShadow: "0 0 60px rgba(139,92,246,0.3)",
-              }}
-              onClick={(e) => e.stopPropagation()}
-              data-ocid="lunachat.modal"
-            >
-              <div
-                className="h-1 w-full"
-                style={{
-                  background: "linear-gradient(90deg, #6A0DAD, #a855f7)",
-                }}
-              />
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-white font-bold text-lg">
-                    Aadhaar Verification
-                  </h3>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setShowAadhaarModal(false);
-                      setPendingVideoCallPeer(null);
-                    }}
-                    className="text-white/40 hover:text-white transition-colors"
-                    data-ocid="lunachat.close_button"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-
-                <div
-                  className="flex items-start gap-2 rounded-xl p-3 mb-4"
-                  style={{
-                    background: "rgba(139,92,246,0.1)",
-                    border: "1px solid rgba(139,92,246,0.2)",
-                  }}
-                >
-                  <Video className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
-                  <p className="text-white/60 text-xs">
-                    Video calls require age verification (16+). Your Aadhaar
-                    details are used only for age verification and stored
-                    locally.
-                  </p>
-                </div>
-
-                {/* Aadhaar upload */}
-                <div className="mb-4">
-                  <label
-                    htmlFor="aadhaar-file-input"
-                    className="text-white/60 text-xs font-medium block mb-1.5"
-                  >
-                    Upload Aadhaar Card Image *
-                  </label>
-                  <input
-                    id="aadhaar-file-input"
-                    ref={aadhaarInputRef}
-                    type="file"
-                    accept="image/*"
-                    className="hidden"
-                    onChange={(e) =>
-                      setAadhaarFile(e.target.files?.[0] ?? null)
-                    }
-                  />
-                  <button
-                    type="button"
-                    onClick={() => aadhaarInputRef.current?.click()}
-                    className="w-full py-3 rounded-xl border border-dashed border-white/20 hover:border-purple-400/50 text-white/40 hover:text-white/70 text-sm transition-all flex items-center justify-center gap-2"
-                    data-ocid="lunachat.upload_button"
-                  >
-                    {aadhaarFile ? (
-                      <>
-                        <Check className="w-4 h-4 text-green-400" />
-                        <span className="text-green-400">
-                          {aadhaarFile.name}
-                        </span>
-                      </>
-                    ) : (
-                      <>
-                        <Phone className="w-4 h-4" /> Choose Aadhaar image
-                      </>
-                    )}
-                  </button>
-                </div>
-
-                {/* DOB input */}
-                <div className="mb-5">
-                  <label
-                    htmlFor="aadhaar-dob-input"
-                    className="text-white/60 text-xs font-medium block mb-1.5"
-                  >
-                    Date of Birth *
-                  </label>
-                  <input
-                    id="aadhaar-dob-input"
-                    type="date"
-                    value={aadhaarDob}
-                    onChange={(e) => setAadhaarDob(e.target.value)}
-                    max={new Date().toISOString().split("T")[0]}
-                    className="w-full bg-white/10 border border-white/15 rounded-xl px-4 py-2.5 text-white text-sm outline-none focus:border-purple-400 transition-colors"
-                    style={{ colorScheme: "dark" }}
-                    data-ocid="lunachat.input"
-                  />
-                </div>
-
-                {aadhaarError && (
-                  <div
-                    className="mb-4 rounded-xl p-3 text-red-400 text-xs"
-                    style={{
-                      background: "rgba(239,68,68,0.1)",
-                      border: "1px solid rgba(239,68,68,0.2)",
-                    }}
-                    data-ocid="lunachat.error_state"
-                  >
-                    {aadhaarError}
-                  </div>
-                )}
-
-                <button
-                  type="button"
-                  onClick={handleVerifyAadhaar}
-                  className="w-full py-3 rounded-xl font-semibold text-white transition-all hover:brightness-110"
-                  style={{
-                    background: "linear-gradient(135deg, #6A0DAD, #a855f7)",
-                    boxShadow: "0 4px 15px rgba(139,92,246,0.4)",
-                  }}
-                  data-ocid="lunachat.confirm_button"
-                >
-                  Verify &amp; Start Video Call
-                </button>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* ── Dial Pad Modal ───────────────────────────── */}
-      <AnimatePresence>
-        {showDialPad && (
-          <motion.div
-            key="dial-pad"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[80] flex items-center justify-center p-4"
-            style={{
-              background: "rgba(0,0,0,0.75)",
-              backdropFilter: "blur(12px)",
-            }}
-            onClick={(e) =>
-              e.target === e.currentTarget && setShowDialPad(false)
-            }
-          >
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              transition={{ type: "spring", damping: 22, stiffness: 300 }}
-              className="w-full max-w-xs rounded-3xl overflow-hidden"
-              style={{
-                background: "rgba(13,0,31,0.98)",
-                border: "1px solid rgba(139,92,246,0.35)",
-                boxShadow: "0 0 80px rgba(139,92,246,0.25)",
-              }}
-              onClick={(e) => e.stopPropagation()}
-              data-ocid="lunachat.modal"
-            >
-              <div
-                className="h-1 w-full"
-                style={{
-                  background: "linear-gradient(90deg, #6A0DAD, #a855f7)",
-                }}
-              />
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-5">
-                  <h3 className="text-white font-bold text-lg flex items-center gap-2">
-                    <Grid className="w-4 h-4 text-purple-400" /> Dial Pad
-                  </h3>
-                  <button
-                    type="button"
-                    onClick={() => setShowDialPad(false)}
-                    className="text-white/40 hover:text-white transition-colors"
-                    data-ocid="lunachat.close_button"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
-                </div>
-
-                {/* Display */}
-                <div
-                  className="rounded-2xl px-4 py-3 mb-4 flex items-center justify-between"
-                  style={{
-                    background: "rgba(255,255,255,0.06)",
-                    border: "1px solid rgba(255,255,255,0.1)",
-                  }}
-                >
-                  <span className="text-white text-xl font-mono tracking-widest flex-1 min-w-0 truncate">
-                    {dialNumber || (
-                      <span className="text-white/20 text-base">
-                        Enter number or name
-                      </span>
-                    )}
-                  </span>
-                  {dialNumber && (
-                    <button
-                      type="button"
-                      onClick={() => setDialNumber((d) => d.slice(0, -1))}
-                      className="text-white/40 hover:text-white transition-colors ml-2 shrink-0"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
-                </div>
-
-                {/* Matching users */}
-                {dialNumber && (
-                  <div
-                    className="mb-3 max-h-28 overflow-y-auto space-y-1 rounded-xl"
-                    style={{ background: "rgba(255,255,255,0.04)" }}
-                  >
-                    {getAllUsers()
-                      .filter((u) => u !== user?.email)
-                      .filter(
-                        (u) =>
-                          getDisplayName(u)
-                            .toLowerCase()
-                            .includes(dialNumber.toLowerCase()) ||
-                          u.toLowerCase().includes(dialNumber.toLowerCase()),
-                      )
-                      .slice(0, 4)
-                      .map((u) => (
-                        <button
-                          key={u}
-                          type="button"
-                          onClick={() => setDialNumber(u)}
-                          className="w-full flex items-center gap-3 px-3 py-2 hover:bg-white/10 transition-all rounded-xl text-left"
-                        >
-                          <div className="w-7 h-7 rounded-full bg-purple-700 flex items-center justify-center text-white font-bold text-xs shrink-0">
-                            {getDisplayName(u).charAt(0).toUpperCase()}
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <p className="text-white text-xs font-semibold truncate">
-                              {getDisplayName(u)}
-                            </p>
-                            <p className="text-white/30 text-[10px] truncate">
-                              {u}
-                            </p>
-                          </div>
-                        </button>
-                      ))}
-                  </div>
-                )}
-
-                {/* Dial buttons */}
-                <div className="grid grid-cols-3 gap-3 mb-5">
-                  {[
-                    "1",
-                    "2",
-                    "3",
-                    "4",
-                    "5",
-                    "6",
-                    "7",
-                    "8",
-                    "9",
-                    "*",
-                    "0",
-                    "#",
-                  ].map((k) => (
-                    <button
-                      key={k}
-                      type="button"
-                      onClick={() => setDialNumber((d) => d + k)}
-                      className="h-12 rounded-2xl flex items-center justify-center text-white text-lg font-bold transition-all hover:scale-95 active:scale-90"
-                      style={{
-                        background: "rgba(255,255,255,0.08)",
-                        border: "1px solid rgba(255,255,255,0.07)",
-                      }}
-                    >
-                      {k}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Call action buttons */}
-                <div className="flex gap-3">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const peer =
-                        getAllUsers().find(
-                          (u) =>
-                            u !== user?.email &&
-                            (getDisplayName(u).toLowerCase() ===
-                              dialNumber.toLowerCase() ||
-                              u.toLowerCase() === dialNumber.toLowerCase()),
-                        ) ?? dialNumber;
-                      if (peer) {
-                        initiateCall(peer, "voice");
-                        setShowDialPad(false);
-                        setDialNumber("");
-                      }
-                    }}
-                    disabled={!dialNumber}
-                    className="flex-1 py-3 rounded-2xl flex items-center justify-center gap-2 text-white font-semibold transition-all disabled:opacity-40"
-                    style={{
-                      background: "rgba(34,197,94,0.2)",
-                      border: "1px solid rgba(34,197,94,0.3)",
-                    }}
-                    data-ocid="lunachat.primary_button"
-                  >
-                    <Phone className="w-4 h-4 text-green-400" />
-                    <span className="text-green-400 text-sm">Voice</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const peer =
-                        getAllUsers().find(
-                          (u) =>
-                            u !== user?.email &&
-                            (getDisplayName(u).toLowerCase() ===
-                              dialNumber.toLowerCase() ||
-                              u.toLowerCase() === dialNumber.toLowerCase()),
-                        ) ?? dialNumber;
-                      if (peer) {
-                        initiateCall(peer, "video");
-                        setShowDialPad(false);
-                        setDialNumber("");
-                      }
-                    }}
-                    disabled={!dialNumber}
-                    className="flex-1 py-3 rounded-2xl flex items-center justify-center gap-2 text-white font-semibold transition-all disabled:opacity-40"
-                    style={{
-                      background: "rgba(139,92,246,0.2)",
-                      border: "1px solid rgba(139,92,246,0.3)",
-                    }}
-                    data-ocid="lunachat.secondary_button"
-                  >
-                    <Video className="w-4 h-4 text-purple-400" />
-                    <span className="text-purple-400 text-sm">Video</span>
-                  </button>
-                </div>
-              </div>
             </motion.div>
           </motion.div>
         )}

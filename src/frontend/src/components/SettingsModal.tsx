@@ -3,7 +3,7 @@ import { Switch } from "@/components/ui/switch";
 import { useAuth } from "@/hooks/useAuth";
 import { Camera, Eye, EyeOff, Key, Pencil, Save, X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type ProfileData = {
   aboutMe: string;
@@ -290,9 +290,7 @@ export default function SettingsModal({
   const [langSearch, setLangSearch] = useState("");
   // Edit Profile Picture
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [avatarInputRef] = useState(() => ({
-    current: null as HTMLInputElement | null,
-  }));
+  const avatarInputRef = useRef<HTMLInputElement>(null);
   // Edit Name
   const [editNameValue, setEditNameValue] = useState("");
   const [editNameMsg, setEditNameMsg] = useState("");
@@ -509,7 +507,7 @@ export default function SettingsModal({
                     key={tab}
                     type="button"
                     onClick={() => setActiveTab(tab)}
-                    className={`py-2 px-2 rounded-md text-xs font-medium transition-colors ${
+                    className={`py-3 px-2 rounded-md text-xs font-medium transition-colors ${
                       activeTab === tab
                         ? "bg-purple-600 text-white"
                         : "text-white/60 hover:text-white"
@@ -640,9 +638,7 @@ export default function SettingsModal({
                             Upload a new profile picture
                           </p>
                           <input
-                            ref={(el) => {
-                              avatarInputRef.current = el;
-                            }}
+                            ref={avatarInputRef}
                             type="file"
                             accept="image/*"
                             className="hidden"
